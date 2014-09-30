@@ -3,4 +3,4 @@
 
 require File.expand_path('../config/application', __FILE__)
 
-HendrixApi::Application.load_tasks
+Storybook::Application.load_tasks
