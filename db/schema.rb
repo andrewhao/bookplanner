@@ -11,35 +11,52 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20140403045032) do
+ActiveRecord::Schema.define(version: 20140930185830) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
 
-  create_table "set_list_to_songs", force: true do |t|
-    t.integer  "set_list_id"
-    t.integer  "song_id"
+  create_table "assignments", force: true do |t|
+    t.integer  "student_id"
+    t.integer  "book_bag_id"
+    t.integer  "classroom_id"
     t.datetime "created_at"
     t.datetime "updated_at"
   end
 
-  add_index "set_list_to_songs", ["set_list_id", "song_id"], name: "index_set_list_to_songs_on_set_list_id_and_song_id", unique: true, using: :btree
-  add_index "set_list_to_songs", ["set_list_id"], name: "index_set_list_to_songs_on_set_list_id", using: :btree
-  add_index "set_list_to_songs", ["song_id"], name: "index_set_list_to_songs_on_song_id", using: :btree
+  add_index "assignments", ["book_bag_id"], name: "index_assignments_on_book_bag_id", using: :btree
+  add_index "assignments", ["classroom_id"], name: "index_assignments_on_classroom_id", using: :btree
+  add_index "assignments", ["student_id"], name: "index_assignments_on_student_id", using: :btree
 
-  create_table "set_lists", force: true do |t|
-    t.string   "title",      null: false
+  create_table "book_bags", force: true do |t|
+    t.integer  "classroom_id"
     t.datetime "created_at"
     t.datetime "updated_at"
   end
 
-  create_table "songs", force: true do |t|
-    t.string   "title",       null: false
-    t.string   "description"
-    t.string   "key"
-    t.text     "raw_text"
+  add_index "book_bags", ["classroom_id"], name: "index_book_bags_on_classroom_id", using: :btree
+
+  create_table "classrooms", force: true do |t|
+    t.string   "teacher_name"
     t.datetime "created_at"
     t.datetime "updated_at"
   end
+
+  create_table "plans", force: true do |t|
+    t.string   "title"
+    t.integer  "classroom_id"
+    t.datetime "created_at"
+    t.datetime "updated_at"
+  end
+
+  add_index "plans", ["classroom_id"], name: "index_plans_on_classroom_id", using: :btree
+
+  create_table "students", force: true do |t|
+    t.integer  "classroom_id"
+    t.datetime "created_at"
+    t.datetime "updated_at"
+  end
+
+  add_index "students", ["classroom_id"], name: "index_students_on_classroom_id", using: :btree
 
 end

@@ -1,9 +1,23 @@
 FactoryGirl.define do
-  factory :song do
-    title "Great song"
+  factory :classroom do
+    teacher_name "Ms. Burks"
   end
 
-  factory :set_list do
-    title "Great set list"
+  factory :plan do
+    classroom
+  end
+
+  factory :student do
+    classroom
+  end
+
+  factory :book_bag do
+    classroom
+  end
+
+  factory :assignment do
+    plan
+    book_bag
+    student
   end
 end

@@ -1,5 +1,10 @@
 require 'spec_helper'
 
 describe Plan do
-  pending "add some examples to (or delete) #{__FILE__}"
+  subject { FactoryGirl.create(:plan) }
+  describe "#assignments" do
+    it "returns a list of assignments" do
+      expect(subject.assignments).to eq []
+    end
+  end
 end
