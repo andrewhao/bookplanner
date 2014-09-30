@@ -3,7 +3,7 @@ class CreateAssignments < ActiveRecord::Migration
     create_table :assignments do |t|
       t.references :student, index: true
       t.references :book_bag, index: true
-      t.references :classroom, index: true
+      t.references :plan, index: true
 
       t.timestamps
     end

@@ -19,13 +19,13 @@ ActiveRecord::Schema.define(version: 20140930185830) do
   create_table "assignments", force: true do |t|
     t.integer  "student_id"
     t.integer  "book_bag_id"
-    t.integer  "classroom_id"
+    t.integer  "plan_id"
     t.datetime "created_at"
     t.datetime "updated_at"
   end
 
   add_index "assignments", ["book_bag_id"], name: "index_assignments_on_book_bag_id", using: :btree
-  add_index "assignments", ["classroom_id"], name: "index_assignments_on_classroom_id", using: :btree
+  add_index "assignments", ["plan_id"], name: "index_assignments_on_plan_id", using: :btree
   add_index "assignments", ["student_id"], name: "index_assignments_on_student_id", using: :btree
 
   create_table "book_bags", force: true do |t|
