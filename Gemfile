@@ -54,10 +54,11 @@ end
 group :test do
   gem "factory_girl_rails", "~> 4.0"
   gem "codeclimate-test-reporter"
+  gem 'rspec-rails'
+  gem "cucumber-rails", :require => false
 end
 
 group :development, :test do
-  gem 'rspec-rails'
   # Use debugger
   #gem 'debugger'
   gem 'pry'
