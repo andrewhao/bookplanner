@@ -59,6 +59,7 @@ group :test do
   gem "codeclimate-test-reporter"
   gem 'rspec-rails'
   gem "cucumber-rails", :require => false
+  gem "database_cleaner"
 end
 
 group :development, :test do
