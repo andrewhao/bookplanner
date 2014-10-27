@@ -1,5 +1,6 @@
 source 'https://rubygems.org'
-ruby "2.1.2"
+source 'https://rails-assets.org'
+ruby "2.1.3"
 
 # Bundle edge Rails instead: gem 'rails', github: 'rails/rails'
 gem 'rails', '4.1.6'
@@ -11,6 +12,9 @@ gem 'sass-rails', '~> 4.0.0'
 
 # Use Uglifier as compressor for JavaScript assets
 gem 'uglifier', '>= 1.3.0'
+
+
+gem 'rails-assets-bootstrap'
 
 # Use CoffeeScript for .js.coffee assets and views
 gem 'coffee-rails', '~> 4.0.0'
