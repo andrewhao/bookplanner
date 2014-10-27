@@ -10,6 +10,9 @@ gem "pg"
 # Use SCSS for stylesheets
 gem 'sass-rails', '~> 4.0.0'
 
+# Use HAML templating language.
+gem 'haml-rails'
+
 # Use Uglifier as compressor for JavaScript assets
 gem 'uglifier', '>= 1.3.0'
 
@@ -64,6 +67,7 @@ group :test do
   gem 'rspec-rails'
   gem "cucumber-rails", :require => false
   gem "database_cleaner"
+  gem "minitest"
 end
 
 group :development, :test do
