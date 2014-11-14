@@ -5,6 +5,10 @@
       %ul
         - @student.errors.full_messages.each do |msg|
           %li= msg
+  = f.label :first_name
+  = f.text_field :first_name
+  = f.label :last_name
+  = f.text_field :last_name
 
   .actions
     = f.submit 'Save'
