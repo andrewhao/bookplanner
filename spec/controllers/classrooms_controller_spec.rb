@@ -23,7 +23,11 @@ describe ClassroomsController do
   # This should return the minimal set of attributes required to create a valid
   # Classroom. As you add validations to Classroom, be sure to
   # adjust the attributes here as well.
-  let(:valid_attributes) { {  } }
+  let(:valid_attributes) do
+    {
+      teacher_name: "Mrs. Galloway"
+    }
+  end
 
   # This should return the minimal set of values that should be in the session
   # in order to pass any filters (e.g. authentication) defined in
@@ -106,8 +110,8 @@ describe ClassroomsController do
         # specifies that the Classroom created on the previous line
         # receives the :update_attributes message with whatever params are
         # submitted in the request.
-        Classroom.any_instance.should_receive(:update).with({ "these" => "params" })
-        put :update, {:id => classroom.to_param, :classroom => { "these" => "params" }}, valid_session
+        Classroom.any_instance.should_receive(:update).with({ "teacher_name" => "foobar" })
+        put :update, {:id => classroom.to_param, :classroom => { "teacher_name" => "foobar" }}, valid_session
       end
 
       it "assigns the requested classroom as @classroom" do
