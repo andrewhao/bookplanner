@@ -5,6 +5,8 @@ Storybook
 Climate](https://codeclimate.com/github/andrewhao/storybook/badges/gpa.svg)](https://codeclimate.com/github/andrewhao/storybook)
 [![Build
 Status](https://travis-ci.org/andrewhao/storybook.svg?branch=master)](https://travis-ci.org/andrewhao/storybook)
+[ ![Codeship Status for
+andrewhao/storybook](https://codeship.com/projects/1231abd0-4dfd-0132-5218-2294dbcebc54/status)](https://codeship.com/projects/47528)
 
 Developed in partnership with Faith Network, an Oakland nonprofit
 serving local schools.
