@@ -4,8 +4,8 @@ rvm:
 env:
   - RAILS_ENV=test
 script:
-  - rake db:reset db:migrate
-  - rake
+  - bundle exec rake db:reset db:migrate
+  - bundle exec rake
 addons:
   code_climate:
     repo_token: "47fd5da507393cb3364ec565452869883f38caa7fa88a8d3a63adf4276294223"
