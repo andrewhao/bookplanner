@@ -1,8 +1,11 @@
 language: ruby
 rvm:
   - 2.1.3
+env:
+  - RAILS_ENV=test
 script:
-  - RAILS_ENV=test rake db:reset db:migrate
+  - rake db:reset db:migrate
+  - rake
 addons:
   code_climate:
     repo_token: "47fd5da507393cb3364ec565452869883f38caa7fa88a8d3a63adf4276294223"
