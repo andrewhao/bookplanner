@@ -23,7 +23,12 @@ describe StudentsController do
   # This should return the minimal set of attributes required to create a valid
   # Student. As you add validations to Student, be sure to
   # adjust the attributes here as well.
-  let(:valid_attributes) { {  } }
+  let(:valid_attributes) do
+    {
+      first_name: "Helen",
+      last_name: "Doe"
+    }
+  end
 
   # This should return the minimal set of values that should be in the session
   # in order to pass any filters (e.g. authentication) defined in
@@ -106,8 +111,9 @@ describe StudentsController do
         # specifies that the Student created on the previous line
         # receives the :update_attributes message with whatever params are
         # submitted in the request.
-        Student.any_instance.should_receive(:update).with({ "these" => "params" })
-        put :update, {:id => student.to_param, :student => { "these" => "params" }}, valid_session
+        Student.any_instance.should_receive(:update)
+          .with({ "first_name" => "john" })
+        put :update, {:id => student.to_param, :student => { "first_name" => "john" }}, valid_session
       end
 
       it "assigns the requested student as @student" do
