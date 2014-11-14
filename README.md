@@ -9,6 +9,8 @@ Status](https://travis-ci.org/andrewhao/storybook.svg?branch=master)](https://tr
 Developed in partnership with Faith Network, an Oakland nonprofit
 serving local schools.
 
+This project is tracked and managed at: https://www.pivotaltracker.com/n/projects/1185744
+
 ### Abstract
 
 This mobile-based application is designed to help volunteers organize a
