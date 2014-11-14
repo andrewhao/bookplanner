@@ -1,0 +1,12 @@
+= form_for @classroom do |f|
+  - if @classroom.errors.any?
+    #error_explanation
+      %h2= "#{pluralize(@classroom.errors.count, "error")} prohibited this classroom from being saved:"
+      %ul
+        - @classroom.errors.full_messages.each do |msg|
+          %li= msg
+  = f.label :teacher_name
+  = f.text_field :teacher_name
+
+  .actions
+    = f.submit 'Save'
