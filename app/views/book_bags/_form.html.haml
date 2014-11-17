@@ -1,14 +1,8 @@
-= form_for @book_bag do |f|
-  - if @book_bag.errors.any?
-    #error_explanation
-      %h2= "#{pluralize(@book_bag.errors.count, "error")} prohibited this book_bag from being saved:"
-      %ul
-        - @book_bag.errors.full_messages.each do |msg|
-          %li= msg
-  = f.label :global_id, "ID"
-  = f.text_field :global_id
-  = f.label :classroom_id, "Classroom"
-  = f.collection_select :classroom_id, Classroom.all, :id, :name
+= simple_form_for(@book_bag, html: {class: "form-horizontal"}) do |f|
+  = f.error_notification
 
-  .actions
-    = f.submit 'Save'
+  = f.input :global_id, required: true, placeholder: "Internal ID"
+  = f.input :classroom_id, collection: Classroom.all, value_method: :id, label_method: :name, required: true
+
+  .form-actions
+    = f.button :submit, class: "btn-primary"

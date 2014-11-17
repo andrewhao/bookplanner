@@ -1,16 +1,11 @@
-= form_for @student do |f|
-  - if @student.errors.any?
-    #error_explanation
-      %h2= "#{pluralize(@student.errors.count, "error")} prohibited this student from being saved:"
-      %ul
-        - @student.errors.full_messages.each do |msg|
-          %li= msg
-  = f.label :first_name
-  = f.text_field :first_name
-  = f.label :last_name
-  = f.text_field :last_name
-  = f.label :classroom
-  = f.collection_select :classroom, Classroom.all, :id, :name
+= simple_form_for(@student, html: {class: "form-horizontal"}) do |f|
+  = f.error_notification
 
-  .actions
-    = f.submit 'Save'
+  = f.input :first_name, required: true
+  = f.input :last_name, required: true
+  = f.input :classroom_id, collection: Classroom.all, value_method: :id, label_method: :name, required: true
+
+  .form-actions
+    = f.button :submit, class: "btn-primary"
+
+

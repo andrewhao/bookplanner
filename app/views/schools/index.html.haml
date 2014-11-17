@@ -1,7 +1,8 @@
-%h1 Listing schools
+%h2 Schools
 
-%table
+%table.table
   %tr
+    %th ID
     %th Name
     %th
     %th
@@ -9,7 +10,8 @@
 
   - @schools.each do |school|
     %tr
-      %td= school.name
+      %td= school.id
+      %td= school.name      
       %td= link_to 'Show', school
       %td= link_to 'Edit', edit_school_path(school)
       %td= link_to 'Destroy', school, :method => :delete, :data => { :confirm => 'Are you sure?' }
