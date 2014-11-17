@@ -2,14 +2,14 @@
 
 %table
   %tr
-    %th Teacher Name
+    %th Name
     %th
     %th
     %th
 
   - @classrooms.each do |classroom|
     %tr
-      %td= classroom.teacher_name
+      %td= classroom.name
       %td= link_to 'Show', classroom
       %td= link_to 'Edit', edit_classroom_path(classroom)
       %td= link_to 'Destroy', classroom, :method => :delete, :data => { :confirm => 'Are you sure?' }

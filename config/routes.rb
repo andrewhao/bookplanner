@@ -1,4 +1,6 @@
 Storybook::Application.routes.draw do
+  resources :schools
+
   resources :classrooms do
     resources :plans
   end
