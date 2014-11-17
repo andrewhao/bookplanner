@@ -9,6 +9,8 @@
   = f.text_field :first_name
   = f.label :last_name
   = f.text_field :last_name
+  = f.label :classroom
+  = f.collection_select :classroom, Classroom.all, :id, :name
 
   .actions
     = f.submit 'Save'

@@ -25,7 +25,8 @@ describe ClassroomsController do
   # adjust the attributes here as well.
   let(:valid_attributes) do
     {
-      teacher_name: "Mrs. Galloway"
+      name: "Mrs. Galloway",
+      school_id: 1
     }
   end
 
@@ -110,8 +111,8 @@ describe ClassroomsController do
         # specifies that the Classroom created on the previous line
         # receives the :update_attributes message with whatever params are
         # submitted in the request.
-        Classroom.any_instance.should_receive(:update).with({ "teacher_name" => "foobar" })
-        put :update, {:id => classroom.to_param, :classroom => { "teacher_name" => "foobar" }}, valid_session
+        Classroom.any_instance.should_receive(:update).with({ "name" => "foobar" })
+        put :update, {:id => classroom.to_param, :classroom => { "name" => "foobar" }}, valid_session
       end
 
       it "assigns the requested classroom as @classroom" do
