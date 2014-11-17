@@ -1,8 +1,6 @@
 = simple_form_for(@book_bag, html: {class: "form-horizontal"}) do |f|
   = f.error_notification
 
-  = f.input :global_id, required: true, placeholder: "Internal ID"
+  = f.input :global_id, required: true, label: "Internal ID"
   = f.input :classroom_id, collection: Classroom.all, value_method: :id, label_method: :name, required: true
-
-  .form-actions
-    = f.button :submit, class: "btn-primary"
+  = f.button :submit, class: "btn-primary"

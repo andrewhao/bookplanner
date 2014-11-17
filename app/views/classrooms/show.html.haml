@@ -1,5 +1,13 @@
 %p#notice= notice
 
+%h1= @classroom.name
+
+%h2= "Students (#{@classroom.students.count})"
+
+%table.table
+  - @classroom.students.each do |student|
+    %tr
+      %th= link_to student.full_name, student_path(student)
 
 = link_to 'Edit', edit_classroom_path(@classroom)
 \|

@@ -1,5 +1,10 @@
 %p#notice= notice
 
+%h1= @student.full_name
+
+%dl
+  %dt Classroom
+  %dd= link_to @student.classroom.name, classroom_path(@student.classroom)
 
 = link_to 'Edit', edit_student_path(@student)
 \|
