@@ -222,6 +222,8 @@ GEM
     tilt (1.4.1)
     timers (1.1.0)
     tins (0.13.1)
+    turbolinks (2.5.2)
+      coffee-rails
     tzinfo (1.2.2)
       thread_safe (~> 0.1)
     uglifier (2.3.3)
@@ -258,9 +260,10 @@ DEPENDENCIES
   rails (= 4.1.6)
   rails-assets-bootstrap
   rails_12factor
-  rspec-rails
+  rspec-rails (~> 2.14)
   sass-rails (~> 4.0.0)
   sdoc
   therubyracer
+  turbolinks
   uglifier (>= 1.3.0)
   unicorn

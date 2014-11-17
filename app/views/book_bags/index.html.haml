@@ -1,0 +1,19 @@
+%h1 Listing book_bags
+
+%table
+  %tr
+    %th ID
+    %th
+    %th
+    %th
+
+  - @book_bags.each do |book_bag|
+    %tr
+      %td= book_bag.global_id
+      %td= link_to 'Show', book_bag
+      %td= link_to 'Edit', edit_book_bag_path(book_bag)
+      %td= link_to 'Destroy', book_bag, :method => :delete, :data => { :confirm => 'Are you sure?' }
+
+%br
+
+= link_to 'New Book bag', new_book_bag_path

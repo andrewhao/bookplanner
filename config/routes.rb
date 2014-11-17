@@ -3,6 +3,7 @@ Storybook::Application.routes.draw do
     resources :plans
   end
 
+  resources :book_bags
   resources :students
   resources :plans
 
