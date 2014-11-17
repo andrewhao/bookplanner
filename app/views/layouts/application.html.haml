@@ -1,0 +1,25 @@
+!!!
+%html{:lang => "en"}
+  %head
+    %title Storybook
+    = stylesheet_link_tag    "application", media: "all"
+    = javascript_include_tag "application"
+    = csrf_meta_tags
+    %meta{:content => "width=device-width, initial-scale=1", :name => "viewport"}/
+  %body
+    .container
+      .row
+        .col-xs-12
+          %nav.navbar.navbar-default{:role => "navigation"}
+            .container-fluid
+              .navbar-header
+                = link_to(root_url, class: "navbar-brand") do
+                  %span.glyphicon.glyphicon-book{:"aria-hidden" => true}
+                  Storybook
+              %ul.nav.navbar-nav.navbar-right
+                %li= link_to "Schools", schools_path
+                %li= link_to "Classrooms", classrooms_path
+                %li= link_to "Students", students_path
+                %li= link_to "Book Bags", book_bags_path
+
+          = yield
