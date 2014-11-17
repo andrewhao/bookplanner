@@ -1,6 +1,10 @@
 FactoryGirl.define do
+  factory :school do
+    classroom
+  end
+
   factory :classroom do
-    teacher_name "Ms. Burks"
+    name "Ms. Burks"
   end
 
   factory :plan do

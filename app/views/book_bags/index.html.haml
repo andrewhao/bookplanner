@@ -11,7 +11,7 @@
   - @book_bags.each do |book_bag|
     %tr
       %td= book_bag.global_id
-      %td= book_bag.classroom.teacher_name
+      %td= book_bag.classroom.name
       %td= link_to 'Show', book_bag
       %td= link_to 'Edit', edit_book_bag_path(book_bag)
       %td= link_to 'Destroy', book_bag, :method => :delete, :data => { :confirm => 'Are you sure?' }

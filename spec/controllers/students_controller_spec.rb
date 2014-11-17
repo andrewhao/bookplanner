@@ -26,7 +26,8 @@ describe StudentsController do
   let(:valid_attributes) do
     {
       first_name: "Helen",
-      last_name: "Doe"
+      last_name: "Doe",
+      classroom_id: 1
     }
   end
 

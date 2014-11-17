@@ -8,7 +8,7 @@
   = f.label :global_id, "ID"
   = f.text_field :global_id
   = f.label :classroom_id, "Classroom"
-  = f.collection_select :classroom_id, Classroom.all, :id, :teacher_name
+  = f.collection_select :classroom_id, Classroom.all, :id, :name
 
   .actions
     = f.submit 'Save'
