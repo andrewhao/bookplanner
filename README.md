@@ -40,3 +40,23 @@ This application tracks classroom book bag inventories by managing:
 The application, each week, will generate a plan for the week. This plan
 is the unique set of student-bag assignments that satisfy the
 requirements in the abstract.
+
+### Assigning book bags
+
+Book bags are assigned by weekly, incremental "plan"s per classroom.
+
+When a classroom plan is generated, a unique constraint satisfaction
+problem is posed:
+
+```
+For each student eligible for a new book bag,
+  From the pool of available, unassigned bags,
+    Assign a book bag such that the student has a new bag that s/he has
+not received before
+Such that all students in eligibility have a new bag.
+```
+
+If this problem cannot be solvable, then the administrator must add a
+new bag (or several) to the classroom such that a new plan can be
+generated.
+

@@ -52,6 +52,8 @@ gem 'active_model_serializers'
 # Use unicorn as the app server
 gem 'unicorn'
 
+gem "amb", "~>0.0.5"
+
 # Allow out-of-domain requests.
 gem 'rack-cors', :require => 'rack/cors'
 
@@ -66,13 +68,15 @@ end
 group :test do
   gem "factory_girl_rails", "~> 4.0"
   gem "codeclimate-test-reporter"
-  gem 'rspec-rails', "~>2.14"
+  gem 'rspec-rails', "~>3.1"
+  gem "rspec", "~>3.1"
   gem "cucumber-rails", :require => false
   gem "database_cleaner"
   gem "minitest"
 end
 
 group :development, :test do
+  gem "awesome_print"
   # Use debugger
   #gem 'debugger'
   gem 'pry'
