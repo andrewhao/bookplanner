@@ -1,8 +1,8 @@
 require "spec_helper"
 
 describe "plan creation", type: :feature do
-  before(:all) do
-    add_classroom("Mrs. Wu")
+  before do
+    @classroom = FactoryGirl.create(:classroom, name: "Mrs. Wu")
   end
 
   it "can be kicked off from a classroom page" do
@@ -16,7 +16,7 @@ describe "plan creation", type: :feature do
 
   describe "new plan creation" do
     it "lists potential assignments for a classroom" do
-      visit("/plans/new")
+      visit("/classrooms/#{@classroom.id}/plans/new")
     end
   end
 

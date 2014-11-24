@@ -3,12 +3,12 @@
   .form-inputs
     = f.label :classroom_id
     = f.text_field :classroom_id
-    - f.fields_for :assignments do |af|
+    = f.simple_fields_for :assignments do |af|
       .form-group
-        = af.label :student, :name
-        = af.text_field :student
-        = af.label :book_bag, :id
-        = af.text_field :book_bag
+        = af.label :student_id
+        = af.text_field :student_id
+        = af.label :book_bag_id
+        = af.text_field :book_bag_id
 
   .form-actions
     = f.button :submit

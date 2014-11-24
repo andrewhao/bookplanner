@@ -12,7 +12,7 @@ feature "Managing classrooms" do
     expect(page).to have_text("Book bags (10)")
   end
 
-  scenario "viewing students  per classroom" do
+  scenario "viewing students per classroom" do
     visit("/classrooms/#{@classroom.id}")
     expect(page).to have_text("Students (10)")
   end

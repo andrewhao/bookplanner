@@ -1,9 +1,11 @@
 Storybook::Application.routes.draw do
   resources :schools
-  resources :classrooms
+  resources :classrooms do
+    resources :plans, only: [:new, :index]
+  end
   resources :book_bags
   resources :students
-  resources :plans
+  resources :plans, except: [:new, :index]
 
   # The priority is based upon order of creation: first created -> highest priority.
   # See how all your routes lay out with "rake routes".

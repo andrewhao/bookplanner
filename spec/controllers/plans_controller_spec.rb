@@ -23,12 +23,14 @@ RSpec.describe PlansController, :type => :controller do
   let(:s2) { FactoryGirl.create(:student) }
   let(:bb1) { FactoryGirl.create(:book_bag) }
   let(:bb2) { FactoryGirl.create(:book_bag) }
+  let(:classroom) { FactoryGirl.create(:classroom) }
 
   # This should return the minimal set of attributes required to create a valid
   # Plan. As you add validations to Plan, be sure to
   # adjust the attributes here as well.
   let(:valid_attributes) do
     {
+      classroom_id: classroom.id,
       assignments: [
         {
           student_id: s1.id,
@@ -56,12 +58,17 @@ RSpec.describe PlansController, :type => :controller do
   let(:valid_session) { {} }
 
   let(:plan) do
-    FactoryGirl.create(:plan)
+    FactoryGirl.create(:plan, classroom: classroom)
   end
 
+
   describe "GET index" do
+    before do
+      FactoryGirl.create(:plan)
+    end
+
     it "assigns all plans as @plans" do
-      get :index, {}, valid_session
+      get :index, {classroom_id: classroom.id}, valid_session
       expect(assigns(:plans)).to eq([plan])
     end
   end
@@ -74,8 +81,11 @@ RSpec.describe PlansController, :type => :controller do
   end
 
   describe "GET new" do
+    let(:classroom) { FactoryGirl.create(:classroom) }
+
     it "assigns a new plan as @plan" do
-      get :new, {}, valid_session
+      expect_any_instance_of(PlanGenerator).to receive(:generate).and_return([Assignment.new])
+      get :new, {:classroom_id => classroom.id}, valid_session
       expect(assigns(:plan)).to be_a_new(Plan)
     end
   end

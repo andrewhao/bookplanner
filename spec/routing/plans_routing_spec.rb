@@ -4,11 +4,11 @@ RSpec.describe PlansController, :type => :routing do
   describe "routing" do
 
     it "routes to #index" do
-      expect(:get => "/plans").to route_to("plans#index")
+      expect(:get => "/classrooms/1/plans").to route_to("plans#index", classroom_id: "1")
     end
 
     it "routes to #new" do
-      expect(:get => "/plans/new").to route_to("plans#new")
+      expect(:get => "/classrooms/1/plans/new").to route_to("plans#new", :classroom_id => "1")
     end
 
     it "routes to #show" do

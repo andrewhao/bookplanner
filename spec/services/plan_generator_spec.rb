@@ -71,6 +71,15 @@ describe PlanGenerator do
           }.to raise_error(PlanGenerator::NoPlanFound)
         end
       end
+
+      context "for more bags than students" do
+        let(:bag3) { FactoryGirl.create(:book_bag) }
+        let(:bags) { [bag1, bag2, bag3] }
+
+        it "generates assignments" do
+          expect(subject.generate).to be_all{ |b| b.is_a?(Assignment) }
+        end
+      end
     end
   end
 end

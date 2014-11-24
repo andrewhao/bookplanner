@@ -1,10 +1,11 @@
 class PlansController < ApplicationController
   before_action :set_plan, only: [:show, :edit, :update, :destroy]
+  before_action :set_classroom, only: [:new, :index]
 
   # GET /plans
   # GET /plans.json
   def index
-    @plans = Plan.all
+    @plans = @classroom.plans
   end
 
   # GET /plans/1
@@ -12,13 +13,12 @@ class PlansController < ApplicationController
   def show
   end
 
-  # GET /plans/new
+  # GET /classrooms/:classroom_id/plans/new
   def new
-    @classroom = Classroom.first
     @plan = Plan.new :classroom => @classroom
     pg = PlanGenerator.new(@classroom.students, @classroom.book_bags)
     assignments = pg.generate
-    @plan.assignments = assignments
+    @plan.assignments += assignments
   end
 
   # GET /plans/1/edit
@@ -72,8 +72,12 @@ class PlansController < ApplicationController
     @plan = Plan.find(params[:id])
   end
 
+  def set_classroom
+    @classroom = Classroom.find(params[:classroom_id])
+  end
+
   # Never trust parameters from the scary internet, only allow the white list through.
   def plan_params
-    params.require(:plan).permit(assignments: [])
+    params.require(:plan).permit(:classroom_id, assignments_attributes: [:book_bag_id, :student_id])
   end
 end

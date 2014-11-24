@@ -52,7 +52,7 @@ describe ClassroomsController do
 
     it "assigns the requested classroom book bags as as @book_bags" do
       classroom = Classroom.create! valid_attributes
-      bags = FactoryGirl.create_list(:book_bag, classroom: classroom)
+      bags = FactoryGirl.create_list(:book_bag, 5, classroom: classroom)
       get :show, {:id => classroom.to_param}, valid_session
       assigns(:book_bags).should =~ bags
     end
