@@ -1,6 +1,10 @@
 %p#notice= notice
 
+%h2= "Plan: #{@plan.name}"
+%time= @plan.created_at
+
+%hr
 
 = link_to 'Edit', edit_plan_path(@plan)
 \|
-= link_to 'Back', plans_path
+= link_to 'Back to classroom', classroom_path(@plan.classroom)

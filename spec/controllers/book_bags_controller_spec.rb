@@ -19,12 +19,13 @@ require 'spec_helper'
 # that an instance is receiving a specific message.
 
 describe BookBagsController do
+  let(:classroom) { FactoryGirl.create(:classroom) }
 
   # This should return the minimal set of attributes required to create a valid
   # BookBag. As you add validations to BookBag, be sure to
   # adjust the attributes here as well.
   let(:valid_attributes) do
-    { global_id: "1", classroom_id: 2 }
+    { global_id: "1", classroom_id: classroom.id }
   end
 
   # This should return the minimal set of values that should be in the session
@@ -50,7 +51,7 @@ describe BookBagsController do
 
   describe "GET new" do
     it "assigns a new book_bag as @book_bag" do
-      get :new, {}, valid_session
+      get :new, {classroom_id: classroom.id}, valid_session
       assigns(:book_bag).should be_a_new(BookBag)
     end
   end
@@ -79,7 +80,7 @@ describe BookBagsController do
 
       it "redirects to the created book_bag" do
         post :create, {:book_bag => valid_attributes}, valid_session
-        response.should redirect_to(BookBag.last)
+        response.should redirect_to(new_classroom_book_bag_path(classroom))
       end
     end
 

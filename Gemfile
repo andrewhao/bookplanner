@@ -76,6 +76,7 @@ group :test do
   gem "selenium-webdriver"
   gem "capybara"
   gem "site_prism"
+  gem "poltergeist"
 end
 
 group :development, :test do

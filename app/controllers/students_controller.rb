@@ -1,5 +1,6 @@
 class StudentsController < ApplicationController
   before_action :set_student, only: [:show, :edit, :update, :destroy]
+  before_action :set_classroom, only: [:new]
 
   # GET /students
   # GET /students.json
@@ -14,7 +15,7 @@ class StudentsController < ApplicationController
 
   # GET /students/new
   def new
-    @student = Student.new
+    @student = Student.new(classroom: @classroom)
   end
 
   # GET /students/1/edit
@@ -28,7 +29,7 @@ class StudentsController < ApplicationController
 
     respond_to do |format|
       if @student.save
-        format.html { redirect_to @student, notice: 'Student was successfully created.' }
+        format.html { redirect_to new_classroom_student_path(@student.classroom), notice: 'Student was successfully created.' }
         format.json { render action: 'show', status: :created, location: @student }
       else
         format.html { render action: 'new' }
@@ -65,6 +66,10 @@ class StudentsController < ApplicationController
     # Use callbacks to share common setup or constraints between actions.
     def set_student
       @student = Student.find(params[:id])
+    end
+
+    def set_classroom
+      @classroom = Classroom.find(params[:classroom_id])
     end
 
     # Never trust parameters from the scary internet, only allow the white list through.

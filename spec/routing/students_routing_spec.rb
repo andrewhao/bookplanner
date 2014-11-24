@@ -8,7 +8,7 @@ describe StudentsController do
     end
 
     it "routes to #new" do
-      get("/students/new").should route_to("students#new")
+      get("/classrooms/1/students/new").should route_to("students#new", classroom_id: "1")
     end
 
     it "routes to #show" do

@@ -1,0 +1,8 @@
+%section
+  %h2= "Students (#{students.count})"
+  = link_to "Add a student", new_classroom_student_path(classroom), class: "btn btn-success btn-xs"
+  %table.table
+    - students.each do |student|
+      %tr
+        %th= link_to student.full_name, student_path(student)
+
