@@ -72,6 +72,11 @@ RSpec.describe PlansController, :type => :controller do
       get :index, {classroom_id: classroom.id}, valid_session
       expect(assigns(:plans)).to eq([plan])
     end
+
+    it "assigns the classroom" do
+      get :index, {classroom_id: classroom.id}, valid_session
+      expect(assigns(:classroom)).to eq classroom
+    end
   end
 
   describe "GET show" do
@@ -88,6 +93,11 @@ RSpec.describe PlansController, :type => :controller do
       expect_any_instance_of(PlanGenerator).to receive(:generate).and_return([Assignment.new])
       get :new, {:classroom_id => classroom.id}, valid_session
       expect(assigns(:plan)).to be_a_new(Plan)
+    end
+
+    it "pre-fills in the new plan name with the Date" do
+      get :new, {:classroom_id => classroom.id}, valid_session
+      expect(assigns(:plan).name).to eq Time.now.strftime("%Y-%m-%d")
     end
   end
 
@@ -112,9 +122,9 @@ RSpec.describe PlansController, :type => :controller do
         expect(assigns(:plan)).to be_persisted
       end
 
-      it "redirects to the created plan" do
+      it "redirects to the classroom view" do
         post :create, {:plan => valid_attributes}, valid_session
-        expect(response).to redirect_to(Plan.last)
+        expect(response).to redirect_to(classroom_path(Plan.last.classroom))
       end
     end
 
@@ -150,7 +160,7 @@ RSpec.describe PlansController, :type => :controller do
 
       it "redirects to the plan" do
         put :update, {:id => plan.to_param, :plan => valid_attributes}, valid_session
-        expect(response).to redirect_to(plan)
+        expect(response).to redirect_to(plan_path(plan))
       end
     end
 
@@ -177,7 +187,7 @@ RSpec.describe PlansController, :type => :controller do
 
     it "redirects to the plans list" do
       delete :destroy, {:id => plan.to_param}, valid_session
-      expect(response).to redirect_to(plans_url)
+      expect(response).to redirect_to(classroom_plans_url(plan.classroom))
     end
   end
 

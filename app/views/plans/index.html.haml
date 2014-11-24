@@ -1,4 +1,4 @@
-%h1 Listing plans
+%h1 Listing plans for class #{@classroom.name}
 
 %table.table
   %tr
@@ -16,4 +16,4 @@
 
 %br
 
-= #link_to 'New Plan', new_plan_path
+= link_to 'New Plan', new_classroom_plan_path(@classroom), class: "btn btn-success"

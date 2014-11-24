@@ -14,5 +14,11 @@
         %tr
           %th= s.full_name
           - plans.each do |plan|
-            %th= plan.assignments.where(student_id: s.id).try(:first).try(:book_bag_id)
+            %th= plan.assignments.where(student_id: s.id).try(:first).try(:book_bag).try(&:global_id)
+      %tr
+        %td
+        - plans.each do |plan|
+          %td
+            = link_to "Edit", edit_plan_path(plan), class: "btn btn-xs btn-info"
+            = button_to "Delete", plan_path(plan), method: "delete", class: "btn btn-xs btn-danger"
 
