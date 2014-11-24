@@ -1,13 +1,24 @@
 %p#notice= notice
 
-%h1= @classroom.name
+%h1= "Classroom: #{@classroom.name}"
 
-%h2= "Students (#{@classroom.students.count})"
+%section
+  %h2= "Plans"
+  = link_to "Create Plan", new_plan_path, class: "btn btn-primary"
 
-%table.table
-  - @classroom.students.each do |student|
-    %tr
-      %th= link_to student.full_name, student_path(student)
+%section
+  %h2= "Students (#{@classroom.students.count})"
+  %table.table
+    - @classroom.students.each do |student|
+      %tr
+        %th= link_to student.full_name, student_path(student)
+
+%section
+  %h2= "Book bags (#{@book_bags.count})"
+  %table.table
+    - @book_bags.each do |bag|
+      %tr
+        %th= link_to bag.id, book_bag_path(bag)
 
 = link_to 'Edit', edit_classroom_path(@classroom)
 \|

@@ -1,10 +1,6 @@
 Storybook::Application.routes.draw do
   resources :schools
-
-  resources :classrooms do
-    resources :plans
-  end
-
+  resources :classrooms
   resources :book_bags
   resources :students
   resources :plans

@@ -6,6 +6,8 @@ class PlanGenerator
 
   attr_accessor :students, :bags, :bag_history_lookup
 
+  # @param [Array] students An array of Students
+  # @param [Array] bags An array of BookBags
   def initialize(students, bags)
     @students = students
     @bags = bags

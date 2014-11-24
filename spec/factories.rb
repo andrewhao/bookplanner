@@ -4,11 +4,14 @@ FactoryGirl.define do
   end
 
   factory :classroom do
-    name "Ms. Burks"
+    sequence(:name) { |n| "class#{n}" }
   end
 
   factory :plan do
     classroom
+    after(:build) do |o|
+      o.assignments += FactoryGirl.build_list(:assignment, 2, :plan => o)
+    end
   end
 
   factory :student do

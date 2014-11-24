@@ -1,0 +1,14 @@
+= simple_form_for(@plan) do |f|
+  = f.error_notification
+  .form-inputs
+    = f.label :classroom_id
+    = f.text_field :classroom_id
+    - f.fields_for :assignments do |af|
+      .form-group
+        = af.label :student, :name
+        = af.text_field :student
+        = af.label :book_bag, :id
+        = af.text_field :book_bag
+
+  .form-actions
+    = f.button :submit
