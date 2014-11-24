@@ -30,8 +30,9 @@ RSpec.describe PlansController, :type => :controller do
   # adjust the attributes here as well.
   let(:valid_attributes) do
     {
+      name: "foobar",
       classroom_id: classroom.id,
-      assignments: [
+      assignments_attributes: [
         {
           student_id: s1.id,
           book_bag_id: bb1.id
@@ -133,13 +134,13 @@ RSpec.describe PlansController, :type => :controller do
   describe "PUT update" do
     describe "with valid params" do
       let(:new_attributes) {
-        skip("Add a hash of attributes valid for your model")
+        { name: "highlander" }
       }
 
       it "updates the requested plan" do
         put :update, {:id => plan.to_param, :plan => new_attributes}, valid_session
         plan.reload
-        skip("Add assertions for updated state")
+        expect(plan.name).to eq "highlander"
       end
 
       it "assigns the requested plan as @plan" do

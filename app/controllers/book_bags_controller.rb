@@ -1,5 +1,6 @@
 class BookBagsController < ApplicationController
   before_action :set_book_bag, only: [:show, :edit, :update, :destroy]
+  before_action :set_classroom, only: [:new]
 
   # GET /book_bags
   # GET /book_bags.json
@@ -14,7 +15,7 @@ class BookBagsController < ApplicationController
 
   # GET /book_bags/new
   def new
-    @book_bag = BookBag.new
+    @book_bag = BookBag.new(classroom: @classroom)
   end
 
   # GET /book_bags/1/edit
@@ -28,7 +29,7 @@ class BookBagsController < ApplicationController
 
     respond_to do |format|
       if @book_bag.save
-        format.html { redirect_to @book_bag, notice: 'Book bag was successfully created.' }
+        format.html { redirect_to new_classroom_book_bag_path(@book_bag.classroom), notice: 'Book bag was successfully created.' }
         format.json { render action: 'show', status: :created, location: @book_bag }
       else
         format.html { render action: 'new' }
@@ -65,6 +66,11 @@ class BookBagsController < ApplicationController
     # Use callbacks to share common setup or constraints between actions.
     def set_book_bag
       @book_bag = BookBag.find(params[:id])
+    end
+
+    # Use callbacks to share common setup or constraints between actions.
+    def set_classroom
+      @classroom = Classroom.find(params[:classroom_id])
     end
 
     # Never trust parameters from the scary internet, only allow the white list through.

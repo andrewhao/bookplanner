@@ -1,14 +1,18 @@
 = simple_form_for(@plan) do |f|
   = f.error_notification
   .form-inputs
-    = f.label :classroom_id
-    = f.text_field :classroom_id
-    = f.simple_fields_for :assignments do |af|
-      .form-group
-        = af.label :student_id
-        = af.text_field :student_id
-        = af.label :book_bag_id
-        = af.text_field :book_bag_id
+    = f.input :name
+    = f.input :classroom_id, as: :hidden
+
+    .form-group
+      %table.table
+        = f.simple_fields_for :assignments do |af|
+          %tr
+            %td
+              = af.object.student.try(:full_name)
+              = af.input :student_id, as: :hidden
+            %td
+              = af.input :book_bag_id, collection: @plan.book_bags, value_method: :id, label_method: :id, label: false, required: true
 
   .form-actions
     = f.button :submit

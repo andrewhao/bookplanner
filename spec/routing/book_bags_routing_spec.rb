@@ -7,8 +7,12 @@ describe BookBagsController do
       get("/book_bags").should route_to("book_bags#index")
     end
 
-    it "routes to #new" do
-      get("/book_bags/new").should route_to("book_bags#new")
+    it "routes to #index on classroom resource" do
+      get("/classrooms/1/book_bags").should route_to("book_bags#index", classroom_id: "1")
+    end
+
+    it "routes to #new on classroom resource" do
+      get("/classrooms/1//book_bags/new").should route_to("book_bags#new", classroom_id: "1")
     end
 
     it "routes to #show" do

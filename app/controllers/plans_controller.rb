@@ -15,7 +15,7 @@ class PlansController < ApplicationController
 
   # GET /classrooms/:classroom_id/plans/new
   def new
-    @plan = Plan.new :classroom => @classroom
+    @plan = Plan.new classroom: @classroom
     pg = PlanGenerator.new(@classroom.students, @classroom.book_bags)
     assignments = pg.generate
     @plan.assignments += assignments
@@ -78,6 +78,6 @@ class PlansController < ApplicationController
 
   # Never trust parameters from the scary internet, only allow the white list through.
   def plan_params
-    params.require(:plan).permit(:classroom_id, assignments_attributes: [:book_bag_id, :student_id])
+    params.require(:plan).permit(:name, :classroom_id, assignments_attributes: [:book_bag_id, :student_id])
   end
 end

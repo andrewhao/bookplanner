@@ -23,11 +23,12 @@ describe StudentsController do
   # This should return the minimal set of attributes required to create a valid
   # Student. As you add validations to Student, be sure to
   # adjust the attributes here as well.
+  let(:classroom) { FactoryGirl.create(:classroom) }
   let(:valid_attributes) do
     {
       first_name: "Helen",
       last_name: "Doe",
-      classroom_id: 1
+      classroom_id: classroom.id
     }
   end
 
@@ -54,8 +55,9 @@ describe StudentsController do
 
   describe "GET new" do
     it "assigns a new student as @student" do
-      get :new, {}, valid_session
+      get :new, {classroom_id: classroom.id}, valid_session
       assigns(:student).should be_a_new(Student)
+      assigns(:student).classroom.should == classroom
     end
   end
 
@@ -81,9 +83,9 @@ describe StudentsController do
         assigns(:student).should be_persisted
       end
 
-      it "redirects to the created student" do
+      it "redirects to add page again" do
         post :create, {:student => valid_attributes}, valid_session
-        response.should redirect_to(Student.last)
+        response.should redirect_to(new_classroom_student_path(Student.last.classroom))
       end
     end
 

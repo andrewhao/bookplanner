@@ -56,6 +56,20 @@ describe ClassroomsController do
       get :show, {:id => classroom.to_param}, valid_session
       assigns(:book_bags).should =~ bags
     end
+
+    it "assigns the requested classroom plans as as @plans" do
+      classroom = Classroom.create! valid_attributes
+      plans = FactoryGirl.create_list(:plan, 5, classroom: classroom)
+      get :show, {:id => classroom.to_param}, valid_session
+      assigns(:plans).should =~ plans
+    end
+
+    it "assigns the requested classroom students as as @students" do
+      classroom = Classroom.create! valid_attributes
+      students = FactoryGirl.create_list(:student, 5, classroom: classroom)
+      get :show, {:id => classroom.to_param}, valid_session
+      assigns(:students).should =~ students
+    end
   end
 
   describe "GET new" do
