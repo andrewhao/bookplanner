@@ -99,6 +99,14 @@ RSpec.describe PlansController, :type => :controller do
       get :new, {:classroom_id => classroom.id}, valid_session
       expect(assigns(:plan).name).to eq Time.now.strftime("%Y-%m-%d")
     end
+
+    context "for no plans found" do
+      it "redirects back to classroom page with notice" do
+        expect(controller).to receive(:new).and_raise(PlanGenerator::NoPlanFound)
+        get :new, {:classroom_id => classroom.id}, valid_session
+        expect(response).to redirect_to(classroom_path(classroom))
+      end
+    end
   end
 
   describe "GET edit" do
@@ -139,6 +147,7 @@ RSpec.describe PlansController, :type => :controller do
         expect(response).to render_template("new")
       end
     end
+
   end
 
   describe "PUT update" do
@@ -185,9 +194,9 @@ RSpec.describe PlansController, :type => :controller do
       }.to change(Plan, :count).by(-1)
     end
 
-    it "redirects to the plans list" do
+    it "redirects to the classroom page" do
       delete :destroy, {:id => plan.to_param}, valid_session
-      expect(response).to redirect_to(classroom_plans_url(plan.classroom))
+      expect(response).to redirect_to(classroom_url(plan.classroom))
     end
   end
 

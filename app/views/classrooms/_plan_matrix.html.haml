@@ -9,7 +9,7 @@
       %tr
         %th
         - plans.each do |plan|
-          %th= plan.created_at
+          %th= plan.name || plan.created_at
       - students.each do |s|
         %tr
           %th= s.full_name
@@ -19,6 +19,5 @@
         %td
         - plans.each do |plan|
           %td
-            = link_to "Edit", edit_plan_path(plan), class: "btn btn-xs btn-info"
-            = button_to "Delete", plan_path(plan), method: "delete", class: "btn btn-xs btn-danger"
+            = button_to "Delete", plan_path(plan), method: "delete", class: "btn btn-xs btn-danger", confirm: "Are you sure?"
 

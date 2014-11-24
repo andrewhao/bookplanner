@@ -2,6 +2,12 @@ class PlansController < ApplicationController
   before_action :set_plan, only: [:show, :edit, :update, :destroy]
   before_action :set_classroom, only: [:new, :index]
 
+  rescue_from PlanGenerator::NoPlanFound, with: :no_plan_found
+
+  def no_plan_found
+    redirect_to classroom_path(@classroom), notice: "Unable to generate a new plan for this classroom. Please try adding another bag."
+  end
+
   # GET /plans
   # GET /plans.json
   def index
@@ -62,7 +68,7 @@ class PlansController < ApplicationController
   def destroy
     @plan.destroy
     respond_to do |format|
-      format.html { redirect_to classroom_plans_url(@plan.classroom), notice: "Plan was successfully deleted" }
+      format.html { redirect_to classroom_url(@plan.classroom), notice: "Plan was successfully deleted" }
       format.json { head :no_content }
     end
   end
