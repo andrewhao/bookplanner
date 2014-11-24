@@ -14,8 +14,10 @@ class PlansController < ApplicationController
   end
 
   # GET /classrooms/:classroom_id/plans/new
+
   def new
-    @plan = Plan.new classroom: @classroom
+    name = Time.now.strftime("%Y-%m-%d")
+    @plan = Plan.new classroom: @classroom, name: name
     pg = PlanGenerator.new(@classroom.students, @classroom.book_bags)
     assignments = pg.generate
     @plan.assignments += assignments
@@ -32,7 +34,7 @@ class PlansController < ApplicationController
 
     respond_to do |format|
       if @plan.save
-        format.html { redirect_to @plan, notice: 'Plan was successfully created.' }
+        format.html { redirect_to classroom_url(@plan.classroom), notice: 'Plan was successfully created.' }
         format.json { render action: 'show', status: :created, location: @plan }
       else
         format.html { render action: 'new' }
@@ -60,7 +62,7 @@ class PlansController < ApplicationController
   def destroy
     @plan.destroy
     respond_to do |format|
-      format.html { redirect_to plans_url }
+      format.html { redirect_to classroom_plans_url(@plan.classroom), notice: "Plan was successfully deleted" }
       format.json { head :no_content }
     end
   end
