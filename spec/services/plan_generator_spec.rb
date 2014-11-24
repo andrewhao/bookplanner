@@ -19,7 +19,7 @@ describe PlanGenerator do
           expect(student2).to receive(:past_assignments).and_return([double(:book_bag_id => bag2.id)])
         end
 
-        it "returns assignments that satisfy constraints properly", :focus do
+        it "returns assignments that satisfy constraints properly" do
           assns = subject.generate
 
           assn1 = assns.detect{ |a| a.student == student1 && a.book_bag == bag2 }
@@ -69,6 +69,15 @@ describe PlanGenerator do
           expect {
             subject.generate
           }.to raise_error(PlanGenerator::NoPlanFound)
+        end
+      end
+
+      context "for more bags than students" do
+        let(:bag3) { FactoryGirl.create(:book_bag) }
+        let(:bags) { [bag1, bag2, bag3] }
+
+        it "generates assignments" do
+          expect(subject.generate).to be_all{ |b| b.is_a?(Assignment) }
         end
       end
     end

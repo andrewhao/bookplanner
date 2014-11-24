@@ -10,6 +10,7 @@ class ClassroomsController < ApplicationController
   # GET /classrooms/1
   # GET /classrooms/1.json
   def show
+    @book_bags = @classroom.book_bags
   end
 
   # GET /classrooms/new

@@ -3,9 +3,10 @@
 #
 # Implemented as a CSP.
 class PlanGenerator
-
   attr_accessor :students, :bags, :bag_history_lookup
 
+  # @param [Array] students An array of Students
+  # @param [Array] bags An array of BookBags
   def initialize(students, bags)
     @students = students
     @bags = bags
@@ -19,11 +20,11 @@ class PlanGenerator
   # Generates a set of Assignments for a given set of students and bags.
   def generate
     # To simplify algorithm and reduce memory usage, reduce all objects to 
-    # low level data types.
+    # primitive data types.
     student_ids = students.map(&:id)
     bag_ids = bags.map(&:id)
 
-    # Generate uniqes
+    # Generate uniques
     spaces = student_ids.product(bag_ids)
 
     # Now generate combinations of those uniques
@@ -32,8 +33,9 @@ class PlanGenerator
     # Assign those to the CSP
     plan = solver.choose(*full_solution_space)
 
-    solver.assert plan_assigns_uniques(plan)
-    solver.assert plan_accounts_for_history(plan)
+    solver.assert all_students_have_bags(plan)
+    solver.assert assigned_bags_are_unique(plan)
+    solver.assert assigned_bags_without_student_repeats(plan)
 
     plan.map do |sid, bid|
       Assignment.new(student: Student.find(sid), book_bag: BookBag.find(bid))
@@ -44,13 +46,16 @@ class PlanGenerator
 
   private
 
-  def plan_assigns_uniques(plan)
-    unique_students = plan.map(&:first).uniq.count == students.count
-    unique_plans = plan.map(&:last).uniq.count == bags.count
-    unique_students && unique_plans
+  # All students receive a bag in this plan
+  def all_students_have_bags(plan)
+    plan.map(&:first).uniq.count == students.count
   end
 
-  def plan_accounts_for_history(plan)
+  def assigned_bags_are_unique(plan)
+    plan.map(&:last).uniq.count == plan.count
+  end
+
+  def assigned_bags_without_student_repeats(plan)
     plan.none? do |assignment|
       student_id, bag_id = assignment
       history = @bag_history_lookup[student_id]
