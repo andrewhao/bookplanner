@@ -1,7 +1,7 @@
 # Generates a set of assignments that satisfy the constraint that
 # all students receive a unique bag assignment.
 #
-# Implemented as a CSP.
+# Acts as an adapter layer between the CSP solver and AR models.
 class PlanGenerator
   attr_accessor :students, :bags, :bag_history_lookup
 
@@ -24,18 +24,8 @@ class PlanGenerator
     student_ids = students.map(&:id)
     bag_ids = bags.map(&:id)
 
-    # Generate uniques
-    spaces = student_ids.product(bag_ids)
-
-    # Now generate combinations of those uniques
-    full_solution_space = spaces.permutation(students.count).to_a
-
-    # Assign those to the CSP
-    plan = solver.choose(*full_solution_space)
-
-    solver.assert all_students_have_bags(plan)
-    solver.assert assigned_bags_are_unique(plan)
-    solver.assert assigned_bags_without_student_repeats(plan)
+    ap = AssignmentProblem.new(student_ids, bag_ids, @bag_history_lookup)
+    plan = ap.solve
 
     plan.map do |sid, bid|
       Assignment.new(student: Student.find(sid), book_bag: BookBag.find(bid))
@@ -46,32 +36,9 @@ class PlanGenerator
 
   private
 
-  # All students receive a bag in this plan
-  def all_students_have_bags(plan)
-    plan.map(&:first).uniq.count == students.count
-  end
-
-  def assigned_bags_are_unique(plan)
-    plan.map(&:last).uniq.count == plan.count
-  end
-
-  def assigned_bags_without_student_repeats(plan)
-    plan.none? do |assignment|
-      student_id, bag_id = assignment
-      history = @bag_history_lookup[student_id]
-      history.include?(bag_id)
-    end
-  end
-
-  class Solver
-    include Amb
-  end
 
   # Raised when it's impossible to find a plan, and the user needs
   # to be prompted about it.
   class NoPlanFound < StandardError; end
 
-  def solver
-    @solver ||= Solver.new
-  end
 end
