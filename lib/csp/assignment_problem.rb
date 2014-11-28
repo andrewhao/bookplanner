@@ -1,3 +1,5 @@
+require "amb"
+
 # A raw CSP solver
 class AssignmentProblem
   attr_reader :student_ids, :bag_ids, :history_lookup, :partial_plan
@@ -19,19 +21,22 @@ class AssignmentProblem
     # Generate uniques
     spaces = student_ids.product(bag_ids)
 
+    visited_nodes = 0
     student_ids.each do |sid|
-      puts "for sid #{sid}" if ENV['DEBUG']
-      bid = solver.choose(*bag_ids)
-      puts "  I choose bid #{bid}" if ENV['DEBUG']
-      partial_plan[sid] = bid
-      puts "  and partial plan is: #{partial_plan.inspect}" if ENV['DEBUG']
+      bid = solver.choose(*bag_choices_for_student(sid))
+      visited_nodes +=1
+      partial_plan[sid] =  bid
+      solver.assert assigned_bags_are_unique(partial_plan)
+      solver.assert assigned_bags_without_student_repeats(partial_plan)
     end
 
-    solver.assert assigned_bags_are_unique(partial_plan)
-    solver.assert assigned_bags_without_student_repeats(partial_plan)
-    puts "OK DONE!" if ENV['DEBUG']
-
+    puts "Visited: #{visited_nodes} nodes"
     partial_plan.to_a
+  end
+
+  def bag_choices_for_student(sid)
+    used_bids = history_lookup[sid]
+    bag_ids - used_bids
   end
 
   def assigned_bags_are_unique(plan)
