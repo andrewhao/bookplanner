@@ -77,6 +77,7 @@ group :test do
   gem "capybara"
   gem "site_prism"
   gem "poltergeist"
+  gem 'rspec-prof', github: "sinisterchipmunk/rspec-prof"
 end
 
 group :development, :test do
