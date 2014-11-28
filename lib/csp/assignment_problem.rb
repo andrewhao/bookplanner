@@ -1,6 +1,6 @@
 # A raw CSP solver
 class AssignmentProblem
-  attr_reader :student_ids, :bag_ids, :history_lookup
+  attr_reader :student_ids, :bag_ids, :history_lookup, :partial_plan
 
   # @param [Array] Array of ints representing students
   # @param [Array] Array of Integers representing bags
@@ -11,32 +11,31 @@ class AssignmentProblem
     @student_ids = student_ids
     @bag_ids = bag_ids
     @history_lookup = history_lookup
+    @partial_plan = {}
   end
 
+  # Generates tuples of student => bag assignments
   def solve
     # Generate uniques
     spaces = student_ids.product(bag_ids)
 
-    # Now generate combinations of those uniques
-    full_solution_space = spaces.permutation(student_ids.count).to_a
+    student_ids.each do |sid|
+      puts "for sid #{sid}" if ENV['DEBUG']
+      bid = solver.choose(*bag_ids)
+      puts "  I choose bid #{bid}" if ENV['DEBUG']
+      partial_plan[sid] = bid
+      puts "  and partial plan is: #{partial_plan.inspect}" if ENV['DEBUG']
+    end
 
-    # Assign those to the CSP
-    plan = solver.choose(*full_solution_space)
+    solver.assert assigned_bags_are_unique(partial_plan)
+    solver.assert assigned_bags_without_student_repeats(partial_plan)
+    puts "OK DONE!" if ENV['DEBUG']
 
-    solver.assert all_students_have_bags(plan)
-    solver.assert assigned_bags_are_unique(plan)
-    solver.assert assigned_bags_without_student_repeats(plan)
-
-    plan
-  end
-
-  # All students receive a bag in this plan
-  def all_students_have_bags(plan)
-    plan.map(&:first).uniq.count == student_ids.count
+    partial_plan.to_a
   end
 
   def assigned_bags_are_unique(plan)
-    plan.map(&:last).uniq.count == plan.count
+    plan.values.uniq.count == plan.values.count
   end
 
   def assigned_bags_without_student_repeats(plan)
