@@ -21,5 +21,18 @@
                 %li= link_to "Classrooms", classrooms_path
                 %li= link_to "Students", students_path
                 %li= link_to "Book Bags", book_bags_path
-
+      .row
+        .col-xs-12
+          - if flash[:notice]
+            .alert.alert-success
+              = flash[:notice]
+              %button.close{:type => "button", :"data-dismiss" => "alert"}
+                %span{:"aria-hidden" => "true"} &times;
+                %span.sr-only Close
+          - elsif flash[:alert]
+            .alert.alert-warning
+              = flash[:alert]
+              %button.close{:type => "button", :"data-dismiss" => "alert"}
+                %span{:"aria-hidden" => "true"} &times;
+                %span.sr-only Close
           = yield

@@ -5,7 +5,7 @@ class PlansController < ApplicationController
   rescue_from PlanGenerator::NoPlanFound, with: :no_plan_found
 
   def no_plan_found
-    redirect_to classroom_path(@classroom), notice: "Unable to generate a new plan for this classroom. Please try adding another bag."
+    redirect_to classroom_path(@classroom), alert: "Unable to generate a new plan for this classroom. Please try adding another bag."
   end
 
   # GET /plans

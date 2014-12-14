@@ -41,7 +41,7 @@ describe StudentsController do
     it "assigns all students as @students" do
       student = Student.create! valid_attributes
       get :index, {}, valid_session
-      assigns(:students).should eq([student])
+      expect(assigns(:students)).to eq([student])
     end
   end
 
@@ -49,15 +49,15 @@ describe StudentsController do
     it "assigns the requested student as @student" do
       student = Student.create! valid_attributes
       get :show, {:id => student.to_param}, valid_session
-      assigns(:student).should eq(student)
+      expect(assigns(:student)).to eq(student)
     end
   end
 
   describe "GET new" do
     it "assigns a new student as @student" do
       get :new, {classroom_id: classroom.id}, valid_session
-      assigns(:student).should be_a_new(Student)
-      assigns(:student).classroom.should == classroom
+      expect(assigns(:student)).to be_a_new(Student)
+      expect(assigns(:student).classroom).to eq classroom
     end
   end
 
