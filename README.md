@@ -60,3 +60,10 @@ If this problem cannot be solvable, then the administrator must add a
 new bag (or several) to the classroom such that a new plan can be
 generated.
 
+## Boxen development
+
+If you develop on a Boxen-based dev environment (as I do), then you need
+to set the `POSTGRES_PORT` environment variable to your local postgres
+port.
+
+    $ export POSTGRES_PORT=15432
