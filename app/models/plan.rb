@@ -1,11 +1,15 @@
 class Plan < ActiveRecord::Base
   belongs_to :classroom
   has_many :assignments, dependent: :destroy
-  has_one :inventory_state
+  has_one :inventory_state, through: :period
   accepts_nested_attributes_for :assignments
 
   validates :classroom, presence: true
   validates :assignments, presence: true
+
+  belongs_to :period
+
+  before_create :create_period
 
   def book_bags
     # We can't do a `has_many :book_bags, through: :assignments`
@@ -15,5 +19,10 @@ class Plan < ActiveRecord::Base
 
   def active?
     inventory_state.present?
+  end
+
+  def create_period
+    p = Period.create
+    self.period = p
   end
 end

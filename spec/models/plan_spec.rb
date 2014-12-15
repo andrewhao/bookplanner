@@ -15,12 +15,18 @@ describe Plan do
 
   describe "#active?" do
     it "is active if an inventory state has been created" do
-      FactoryGirl.create :inventory_state, plan: subject
+      FactoryGirl.create :inventory_state, period: subject.period
       expect(subject).to be_active
     end
 
     it "is false if an inventory state has not been recorded" do
       expect(subject).to_not be_active
+    end
+  end
+
+  describe "period creation after create runs" do
+    it "creates a period" do
+      expect(subject.period).to be_kind_of Period
     end
   end
 end

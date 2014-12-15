@@ -15,7 +15,10 @@ FactoryGirl.define do
   end
 
   factory :inventory_state do
-    plan
+    period
+  end
+
+  factory :period do
   end
 
   factory :student do

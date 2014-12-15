@@ -4,13 +4,18 @@ class Classroom < ActiveRecord::Base
   has_many :book_bags
   has_many :plans
   has_many :assignments, through: :plans
+  has_many :inventory_states, through: :plans
+  has_many :returned_assignments, through: :inventory_states, source: :assignments
+  has_many :periods, through: :plans
 
+  # All assignments that are out on loan
+  # This can likely be rewritten in SQL
   def loaned_assignments
-    assignments.where(returned_at: nil)
+    assignments - returned_assignments
   end
 
   def available_book_bags
-    []
+    book_bags - loaned_assignments.map(&:book_bag)
   end
 
   def eligible_for_new_plan?

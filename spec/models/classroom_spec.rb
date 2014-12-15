@@ -9,12 +9,10 @@ describe Classroom do
     @returned = Time.now
     @assignment1a = FactoryGirl.build :assignment,
       student: @students.first,
-      book_bag: @bags.first,
-      returned_at: @returned
+      book_bag: @bags.first
     @assignment1b = FactoryGirl.build :assignment,
       student: @students.last,
-      book_bag: @bags.last,
-      returned_at: @returned
+      book_bag: @bags.last
     @assignment2a = FactoryGirl.build :assignment,
       student: @students.first,
       book_bag: @bags.first
@@ -27,6 +25,8 @@ describe Classroom do
     @plan2 = FactoryGirl.create :plan,
       classroom: subject,
       assignments: [@assignment2a, @assignment2b]
+    @inventory_state1 = FactoryGirl.create :inventory_state, period: @plan1.period
+    @inventory_state1.assignments += [@assignment1a, @assignment1b]
   end
 
   describe "#current_plan" do
@@ -57,16 +57,27 @@ describe Classroom do
   end
 
   describe "#available_book_bags" do
-    before do
-    end
-
     it "returns a list of book bags that have been returned and are available for the next cycle" do
-      expect(subject.available_book_bags).to be_a Array
+      expect(subject.available_book_bags).to include @bags[1]
+      expect(subject.available_book_bags).to_not include @assignment2a.book_bag
+      expect(subject.available_book_bags).to_not include @assignment2b.book_bag
     end
   end
 
   describe "#eligible_students" do
     it "is pending"
+  end
+
+  describe "#returned_assignments" do
+    it "lists all assignments that have been returned" do
+
+    end
+  end
+
+  describe "#periods" do
+    it "returns an array of Periods" do
+      expect(subject.periods).to be_all{|p| p.is_a?(Period)}
+    end
   end
 end
 
