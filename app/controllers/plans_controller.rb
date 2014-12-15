@@ -2,6 +2,24 @@ class PlansController < ApplicationController
   before_action :set_plan, only: [:show, :edit, :update, :destroy]
   before_action :set_classroom, only: [:new, :index]
 
+  rescue_from PlanGenerator::NoPlanFound, with: :no_plan_found
+
+  def no_plan_found
+    redirect_to classroom_path(@classroom), alert: "Unable to generate a new plan for this classroom. Please try adding another bag."
+  end
+
+  # GET /plans
+  # GET /plans.json
+  def index
+    @plans = @classroom.plans
+  end
+
+  # GET /plans/1
+  # GET /plans/1.json
+  def show
+  end
+
+  # GET /classrooms/:classroom_id/plans/new
   def new
     name = Time.now.strftime("%Y-%m-%d")
     @plan = Plan.new classroom: @classroom, name: name
