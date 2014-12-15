@@ -57,7 +57,7 @@ ActiveRecord::Schema.define(version: 20141215021854) do
 
   add_index "inventory_states", ["plan_id"], name: "index_inventory_states_on_plan_id", using: :btree
 
-  create_table "inventory_states_book_bags", id: false, force: true do |t|
+  create_table "book_bags_inventory_states", id: false, force: true do |t|
     t.integer "book_bag_id"
     t.integer "inventory_state_id"
   end
