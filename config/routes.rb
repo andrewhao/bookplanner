@@ -4,7 +4,9 @@ Storybook::Application.routes.draw do
     resources :book_bags, only: [:new, :index]
     resources :plans, only: [:new, :index]
     resources :students, only: [:new]
+    resources :inventory_statuses, only: [:new]
   end
+
   resources :book_bags, except: [:new]
   resources :students, except: [:new]
   resources :plans, except: [:new, :index]

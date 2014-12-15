@@ -1,7 +1,8 @@
 class PlansController < ApplicationController
   before_action :set_plan, only: [:show, :edit, :update, :destroy]
   before_action :set_classroom, only: [:new, :index]
-ef new
+
+  def new
     name = Time.now.strftime("%Y-%m-%d")
     @plan = Plan.new classroom: @classroom, name: name
     pg = PlanGenerator.new(@classroom.students, @classroom.book_bags)
