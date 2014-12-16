@@ -35,5 +35,4 @@ describe "plan creation", type: :feature do
     fill_in("Name", with: name)
     click_on("Create School")
   end
-
 end

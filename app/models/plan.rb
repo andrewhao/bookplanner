@@ -18,7 +18,7 @@ class Plan < ActiveRecord::Base
   end
 
   def active?
-    inventory_state.present?
+    inventory_state.nil?
   end
 
   def create_period
