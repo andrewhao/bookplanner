@@ -4,7 +4,7 @@ describe Classroom do
   subject { FactoryGirl.create :classroom }
 
   before(:each) do
-    @students = FactoryGirl.create_list :student, 2, classroom: subject
+    @students = FactoryGirl.create_list :student, 3, classroom: subject
     @bags = FactoryGirl.create_list :book_bag, 3, classroom: subject
     @returned = Time.now
     @assignment1a = FactoryGirl.build :assignment,
@@ -62,15 +62,25 @@ describe Classroom do
       expect(subject.available_book_bags).to_not include @assignment2a.book_bag
       expect(subject.available_book_bags).to_not include @assignment2b.book_bag
     end
+
+    it "takes into account book bags that have been checked out on a previous cycle" do
+      assignment1c = FactoryGirl.create :assignment,
+        student: @students[1],
+        book_bag: @bags[1],
+        plan: @plan1
+      expect(subject.available_book_bags).not_to include @bags[1]
+    end
   end
 
   describe "#eligible_students" do
-    it "is pending"
+    it "shows students who do not have any outstanding assignments" do
+      expect(subject.eligible_students).to eq [@students[1]]
+    end
   end
 
   describe "#returned_assignments" do
     it "lists all assignments that have been returned" do
-
+      expect(subject.returned_assignments).to eq [@assignment1a, @assignment1b]
     end
   end
 
