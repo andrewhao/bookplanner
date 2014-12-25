@@ -20,7 +20,6 @@ class PlansController < ApplicationController
   end
 
   # GET /classrooms/:classroom_id/plans/new
-
   def new
     name = Time.now.strftime("%Y-%m-%d")
     @plan = Plan.new classroom: @classroom, name: name

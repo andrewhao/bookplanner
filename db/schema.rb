@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20141124082633) do
+ActiveRecord::Schema.define(version: 20141215165926) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -22,11 +22,19 @@ ActiveRecord::Schema.define(version: 20141124082633) do
     t.integer  "plan_id"
     t.datetime "created_at"
     t.datetime "updated_at"
+    t.datetime "returned_at"
   end
 
   add_index "assignments", ["book_bag_id"], name: "index_assignments_on_book_bag_id", using: :btree
   add_index "assignments", ["plan_id"], name: "index_assignments_on_plan_id", using: :btree
   add_index "assignments", ["student_id"], name: "index_assignments_on_student_id", using: :btree
+
+  create_table "assignments_inventory_states", id: false, force: true do |t|
+    t.integer "inventory_state_id"
+    t.integer "assignment_id"
+  end
+
+  add_index "assignments_inventory_states", ["assignment_id"], name: "index_assignments_inventory_states_on_assignment_id", using: :btree
 
   create_table "book_bags", force: true do |t|
     t.integer  "classroom_id"
@@ -48,15 +56,30 @@ ActiveRecord::Schema.define(version: 20141124082633) do
   add_index "classrooms", ["name"], name: "index_classrooms_on_name", unique: true, using: :btree
   add_index "classrooms", ["school_id"], name: "index_classrooms_on_school_id", using: :btree
 
+  create_table "inventory_states", force: true do |t|
+    t.datetime "created_at"
+    t.datetime "updated_at"
+    t.integer  "period_id"
+  end
+
+  add_index "inventory_states", ["period_id"], name: "index_inventory_states_on_period_id", using: :btree
+
+  create_table "periods", force: true do |t|
+    t.datetime "created_at"
+    t.datetime "updated_at"
+  end
+
   create_table "plans", force: true do |t|
     t.string   "title"
     t.integer  "classroom_id"
     t.datetime "created_at"
     t.datetime "updated_at"
     t.string   "name"
+    t.integer  "period_id"
   end
 
   add_index "plans", ["classroom_id"], name: "index_plans_on_classroom_id", using: :btree
+  add_index "plans", ["period_id"], name: "index_plans_on_period_id", using: :btree
 
   create_table "schools", force: true do |t|
     t.string   "name"

@@ -20,4 +20,5 @@
         - plans.each do |plan|
           %td
             = button_to "Delete", plan_path(plan), method: "delete", class: "btn btn-xs btn-danger", confirm: "Are you sure?"
+            = link_to "Edit", edit_plan_path(plan), class: "btn btn-xs btn-notice"
 

@@ -5,7 +5,7 @@ describe "plan creation", type: :feature do
     @classroom = FactoryGirl.create(:classroom, name: "Mrs. Wu")
   end
 
-  it "can be kicked off from a classroom page" do
+  it "can created from a classroom page" do
     visit("/classrooms")
     click_on("Show")
     expect(page).to have_content("Classroom: Mrs. Wu")
@@ -35,5 +35,4 @@ describe "plan creation", type: :feature do
     fill_in("Name", with: name)
     click_on("Create School")
   end
-
 end

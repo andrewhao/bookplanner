@@ -3,5 +3,11 @@ class Assignment < ActiveRecord::Base
   belongs_to :book_bag
   belongs_to :plan
 
+  has_and_belongs_to_many :inventory_states
+
   validate :student, :book_bag, :plan, presence: true
+
+  def on_loan?
+    inventory_states.any?
+  end
 end
