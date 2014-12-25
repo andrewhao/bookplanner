@@ -5,7 +5,7 @@
   - if plans.blank?
     %p There are no plans. Might you want to create one?
   - else
-    %table.table
+    %table.table.table-responsive
       %tr
         %th
         - plans.each do |plan|
@@ -14,7 +14,7 @@
         %tr
           %th= s.full_name
           - plans.each do |plan|
-            %th= plan.assignments.where(student_id: s.id).try(:first).try(:book_bag).try(&:global_id)
+            %td= plan.assignments.where(student_id: s.id).try(:first).try(:book_bag).try(&:global_id)
       %tr
         %td
         - plans.each do |plan|
