@@ -70,6 +70,15 @@ describe ClassroomsController do
       get :show, {:id => classroom.to_param}, valid_session
       assigns(:students).should =~ students
     end
+
+    it "assigns the students in the correct order" do
+      classroom = Classroom.create! valid_attributes
+      student_end = FactoryGirl.create :student, classroom: classroom, first_name: "zzzz"
+      student_begin = FactoryGirl.create :student, classroom: classroom, first_name: "aaaa"
+      student_mid = FactoryGirl.create :student, classroom: classroom, first_name: "gggg"
+      get :show, {:id => classroom.to_param}, valid_session
+      expect(assigns(:students)).to eq [student_begin, student_mid, student_end]
+    end
   end
 
   describe "GET new" do
