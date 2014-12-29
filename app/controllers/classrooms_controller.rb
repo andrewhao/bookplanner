@@ -11,7 +11,7 @@ class ClassroomsController < ApplicationController
   # GET /classrooms/1.json
   def show
     @plans = @classroom.plans
-    @students = @classroom.students
+    @students = @classroom.students.order(:first_name)
     @book_bags = @classroom.book_bags
   end
 
