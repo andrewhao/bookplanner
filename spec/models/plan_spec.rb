@@ -1,7 +1,7 @@
 require 'spec_helper'
 
 describe Plan do
-  subject { FactoryGirl.create(:plan) }
+  subject { FactoryGirl.create(:plan_with_assignments) }
 
   describe "#assignments" do
     before do

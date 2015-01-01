@@ -3,7 +3,7 @@ require 'spec_helper'
 describe Student do
   subject { FactoryGirl.create(:student) }
   let(:book_bags) { FactoryGirl.create_list(:book_bag, 3, classroom: classroom) }
-  let(:plans) { FactoryGirl.create_list(:plan, 3, classroom: classroom) }
+  let(:plans) { FactoryGirl.create_list(:plan_with_assignments, 3, classroom: classroom) }
   let(:classroom) { subject.classroom }
 
   describe "#past_assignments" do
