@@ -1,8 +1,8 @@
 class Classroom < ActiveRecord::Base
   belongs_to :school
-  has_many :students
-  has_many :book_bags
-  has_many :plans
+  has_many :students, dependent: :destroy
+  has_many :book_bags, dependent: :destroy
+  has_many :plans, dependent: :destroy
   has_many :assignments, -> { joins(:student) }, through: :plans
   has_many :inventory_states, through: :plans
   has_many :returned_assignments, through: :inventory_states, source: :assignments

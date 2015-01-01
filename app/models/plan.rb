@@ -7,7 +7,7 @@ class Plan < ActiveRecord::Base
   validates :classroom, presence: true
   validates :assignments, presence: true
 
-  belongs_to :period
+  belongs_to :period, dependent: :destroy
 
   before_create :create_period
 

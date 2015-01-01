@@ -16,24 +16,17 @@ gem 'haml-rails'
 # Use Uglifier as compressor for JavaScript assets
 gem 'uglifier', '>= 1.3.0'
 
-
-gem 'rails-assets-bootstrap'
-
 # Use CoffeeScript for .js.coffee assets and views
 gem 'coffee-rails', '~> 4.0.0'
-
-gem "foreman"
-
-# See https://github.com/sstephenson/execjs#readme for more supported runtimes
-#gem 'therubyracer', platforms: :ruby
-
 
 # Use jquery as the JavaScript library
 gem 'jquery-rails'
 
+gem 'rails-assets-bootstrap'
+gem "foreman"
 gem 'newrelic_rpm'
-
 gem 'simple_form', github: "plataformatec/simple_form"
+gem "paranoia", "~> 2.0"
 
 # Turbolinks makes following links in your web application faster. Read more: https://github.com/rails/turbolinks
 gem 'turbolinks'
