@@ -19,10 +19,10 @@ describe Classroom do
     @assignment2b = FactoryGirl.build :assignment,
       student: @students.last,
       book_bag: @bags.last
-    @plan1 = FactoryGirl.create :plan,
+    @plan1 = FactoryGirl.create :plan_with_assignments,
       classroom: subject,
       assignments: [@assignment1a, @assignment1b]
-    @plan2 = FactoryGirl.create :plan,
+    @plan2 = FactoryGirl.create :plan_with_assignments,
       classroom: subject,
       assignments: [@assignment2a, @assignment2b]
     @inventory_state1 = FactoryGirl.create :inventory_state, period: @plan1.period
