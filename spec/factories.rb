@@ -9,6 +9,9 @@ FactoryGirl.define do
 
   factory :plan do
     classroom
+  end
+
+  factory :plan_with_assignments, parent: :plan do
     after(:build) do |o|
       o.assignments += FactoryGirl.build_list(:assignment, 2, :plan => o)
     end
@@ -23,6 +26,7 @@ FactoryGirl.define do
 
   factory :student do
     classroom
+    first_name {|n| "name#{n}" }
   end
 
   factory :book_bag do
@@ -30,7 +34,6 @@ FactoryGirl.define do
   end
 
   factory :assignment do
-    plan
     book_bag
     student
   end
