@@ -21,6 +21,8 @@ class AssignmentProblem
     # Generate uniques
     spaces = student_ids.product(bag_ids)
 
+    solver.assert spaces.any?
+
     visited_nodes = 0
     student_ids.each do |sid|
       bid = solver.choose(*bag_choices_for_student(sid))
@@ -30,8 +32,12 @@ class AssignmentProblem
       solver.assert assigned_bags_without_student_repeats(partial_plan)
     end
 
-    puts "Visited: #{visited_nodes} nodes"
+    log "Visited: #{visited_nodes} nodes"
     partial_plan.to_a
+  end
+
+  def log(msg)
+    Rails.logger.info msg
   end
 
   def bag_choices_for_student(sid)
