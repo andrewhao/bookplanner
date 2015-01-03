@@ -26,10 +26,11 @@ FactoryGirl.define do
 
   factory :student do
     classroom
-    first_name {|n| "name#{n}" }
+    sequence(:first_name) {|n| "name#{n}" }
   end
 
   factory :book_bag do
+    sequence(:global_id) {|n| "bag#{n}" }
     classroom
   end
 
