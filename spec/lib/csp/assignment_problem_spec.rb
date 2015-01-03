@@ -63,5 +63,27 @@ describe AssignmentProblem do
         end
       end
     end
+
+    context "for no students or bags" do
+      let(:sids) { [] }
+      let(:bids) { [] }
+
+      it "raises exception" do
+        expect {
+          subject.solve
+        }.to raise_error(Amb::ExhaustedError)
+      end
+    end
+
+    context "for one student but no bags" do
+      let(:sids) { [1] }
+      let(:bids) { [] }
+
+      it "raises exception" do
+        expect {
+          subject.solve
+        }.to raise_error(Amb::ExhaustedError)
+      end
+    end
   end
 end

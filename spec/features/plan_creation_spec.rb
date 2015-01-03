@@ -3,6 +3,8 @@ require "spec_helper"
 describe "plan creation", type: :feature do
   before do
     @classroom = FactoryGirl.create(:classroom, name: "Mrs. Wu")
+    @student = FactoryGirl.create(:student, classroom: @classroom)
+    @book_bag = FactoryGirl.create(:book_bag, classroom: @classroom)
   end
 
   it "can created from a classroom page" do
