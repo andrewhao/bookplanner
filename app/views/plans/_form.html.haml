@@ -7,7 +7,7 @@
     .form-group
       %table.table
         = f.simple_fields_for :assignments do |af|
-          %tr
+          %tr{:data => {:student_id => af.object.student_id}}
             %td
               = af.object.student.try(:full_name)
               = af.input :student_id, as: :hidden
