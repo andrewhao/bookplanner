@@ -10,4 +10,7 @@ class Student < ActiveRecord::Base
   def past_assignments
     assignments
   end
+
+  scope :active, -> { where(inactive: false) }
+
 end

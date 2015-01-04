@@ -26,6 +26,10 @@ class Classroom < ActiveRecord::Base
     plans.last
   end
 
+  def active_students
+    students.active
+  end
+
   def eligible_students
     students - loaned_assignments.map(&:student)
   end

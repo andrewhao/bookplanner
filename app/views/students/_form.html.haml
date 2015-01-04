@@ -4,5 +4,5 @@
   = f.input :first_name, required: true
   = f.input :last_name, required: true
   = f.input :classroom_id, collection: Classroom.all, value_method: :id, label_method: :name, required: true
+  = f.input :inactive, required: true
   = f.button :submit, class: "btn-primary"
-

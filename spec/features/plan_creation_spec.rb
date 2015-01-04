@@ -17,9 +17,12 @@ describe "plan creation", type: :feature do
     @book_bag2 = FactoryGirl.create(:book_bag,
                                     global_id: "2",
                                     classroom: @classroom)
+    @book_bag3 = FactoryGirl.create(:book_bag,
+                                    global_id: "3",
+                                    classroom: @classroom)
   end
 
-  it "can created from a classroom page" do
+  it "can be created from a classroom page" do
     visit("/classrooms")
     click_on("Show")
     expect(page).to have_content("Classroom: Mrs. Wu")
@@ -30,7 +33,7 @@ describe "plan creation", type: :feature do
 
   describe "new plan creation" do
     before do
-      visit("/classrooms/#{@classroom.id}/plans/new")
+      visit_new_plan_page(@classroom)
     end
 
     it "previews a book bag to a student for a classroom" do
@@ -49,6 +52,24 @@ describe "plan creation", type: :feature do
       click_on_create_plan
       expect(page).to have_content("Plan was successfully created.")
       expect(page).to have_content(Plan.last.name)
+    end
+
+    context "with an inactive student" do
+      before do
+        @inactive_student = FactoryGirl.create(:student,
+          classroom: @classroom,
+          first_name: "Joe",
+          last_name: "Lazy",
+          inactive: true
+        )
+      end
+
+      it "does not assign to the inactive student" do
+        visit_new_plan_page(@classroom)
+        within "[data-student-id='#{@inactive_student.id}']" do
+          expect(page).to have_no_selector("select")
+        end
+      end
     end
 
     context "for already existing plan" do
@@ -82,12 +103,16 @@ describe "plan creation", type: :feature do
     end
   end
 
+  def visit_new_plan_page(classroom)
+    visit("/classrooms/#{classroom.id}/plans/new")
+  end
+
   def click_on_create_plan
     click_on "Create Plan"
   end
 
   def create_plan
-    visit("/classrooms/#{@classroom.id}/plans/new")
+    visit_new_plan_page(@classroom)
     click_on_create_plan
     expect(current_path).to eq "/classrooms/#{@classroom.id}"
   end

@@ -5,7 +5,6 @@ class PlanPresenter
     @plan = plan
   end
 
-  def assignments
-    plan.assignments
+  def student_bag(student)
   end
 end

@@ -3,6 +3,8 @@
 %dl
   %dt Classroom
   %dd= link_to @student.classroom.name, classroom_path(@student.classroom)
+  %dt Inactive?
+  %dd= @student.inactive?
 
 = link_to 'Edit', edit_student_path(@student)
 \|
