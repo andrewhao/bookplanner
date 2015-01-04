@@ -29,6 +29,13 @@ describe Classroom do
     @inventory_state1.assignments += [@assignment1a, @assignment1b]
   end
 
+  describe "#active_students" do
+    it "returns only students that are active" do
+      @inactive_student = FactoryGirl.create :student, inactive: true
+      expect(subject.active_students).to match_array @students
+    end
+  end
+
   describe "#current_plan" do
     it "is the latest Plan" do
       expect(subject.current_plan).to eq @plan2
@@ -90,4 +97,3 @@ describe Classroom do
     end
   end
 end
-

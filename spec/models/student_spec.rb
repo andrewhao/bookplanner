@@ -18,4 +18,11 @@ describe Student do
       expect(subject.past_assignments).to eq [@past_assignment]
     end
   end
+
+  describe ".active" do
+    it "returns all students who are active" do
+      inactive = FactoryGirl.create :student, inactive: true
+      expect(described_class.active).to eq [subject]
+    end
+  end
 end

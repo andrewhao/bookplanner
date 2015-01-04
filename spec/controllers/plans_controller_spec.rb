@@ -89,11 +89,26 @@ RSpec.describe PlansController, :type => :controller do
   describe "GET new" do
     let(:classroom) { FactoryGirl.create(:classroom) }
 
-    # FIXME: PG does not return empty set for empty inputs
-    xit "assigns a new plan as @plan" do
-      expect_any_instance_of(PlanGenerator).to receive(:generate).and_return([Assignment.new])
+    it "assigns a new plan as @plan" do
+      assn = FactoryGirl.build :assignment
+      expect_any_instance_of(PlanGenerator).to receive(:generate).and_return([assn])
       get :new, {:classroom_id => classroom.id}, valid_session
       expect(assigns(:plan)).to be_a_new(Plan)
+    end
+
+    it "does not generate a plan with inactive students" do
+      active = FactoryGirl.create :student, classroom: classroom
+      inactive = FactoryGirl.create :student, classroom: classroom, inactive: true
+
+      pg = double("plan generator", generate: [])
+
+      expect(PlanGenerator).to receive(:new).with(
+        [active],
+        anything
+      ).and_return(pg)
+
+      get :new, {:classroom_id => classroom.id}, valid_session
+
     end
 
     it "pre-fills in the new plan name with the Date" do
