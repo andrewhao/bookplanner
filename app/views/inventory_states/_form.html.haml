@@ -1,1 +1,21 @@
-form
+= simple_form_for(@inventory_state) do |f|
+  = f.error_notification
+  .form-inputs
+    .form-group
+      %table.table
+        %tr
+          %th Book Bag ID
+          %th Student Name
+          %th Returned?
+        = f.simple_fields_for :assignments do |af|
+          %tr{:data => {:student_id => af.object.student_id}}
+            %td= af.object.book_bag.try(:global_id)
+            %td
+              = af.input :student_id, as: :hidden
+              = af.label :book_bag_id, af.object.student.try(:full_name)
+            %td
+              = af.input :on_loan?, as: :boolean, label: false
+
+  .form-actions
+    = f.button :submit, class: "btn-primary"
+

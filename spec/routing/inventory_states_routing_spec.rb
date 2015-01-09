@@ -10,8 +10,8 @@ describe InventoryStatesController do
       get("/inventory_states/1").should route_to("inventory_states#show", id: "1")
     end
 
-    it "routes to #create on classroom resource" do
-      post("/classrooms/1/inventory_states").should route_to("inventory_states#create", classroom_id: "1")
+    it "routes to #create" do
+      post("/inventory_states").should route_to("inventory_states#create")
     end
 
     it "routes to #edit on classroom resource" do

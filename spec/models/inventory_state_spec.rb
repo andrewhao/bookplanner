@@ -22,4 +22,20 @@ describe InventoryState do
       expect(subject.reload.assignments).to eq assignments
     end
   end
+
+  describe ".new_from_plan" do
+    let(:subject) { described_class.new_from_plan(plan) }
+
+    it "copies over the assignments from a plan" do
+      expect(subject.assignments).to match_array(plan.assignments)
+    end
+
+    it "copies over the period" do
+      expect(subject.period).to eq plan.period
+    end
+
+    it "does not save the object" do
+      expect(subject).to_not be_persisted
+    end
+  end
 end
