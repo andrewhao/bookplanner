@@ -47,6 +47,11 @@ RSpec.configure do |config|
   # instead of true.
   config.use_transactional_fixtures = false
 
+  config.include PlanHelpers, type: :feature
+  config.include ClassroomHelpers, type: :feature
+  config.include InventoryStateHelpers, type: :feature
+  config.include SchoolHelpers, type: :feature
+
   config.before(:suite) do
     DatabaseCleaner.clean_with(:truncation)
   end

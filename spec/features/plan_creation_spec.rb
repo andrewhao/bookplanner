@@ -69,7 +69,7 @@ describe "plan creation", type: :feature do
 
     context "for already existing plan" do
       xit "assigns a different plan" do
-        create_plan
+        create_plan(@classroom)
         visit("/classrooms/#{@classroom.id}/plans/new")
         within "[data-student-id='#{@student.id}']" do
           expect(page).to have_select("plan_assignments_attributes_0_book_bag_id",
@@ -87,44 +87,14 @@ describe "plan creation", type: :feature do
 
     context "for exhausted plans" do
       it "prompts you to add a book bag and does not create a plan" do
-        2.times { create_plan }
+        2.times { create_plan(@classroom) }
 
         expect {
-          create_plan
+          create_plan(@classroom)
         }.to_not change{ Plan.count }
         expect(current_path).to eq "/classrooms/#{@classroom.id}"
         expect(page).to have_content("Unable to generate a new plan for this classroom.")
       end
     end
-  end
-
-  def visit_new_plan_page(classroom)
-    visit("/classrooms/#{classroom.id}/plans/new")
-  end
-
-  def click_on_create_plan
-    click_on "Create Plan"
-  end
-
-  def create_plan
-    visit_new_plan_page(@classroom)
-    click_on_create_plan
-    expect(current_path).to eq "/classrooms/#{@classroom.id}"
-  end
-
-  def add_classroom(class_name)
-    add_school("Joshua Tree Middle School")
-    visit("/classrooms")
-    click_on("New Classroom")
-    fill_in("Name", with: class_name)
-    select("Joshua Tree Middle School", from: "School")
-    click_on("Create Classroom")
-  end
-
-  def add_school(name)
-    visit("/schools")
-    click_on("New School")
-    fill_in("Name", with: name)
-    click_on("Create School")
   end
 end

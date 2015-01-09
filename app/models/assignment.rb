@@ -8,6 +8,6 @@ class Assignment < ActiveRecord::Base
   validate :student, :book_bag, :plan, presence: true
 
   def on_loan?
-    inventory_states.any?
+    inventory_states.empty?
   end
 end

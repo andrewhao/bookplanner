@@ -162,4 +162,9 @@ SimpleForm.setup do |config|
 
   # Defines which i18n scope will be used in Simple Form.
   # config.i18n_scope = 'simple_form'
+  #
+  config.wrappers :right_label do |b|
+    b.use :input
+    b.use :label
+  end
 end
