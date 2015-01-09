@@ -76,6 +76,7 @@ group :test do
 end
 
 group :development, :test do
+  gem 'railroady'
   gem "awesome_print"
   # Use debugger
   #gem 'debugger'
