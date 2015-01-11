@@ -11,7 +11,6 @@ module PlanHelpers
   def create_plan(classroom)
     visit_new_plan_page(classroom)
     click_on_create_plan
-    expect(current_path).to eq "/classrooms/#{classroom.id}"
   end
 end
 
