@@ -87,12 +87,14 @@ describe "plan creation", type: :feature do
 
     context "for exhausted plans" do
       it "prompts you to add a book bag and does not create a plan" do
-        2.times { create_plan(@classroom) }
+        2.times do
+          create_plan(@classroom)
+          create_inventory_state_for(Plan.last)
+        end
 
         expect {
           create_plan(@classroom)
         }.to_not change{ Plan.count }
-        expect(current_path).to eq "/classrooms/#{@classroom.id}"
         expect(page).to have_content("Unable to generate a new plan for this classroom.")
       end
     end

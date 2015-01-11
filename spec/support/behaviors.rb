@@ -11,6 +11,8 @@ module PlanHelpers
   def create_plan(classroom)
     visit_new_plan_page(classroom)
     click_on_create_plan
+    # Add an expectation to test with implicit waits.
+    expect(current_path).to match "/classrooms/#{classroom.id}"
   end
 end
 
@@ -38,5 +40,10 @@ module InventoryStateHelpers
   def visit_new_inventory_state_page(plan)
     c = plan.classroom
     visit("/classrooms/#{c.id}/inventory_states/new")
+  end
+
+  def create_inventory_state_for(plan)
+    visit_new_inventory_state_page(plan)
+    click_on("Take Inventory")
   end
 end

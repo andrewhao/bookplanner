@@ -3,7 +3,7 @@
 class InventoryState < ActiveRecord::Base
   has_and_belongs_to_many :assignments
   belongs_to :period
-  delegate :plan, to: :period
+  delegate :plan, :classroom, to: :period
   accepts_nested_attributes_for :assignments
 
   # Virtual placeholder to define initial attributes.
@@ -13,5 +13,10 @@ class InventoryState < ActiveRecord::Base
     i.period = plan.period
     i.assignments += plan.assignments
     i
+  end
+
+  # For simple_form's benefit.
+  def classroom_id
+    classroom.id
   end
 end
