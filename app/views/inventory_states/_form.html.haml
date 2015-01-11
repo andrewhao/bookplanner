@@ -14,7 +14,7 @@
               = af.input :student_id, as: :hidden
               = af.label :book_bag_id, af.object.student.try(:full_name)
             %td
-              = af.input :on_loan?, as: :boolean, label: false
+              = af.input :on_loan?, as: :boolean, label: false, input_html: { name: "is_returned" }
 
   .form-actions
     = f.button :submit, class: "btn-primary"

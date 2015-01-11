@@ -19,11 +19,15 @@ class Classroom < ActiveRecord::Base
   end
 
   def eligible_for_new_plan?
-    !current_plan.active?
+    !!!current_plan.try(:active?)
   end
 
   def current_plan
     plans.last
+  end
+
+  def to_param
+    "#{id}-#{name.parameterize}"
   end
 
   def active_students

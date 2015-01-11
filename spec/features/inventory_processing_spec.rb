@@ -19,10 +19,32 @@ describe "plan creation", type: :feature do
                                     classroom: @classroom)
   end
 
+  before do
+    create_plan(@classroom)
+    @plan = Plan.last
+  end
+
+  describe "showing link to check-in on the classroom page" do
+    before do
+      visit("/classrooms/#{@classroom.id}")
+    end
+
+    context "for active plan" do
+      it "shows the link" do
+        expect(page).to have_content("Check in books")
+      end
+    end
+
+    context "for no active plans" do
+      it "does not show the link" do
+        FactoryGirl.create(:inventory_state, period: @plan.period)
+        expect(page).to_not have_content("Check in books")
+      end
+    end
+  end
+
   describe "while showing the UI" do
     before do
-      create_plan(@classroom)
-      @plan = Plan.last
       visit_new_inventory_state_page(@plan)
     end
 

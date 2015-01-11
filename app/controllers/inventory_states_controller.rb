@@ -6,6 +6,10 @@ class InventoryStatesController < ApplicationController
     @inventory_state = InventoryState.new_from_plan(@plan)
   end
 
+  def create
+    binding.pry
+  end
+
   private
 
   def find_classroom

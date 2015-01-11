@@ -52,6 +52,18 @@ describe Classroom do
       expect_any_instance_of(Plan).to receive(:active?).and_return(true)
       expect(subject).to_not be_eligible_for_new_plan
     end
+
+    it "is eligible if there are no plans" do
+      classroom = FactoryGirl.create(:classroom)
+      expect(classroom).to be_eligible_for_new_plan
+    end
+  end
+
+  describe "#to_param" do
+    it "returns id-title slug" do
+      subject.name = "Mrs. Smith"
+      expect(subject.to_param).to eq "#{subject.id}-mrs-smith"
+    end
   end
 
   describe "#loaned_assignments" do
