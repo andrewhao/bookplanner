@@ -8,6 +8,7 @@ require 'rspec/rails'
 
 require "capybara/rails"
 require "capybara/rspec"
+require 'capybara-screenshot/rspec'
 
 # For performance testing
 require 'benchmark'

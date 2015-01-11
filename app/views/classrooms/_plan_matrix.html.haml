@@ -1,6 +1,8 @@
 %section
   %h2= "Plans"
-  = link_to "Create Plan", new_classroom_plan_path(classroom), class: "btn btn-success btn-xs"
+  = link_to "Create Plan", new_classroom_plan_path(classroom), class: "btn btn-success btn-xs", disabled: !classroom.eligible_for_new_plan?
+  - unless classroom.eligible_for_new_plan?
+    = link_to "Check in books", new_classroom_inventory_state_path(classroom), class: "btn btn-default btn-xs", title: "You must first check in book bags before you may create a new plan."
 
   - if plans.blank?
     %p There are no plans. Might you want to create one?
