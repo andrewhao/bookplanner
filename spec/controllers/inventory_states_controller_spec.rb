@@ -27,22 +27,15 @@ describe InventoryStatesController do
 
   describe "#create" do
     let(:post_params) do
-      {
-        inventory_state: {
-          classroom_id: classroom.id
-        }
-      }
+      { inventory_state: {
+        classroom_id: classroom.id.to_s
+        }}.deep_stringify_keys!
     end
 
-    it "makes a new IS" do
-      expect {
-        post :create, post_params
-      }.to change(InventoryState, :count).by(1)
-    end
-
-    it "assigns IS with correct params" do
+    it "passes params to ISG" do
+      mock_generator = instance_double("InventoryStateGenerator", success?: true, generate: nil, classroom: classroom)
+      expect(InventoryStateGenerator).to receive(:new).with(hash_including(post_params)).and_return(mock_generator)
       post :create, post_params
-      expect(assigns(:inventory_state).period).to eq plan.period
     end
   end
 end

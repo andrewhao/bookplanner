@@ -16,8 +16,11 @@
         %tr
           %th{:class => s.inactive? ? "text-muted bg-danger" : ""}
             = s.full_name
-            - if s.inactive?
-              %span{:class => "glyphicon glyphicon-time", :"aria-hidden" => true}
+            - if s.inactive? || !classroom.eligible_students.include?(s)
+              - if s.inactive?
+                %span{:class => "glyphicon glyphicon-time", :"aria-hidden" => true}
+              - else
+                %span{:class => "glyphicon glyphicon-question-sign", :"aria-hidden" => true}
 
           - plans.each do |plan|
             - global_id = plan.assignments.where(student_id: s.id).try(:first).try(:book_bag).try(&:global_id)

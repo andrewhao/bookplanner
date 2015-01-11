@@ -7,22 +7,18 @@ class InventoryStatesController < ApplicationController
   end
 
   def create
-
-    @classroom = find_classroom_from_post
-    @plan = @classroom.current_plan
-    @inventory_state = InventoryState.create period: @plan.period
-    redirect_to classroom_path(@classroom), notice: "Checked in books successfully!"
+    @generator = InventoryStateGenerator.new(params)
+    @inventory_state = @generator.generate
+    if @generator.success?
+      redirect_to classroom_path(@generator.classroom), notice: "Checked in books successfully!"
+    else
+      redirect_to classroom_path(@generator.classroom), error: "Uh oh."
+    end
   end
 
   private
 
-  def find_classroom_from_post
-    classroom_id = params[:inventory_state][:classroom_id]
-    Classroom.find classroom_id
-  end
-
   def find_classroom
     Classroom.find(params[:classroom_id])
   end
-
 end
