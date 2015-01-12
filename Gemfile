@@ -23,6 +23,7 @@ gem 'coffee-rails', '~> 4.0.0'
 gem 'jquery-rails'
 
 gem 'rails-assets-bootstrap'
+gem 'rails-assets-jquery.tablesorter'
 gem "foreman"
 gem 'newrelic_rpm'
 gem 'simple_form', github: "plataformatec/simple_form"
