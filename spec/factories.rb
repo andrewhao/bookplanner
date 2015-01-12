@@ -30,7 +30,7 @@ FactoryGirl.define do
   end
 
   factory :book_bag do
-    sequence(:global_id) {|n| "bag#{n}" }
+    sequence(:global_id) {|n| n }
     classroom
   end
 
