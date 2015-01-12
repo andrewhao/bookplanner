@@ -8,29 +8,32 @@
     %p There are no plans. Might you want to create one?
   - else
     %table.table.table-responsive
-      %tr
-        %th
-        - plans.each do |plan|
-          %th= plan.name || plan.created_at
-      - students.each do |s|
+      %thead
         %tr
-          %th{:class => s.inactive? ? "text-muted bg-danger" : ""}
-            = s.full_name
-            - if s.inactive? || !classroom.eligible_students.include?(s)
-              - if s.inactive?
-                %span{:class => "glyphicon glyphicon-time", :"aria-hidden" => true}
-              - else
-                %span{:class => "glyphicon glyphicon-question-sign", :"aria-hidden" => true}
-
+          %th Name
           - plans.each do |plan|
-            - global_id = plan.assignments.where(student_id: s.id).try(:first).try(:book_bag).try(&:global_id)
-            - if global_id
-              %td= global_id
-            - else
-              %td.text-muted &mdash;
-      %tr
-        %td
-        - plans.each do |plan|
+            %th= plan.name + (plan.active? ? " (current)" : "")
+      %tbody
+        - students.each do |s|
+          %tr
+            %th{:class => s.inactive? ? "text-muted bg-danger" : ""}
+              = s.full_name
+              - if s.inactive? || !classroom.eligible_students.include?(s)
+                - if s.inactive?
+                  %span{:class => "glyphicon glyphicon-time", :"aria-hidden" => true, :title => "This student has not yet turned in his or her permission slip and is inactive."}
+                - else
+                  %span{:class => "glyphicon glyphicon-question-sign", :"aria-hidden" => true, :title => "This student still has a book out on loan."}
+            - plans.each do |plan|
+              - global_id = plan.assignments.where(student_id: s.id).try(:first).try(:book_bag).try(&:global_id)
+              %td{:class => (plan.active? ? "bg-success" : "")}
+                - if global_id
+                  = global_id
+                - else
+                  %span.text-muted &mdash;
+      %tfoot
+        %tr
           %td
-            = button_to "Delete", plan_path(plan), method: "delete", class: "btn btn-xs btn-danger", confirm: "Are you sure?"
-            = link_to "Edit", edit_plan_path(plan), class: "btn btn-xs btn-notice"
+          - plans.each do |plan|
+            %td
+              = button_to "Delete", plan_path(plan), method: "delete", class: "btn btn-xs btn-danger", confirm: "Are you sure?"
+              = link_to "Edit", edit_plan_path(plan), class: "btn btn-xs btn-notice"
