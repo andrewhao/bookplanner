@@ -12,4 +12,10 @@
     = render partial: "students", locals: { classroom: @classroom, plans: @plans, students: @students }
   .col-md-6
     = render partial: "book_bags", locals: { classroom: @classroom, plans: @plans, students: @students, book_bags: @book_bags }
-
+.row
+  .col-xs-12
+    %section
+      %h2 Out on loan
+      %ul
+        - @classroom.loaned_assignments.each do |la|
+          %li= "#{la.student.full_name} still has #{la.book_bag.global_id}"
