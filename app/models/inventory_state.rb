@@ -16,7 +16,7 @@ class InventoryState < ActiveRecord::Base
   end
 
   def sorted_assignments
-    assignments.sort_by{ |a| a.book_bag.global_id }
+    assignments.sort_by{ |a| a.book_bag.global_id.to_i }
   end
 
   # For simple_form's benefit.

@@ -23,7 +23,7 @@ class PlansController < ApplicationController
   def new
     name = Time.now.strftime("%Y-%m-%d")
     @plan = Plan.new classroom: @classroom, name: name
-    pg = PlanGenerator.new(@classroom.active_students, @classroom.book_bags)
+    pg = PlanGenerator.new(@classroom.eligible_students, @classroom.available_book_bags)
     assignments = pg.generate
     assignments.sort_by!{ |a| a.student.first_name }
     @plan.assignments += assignments

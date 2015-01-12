@@ -97,13 +97,20 @@ RSpec.describe PlansController, :type => :controller do
     end
 
     it "does not generate a plan with inactive students" do
-      active = FactoryGirl.create :student, classroom: classroom
+      active_eligible = FactoryGirl.create :student, classroom: classroom
       inactive = FactoryGirl.create :student, classroom: classroom, inactive: true
+      active_ineligible = FactoryGirl.create :student, classroom: classroom
+
+      # The ineligible student has a checked out book
+      old_plan = FactoryGirl.build :plan, classroom: classroom
+      assn = FactoryGirl.build :assignment, student: active_ineligible
+      old_plan.assignments << assn
+      old_plan.save
 
       pg = double("plan generator", generate: [])
 
       expect(PlanGenerator).to receive(:new).with(
-        [active],
+        [active_eligible],
         anything
       ).and_return(pg)
 

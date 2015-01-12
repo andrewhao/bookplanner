@@ -35,6 +35,6 @@ class Classroom < ActiveRecord::Base
   end
 
   def eligible_students
-    students - loaned_assignments.map(&:student)
+    active_students - loaned_assignments.map(&:student)
   end
 end
