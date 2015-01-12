@@ -85,4 +85,5 @@ group :development, :test do
   # Use debugger
   #gem 'debugger'
   gem 'pry'
+  gem "pry-byebug"
 end

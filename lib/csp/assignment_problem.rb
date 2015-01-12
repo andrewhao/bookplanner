@@ -2,18 +2,29 @@ require "amb"
 
 # A raw CSP solver
 class AssignmentProblem
-  attr_reader :student_ids, :bag_ids, :history_lookup, :partial_plan
+  attr_reader :student_ids, :bag_ids, :history_lookup, :debug, :logger
 
-  # @param [Array] Array of ints representing students
-  # @param [Array] Array of Integers representing bags
-  # @param [Hash] Mapping of Integer => Array<Integer> where the
+  # @param [Array] student_ids Array of ints representing students
+  # @param [Array] bag_ids Array of Integers representing bags
+  # @param [Hash]  history_lookup Mapping of Integer => Array<Integer> where the
   #   key is the student ID and the value is an array of Bag IDs that
   #   the student has been assigned before.
-  def initialize(student_ids, bag_ids, history_lookup)
+  # @param [Boolean] debug (optional) Whether you want the logger
+  def initialize(student_ids, bag_ids, history_lookup, debug: true, logger: nil)
     @student_ids = student_ids
     @bag_ids = bag_ids
     @history_lookup = history_lookup
-    @partial_plan = {}
+    @debug = debug
+    @logger = logger || Proc.new { |msg| Rails.logger.info(msg) }
+
+    if debug
+      log <<-LOG
+    Initializing history:
+      students: #{student_ids}
+      bags:     #{bag_ids}
+      history:  #{history_lookup}
+    LOG
+    end
   end
 
   # Generates tuples of student => bag assignments
@@ -24,20 +35,27 @@ class AssignmentProblem
     solver.assert spaces.any?
 
     visited_nodes = 0
+    plan = {}
     student_ids.each do |sid|
-      bid = solver.choose(*bag_choices_for_student(sid))
-      visited_nodes +=1
-      partial_plan[sid] =  bid
-      solver.assert assigned_bags_are_unique(partial_plan)
-      solver.assert assigned_bags_without_student_repeats(partial_plan)
+      bid = solver.choose(*bag_ids)
+      log "I choose #{bid} for student #{sid}" if debug
+
+      temp_plan = plan.clone
+      temp_plan[sid] = bid
+      visited_nodes += 1
+      # Problem is that when we backtrack, we have to clear out the current selection.
+      log "* #{temp_plan}" if debug
+      solver.assert assigned_bags_are_unique(temp_plan)
+      solver.assert assigned_bags_without_student_repeats(temp_plan)
+      plan[sid] = bid
     end
 
-    log "Visited: #{visited_nodes} nodes"
-    partial_plan.to_a
+    log "Visited: #{visited_nodes} nodes" if debug
+    plan.to_a
   end
 
   def log(msg)
-    Rails.logger.info msg
+    logger.call(msg)
   end
 
   def bag_choices_for_student(sid)
@@ -46,15 +64,19 @@ class AssignmentProblem
   end
 
   def assigned_bags_are_unique(plan)
-    plan.values.uniq.count == plan.values.count
+    val = plan.values.uniq.count == plan.values.count
+    log "Is this an unassigned bag?: #{val}" if debug
+    val
   end
 
   def assigned_bags_without_student_repeats(plan)
-    plan.none? do |assignment|
+    val = plan.none? do |assignment|
       student_id, bag_id = assignment
       history = history_lookup[student_id]
       history.include?(bag_id)
     end
+    log "Never assigned before to student?: #{val}" if debug
+    val
   end
 
   class Solver
