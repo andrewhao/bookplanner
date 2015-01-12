@@ -42,6 +42,12 @@ describe Classroom do
     end
   end
 
+  describe "#display_plans" do
+    it "returns reverse chronological order of plans" do
+      expect(subject.display_plans).to eq [@plan2, @plan1]
+    end
+  end
+
   describe "#eligible_for_new_plan?" do
     it "is eligible if the past plan has finished" do
       expect_any_instance_of(Plan).to receive(:active?).and_return(false)

@@ -34,6 +34,10 @@ class Classroom < ActiveRecord::Base
     students.active
   end
 
+  def display_plans
+    plans.order("id DESC")
+  end
+
   def eligible_students
     active_students - loaned_assignments.map(&:student)
   end
