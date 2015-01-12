@@ -17,6 +17,10 @@ class Plan < ActiveRecord::Base
     assignments.map(&:book_bag)
   end
 
+  def ordered_book_bags
+    book_bags.sort_by(&:global_id)
+  end
+
   def active?
     inventory_state.nil?
   end

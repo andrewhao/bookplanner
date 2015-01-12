@@ -99,7 +99,7 @@ describe Classroom do
 
   describe "#returned_assignments" do
     it "lists all assignments that have been returned" do
-      expect(subject.returned_assignments).to eq [@assignment1a, @assignment1b]
+      expect(subject.returned_assignments).to match_array [@assignment1a, @assignment1b]
     end
   end
 
