@@ -5,7 +5,7 @@ class Classroom < ActiveRecord::Base
   has_many :plans, dependent: :destroy
   has_many :assignments, -> { joins(:student) }, through: :plans
   has_many :inventory_states, through: :plans
-  has_many :returned_assignments, through: :inventory_states, source: :assignments
+  has_many :returned_assignments, -> { joins(:book_bag) }, through: :inventory_states, source: :assignments
   has_many :periods, through: :plans
 
   # All assignments that are out on loan

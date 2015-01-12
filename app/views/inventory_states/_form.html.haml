@@ -8,7 +8,7 @@
           %th Book Bag ID
           %th Student Name
           %th Returned?
-        = f.simple_fields_for :assignments do |af|
+        = f.simple_fields_for :assignments, @inventory_state.sorted_assignments do |af|
           %tr{:data => {:student_id => af.object.student_id}}
             %td= af.object.book_bag.try(:global_id)
             %td

@@ -7,6 +7,8 @@ class Assignment < ActiveRecord::Base
 
   validate :student, :book_bag, :plan, presence: true
 
+  scope :display_sorted, -> { joins(:book_bag).order("book_bags.global_id ASC") }
+
   def on_loan?
     inventory_states.empty?
   end
