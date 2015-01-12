@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20150112010139) do
+ActiveRecord::Schema.define(version: 20150112065922) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -26,6 +26,7 @@ ActiveRecord::Schema.define(version: 20150112010139) do
   end
 
   add_index "assignments", ["book_bag_id", "plan_id", "student_id"], name: "index_assignments_on_book_bag_id_and_plan_id_and_student_id", unique: true, using: :btree
+  add_index "assignments", ["book_bag_id", "plan_id"], name: "index_assignments_on_book_bag_id_and_plan_id", unique: true, using: :btree
   add_index "assignments", ["book_bag_id"], name: "index_assignments_on_book_bag_id", using: :btree
   add_index "assignments", ["plan_id"], name: "index_assignments_on_plan_id", using: :btree
   add_index "assignments", ["student_id"], name: "index_assignments_on_student_id", using: :btree
