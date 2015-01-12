@@ -15,4 +15,5 @@
 //= require bootstrap
 //= require jquery.tablesorter
 //= require turbolinks
+//= require storybook
 //= require_tree .

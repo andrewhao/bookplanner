@@ -57,7 +57,7 @@ describe ClassroomsController do
       assigns(:book_bags).should =~ bags
     end
 
-    it "assigns the requested classroom plans as as @plans" do
+    it "assigns the requested classroom plans as @plans" do
       classroom = Classroom.create! valid_attributes
       plans = FactoryGirl.create_list(:plan_with_assignments, 5, classroom: classroom)
       get :show, {:id => classroom.to_param}, valid_session
