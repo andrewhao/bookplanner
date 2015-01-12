@@ -55,7 +55,6 @@ describe AssignmentProblem do
          84=>[136, 135],
          78=>[183]}
       end
-      let(:debug) { true }
 
       it "generates a plan" do
         expect(subject.solve).to_not be_empty
