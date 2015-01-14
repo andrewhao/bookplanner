@@ -5,6 +5,9 @@ class PlanPresenter
     @plan = plan
   end
 
-  def student_bag(student)
+  # FIXME/ahao Demeter violation!
+  # Temporary fix while we refactor models.
+  def name
+    plan.period.name
   end
 end

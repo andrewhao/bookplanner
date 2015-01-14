@@ -1,21 +1,14 @@
 require "spec_helper"
 
 describe PlanPresenter do
-  let(:plan) { FactoryGirl.build(:plan) }
-  let(:c) { plan.classroom }
+  let(:name) { "foo" }
+  let(:period) { FactoryGirl.create(:period, name: name) }
+  let(:plan) { FactoryGirl.create(:plan_with_assignments, name: "asdfasdf", period: period) }
   subject { described_class.new(plan) }
-  let(:s1) { FactoryGirl.create(:student, classroom: c, first_name: "a") }
-  let(:s2) { FactoryGirl.create(:student, classroom: c, first_name: "m") }
-  let(:s3) { FactoryGirl.create(:student, classroom: c, first_name: "z") }
 
-  describe "#assignments" do
-    xit "returns assignments in alpha order by student" do
-      a1 = FactoryGirl.build(:assignment, plan: plan, student: s2)
-      a2 = FactoryGirl.build(:assignment, plan: plan, student: s3)
-      a3 = FactoryGirl.build(:assignment, plan: plan, student: s1)
-      plan.assignments = [a1, a2, a3]
-      plan.save
-      expect(subject.assignments.map(&:student)).to eq [s1, s2, s3]
+  describe "#name" do
+    it "returns the name of the period" do
+      expect(subject.name).to eq name
     end
   end
 end

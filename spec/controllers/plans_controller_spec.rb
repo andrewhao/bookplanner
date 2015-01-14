@@ -25,12 +25,13 @@ RSpec.describe PlansController, :type => :controller do
   let(:bb2) { FactoryGirl.create(:book_bag) }
   let(:classroom) { FactoryGirl.create(:classroom) }
 
+  let(:name) { "Week 3" }
+
   # This should return the minimal set of attributes required to create a valid
   # Plan. As you add validations to Plan, be sure to
   # adjust the attributes here as well.
   let(:valid_attributes) do
     {
-      name: "foobar",
       classroom_id: classroom.id,
       assignments_attributes: [
         {
@@ -40,7 +41,10 @@ RSpec.describe PlansController, :type => :controller do
           student_id: s2.id,
           book_bag_id: bb2.id
         }
-      ]
+      ],
+      period_attributes: {
+        name: name
+      }
     }
   end
 
@@ -118,11 +122,6 @@ RSpec.describe PlansController, :type => :controller do
 
     end
 
-    it "pre-fills in the new plan name with the Date" do
-      get :new, {:classroom_id => classroom.id}, valid_session
-      expect(assigns(:plan).name).to eq Time.now.strftime("%Y-%m-%d")
-    end
-
     it "sorts the assignments by first name" do
       s1 = FactoryGirl.build(:student, first_name: "a")
       s2 = FactoryGirl.build(:student, first_name: "m")
@@ -188,13 +187,13 @@ RSpec.describe PlansController, :type => :controller do
   describe "PUT update" do
     describe "with valid params" do
       let(:new_attributes) {
-        { name: "highlander" }
+        { period_attributes: {name: "highlander" } }
       }
 
       it "updates the requested plan" do
         put :update, {:id => plan.to_param, :plan => new_attributes}, valid_session
         plan.reload
-        expect(plan.name).to eq "highlander"
+        expect(plan.period.name).to eq "highlander"
       end
 
       it "assigns the requested plan as @plan" do
