@@ -2,11 +2,12 @@ require "spec_helper"
 
 describe PlanPresenter do
   let(:name) { "foo" }
-  let(:plan) { FactoryGirl.create(:plan_with_assignments, name: name) }
+  let(:period) { FactoryGirl.create(:period, name: name) }
+  let(:plan) { FactoryGirl.create(:plan_with_assignments, name: "asdfasdf", period: period) }
   subject { described_class.new(plan) }
 
-  describe "#title" do
-    it "returns the title of the period" do
+  describe "#name" do
+    it "returns the name of the period" do
       expect(subject.name).to eq name
     end
   end
