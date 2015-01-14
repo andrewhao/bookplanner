@@ -1,7 +1,8 @@
 require 'spec_helper'
 
 describe Plan do
-  subject { FactoryGirl.create(:plan_with_assignments) }
+  let(:name) { "Week Three" }
+  subject { FactoryGirl.create(:plan_with_assignments, name: name) }
 
   describe "#assignments" do
     before do
@@ -36,9 +37,28 @@ describe Plan do
     end
   end
 
+  describe "#name" do
+    it "delegates to period" do
+      expect(subject.name).to eq subject.period.name
+    end
+  end
+
+  describe "initialing a plan" do
+    it "also initializes a period" do
+      expect(described_class.new.period).to be_instance_of Period
+    end
+
+    it "does not init period for existing period" do
+      p = FactoryGirl.create :period
+      subject.update_attributes(period: p)
+      expect(subject.reload.period).to eq p
+    end
+  end
+
   describe "period creation after create runs" do
     it "creates a period" do
       expect(subject.period).to be_kind_of Period
+      expect(subject.period).to be_persisted
     end
   end
 end

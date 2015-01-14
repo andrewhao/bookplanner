@@ -27,8 +27,7 @@ class PlansController < ApplicationController
 
   # GET /classrooms/:classroom_id/plans/new
   def new
-    name = Time.now.strftime("%Y-%m-%d")
-    @plan = Plan.new classroom: @classroom, name: name
+    @plan = Plan.new classroom: @classroom
     pg = PlanGenerator.new(@classroom.eligible_students, @classroom.available_book_bags)
     assignments = pg.generate
     assignments.sort_by!{ |a| a.student.first_name }
@@ -92,6 +91,6 @@ class PlansController < ApplicationController
 
   # Never trust parameters from the scary internet, only allow the white list through.
   def plan_params
-    params.require(:plan).permit(:name, :classroom_id, assignments_attributes: [:book_bag_id, :student_id])
+    params.require(:plan).permit(:classroom_id, period_attributes: [:name], assignments_attributes: [:book_bag_id, :student_id])
   end
 end
