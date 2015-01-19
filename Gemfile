@@ -79,6 +79,8 @@ group :test do
   gem 'rspec-prof', github: "sinisterchipmunk/rspec-prof"
 end
 
+gem "transpec"
+
 group :development, :test do
   gem 'railroady'
   gem "awesome_print"
