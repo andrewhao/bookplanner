@@ -37,7 +37,7 @@ describe BookBagsController do
     it "assigns all book_bags as @book_bags" do
       book_bag = BookBag.create! valid_attributes
       get :index, {}, valid_session
-      assigns(:book_bags).should eq([book_bag])
+      expect(assigns(:book_bags)).to eq([book_bag])
     end
   end
 
@@ -45,14 +45,14 @@ describe BookBagsController do
     it "assigns the requested book_bag as @book_bag" do
       book_bag = BookBag.create! valid_attributes
       get :show, {:id => book_bag.to_param}, valid_session
-      assigns(:book_bag).should eq(book_bag)
+      expect(assigns(:book_bag)).to eq(book_bag)
     end
   end
 
   describe "GET new" do
     it "assigns a new book_bag as @book_bag" do
       get :new, {classroom_id: classroom.id}, valid_session
-      assigns(:book_bag).should be_a_new(BookBag)
+      expect(assigns(:book_bag)).to be_a_new(BookBag)
     end
   end
 
@@ -60,7 +60,7 @@ describe BookBagsController do
     it "assigns the requested book_bag as @book_bag" do
       book_bag = BookBag.create! valid_attributes
       get :edit, {:id => book_bag.to_param}, valid_session
-      assigns(:book_bag).should eq(book_bag)
+      expect(assigns(:book_bag)).to eq(book_bag)
     end
   end
 
@@ -74,29 +74,29 @@ describe BookBagsController do
 
       it "assigns a newly created book_bag as @book_bag" do
         post :create, {:book_bag => valid_attributes}, valid_session
-        assigns(:book_bag).should be_a(BookBag)
-        assigns(:book_bag).should be_persisted
+        expect(assigns(:book_bag)).to be_a(BookBag)
+        expect(assigns(:book_bag)).to be_persisted
       end
 
       it "redirects to the created book_bag" do
         post :create, {:book_bag => valid_attributes}, valid_session
-        response.should redirect_to(new_classroom_book_bag_path(classroom))
+        expect(response).to redirect_to(new_classroom_book_bag_path(classroom))
       end
     end
 
     describe "with invalid params" do
       it "assigns a newly created but unsaved book_bag as @book_bag" do
         # Trigger the behavior that occurs when invalid params are submitted
-        BookBag.any_instance.stub(:save).and_return(false)
+        allow_any_instance_of(BookBag).to receive(:save).and_return(false)
         post :create, {:book_bag => {  }}, valid_session
-        assigns(:book_bag).should be_a_new(BookBag)
+        expect(assigns(:book_bag)).to be_a_new(BookBag)
       end
 
       it "re-renders the 'new' template" do
         # Trigger the behavior that occurs when invalid params are submitted
-        BookBag.any_instance.stub(:save).and_return(false)
+        allow_any_instance_of(BookBag).to receive(:save).and_return(false)
         post :create, {:book_bag => {  }}, valid_session
-        response.should render_template("new")
+        expect(response).to render_template("new")
       end
     end
   end
@@ -109,20 +109,20 @@ describe BookBagsController do
         # specifies that the BookBag created on the previous line
         # receives the :update_attributes message with whatever params are
         # submitted in the request.
-        BookBag.any_instance.should_receive(:update).with({ "global_id" => "params" })
+        expect_any_instance_of(BookBag).to receive(:update).with({ "global_id" => "params" })
         put :update, {:id => book_bag.to_param, :book_bag => { "global_id" => "params" }}, valid_session
       end
 
       it "assigns the requested book_bag as @book_bag" do
         book_bag = BookBag.create! valid_attributes
         put :update, {:id => book_bag.to_param, :book_bag => valid_attributes}, valid_session
-        assigns(:book_bag).should eq(book_bag)
+        expect(assigns(:book_bag)).to eq(book_bag)
       end
 
       it "redirects to the book_bag" do
         book_bag = BookBag.create! valid_attributes
         put :update, {:id => book_bag.to_param, :book_bag => valid_attributes}, valid_session
-        response.should redirect_to(book_bag)
+        expect(response).to redirect_to(book_bag)
       end
     end
 
@@ -130,17 +130,17 @@ describe BookBagsController do
       it "assigns the book_bag as @book_bag" do
         book_bag = BookBag.create! valid_attributes
         # Trigger the behavior that occurs when invalid params are submitted
-        BookBag.any_instance.stub(:save).and_return(false)
+        allow_any_instance_of(BookBag).to receive(:save).and_return(false)
         put :update, {:id => book_bag.to_param, :book_bag => {  }}, valid_session
-        assigns(:book_bag).should eq(book_bag)
+        expect(assigns(:book_bag)).to eq(book_bag)
       end
 
       it "re-renders the 'edit' template" do
         book_bag = BookBag.create! valid_attributes
         # Trigger the behavior that occurs when invalid params are submitted
-        BookBag.any_instance.stub(:save).and_return(false)
+        allow_any_instance_of(BookBag).to receive(:save).and_return(false)
         put :update, {:id => book_bag.to_param, :book_bag => {  }}, valid_session
-        response.should render_template("edit")
+        expect(response).to render_template("edit")
       end
     end
   end
@@ -156,7 +156,7 @@ describe BookBagsController do
     it "redirects to the book_bags list" do
       book_bag = BookBag.create! valid_attributes
       delete :destroy, {:id => book_bag.to_param}, valid_session
-      response.should redirect_to(book_bags_url)
+      expect(response).to redirect_to(book_bags_url)
     end
   end
 

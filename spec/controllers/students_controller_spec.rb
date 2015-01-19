@@ -65,7 +65,7 @@ describe StudentsController do
     it "assigns the requested student as @student" do
       student = Student.create! valid_attributes
       get :edit, {:id => student.to_param}, valid_session
-      assigns(:student).should eq(student)
+      expect(assigns(:student)).to eq(student)
     end
   end
 
@@ -79,29 +79,29 @@ describe StudentsController do
 
       it "assigns a newly created student as @student" do
         post :create, {:student => valid_attributes}, valid_session
-        assigns(:student).should be_a(Student)
-        assigns(:student).should be_persisted
+        expect(assigns(:student)).to be_a(Student)
+        expect(assigns(:student)).to be_persisted
       end
 
       it "redirects to add page again" do
         post :create, {:student => valid_attributes}, valid_session
-        response.should redirect_to(new_classroom_student_path(Student.last.classroom))
+        expect(response).to redirect_to(new_classroom_student_path(Student.last.classroom))
       end
     end
 
     describe "with invalid params" do
       it "assigns a newly created but unsaved student as @student" do
         # Trigger the behavior that occurs when invalid params are submitted
-        Student.any_instance.stub(:save).and_return(false)
+        allow_any_instance_of(Student).to receive(:save).and_return(false)
         post :create, {:student => {  }}, valid_session
-        assigns(:student).should be_a_new(Student)
+        expect(assigns(:student)).to be_a_new(Student)
       end
 
       it "re-renders the 'new' template" do
         # Trigger the behavior that occurs when invalid params are submitted
-        Student.any_instance.stub(:save).and_return(false)
+        allow_any_instance_of(Student).to receive(:save).and_return(false)
         post :create, {:student => {  }}, valid_session
-        response.should render_template("new")
+        expect(response).to render_template("new")
       end
     end
   end
@@ -114,7 +114,7 @@ describe StudentsController do
         # specifies that the Student created on the previous line
         # receives the :update_attributes message with whatever params are
         # submitted in the request.
-        Student.any_instance.should_receive(:update)
+        expect_any_instance_of(Student).to receive(:update)
           .with({ "first_name" => "john" })
         put :update, {:id => student.to_param, :student => { "first_name" => "john" }}, valid_session
       end
@@ -122,13 +122,13 @@ describe StudentsController do
       it "assigns the requested student as @student" do
         student = Student.create! valid_attributes
         put :update, {:id => student.to_param, :student => valid_attributes}, valid_session
-        assigns(:student).should eq(student)
+        expect(assigns(:student)).to eq(student)
       end
 
       it "redirects to the student" do
         student = Student.create! valid_attributes
         put :update, {:id => student.to_param, :student => valid_attributes}, valid_session
-        response.should redirect_to(student)
+        expect(response).to redirect_to(student)
       end
     end
 
@@ -136,17 +136,17 @@ describe StudentsController do
       it "assigns the student as @student" do
         student = Student.create! valid_attributes
         # Trigger the behavior that occurs when invalid params are submitted
-        Student.any_instance.stub(:save).and_return(false)
+        allow_any_instance_of(Student).to receive(:save).and_return(false)
         put :update, {:id => student.to_param, :student => {  }}, valid_session
-        assigns(:student).should eq(student)
+        expect(assigns(:student)).to eq(student)
       end
 
       it "re-renders the 'edit' template" do
         student = Student.create! valid_attributes
         # Trigger the behavior that occurs when invalid params are submitted
-        Student.any_instance.stub(:save).and_return(false)
+        allow_any_instance_of(Student).to receive(:save).and_return(false)
         put :update, {:id => student.to_param, :student => {  }}, valid_session
-        response.should render_template("edit")
+        expect(response).to render_template("edit")
       end
     end
   end
@@ -162,7 +162,7 @@ describe StudentsController do
     it "redirects to the students list" do
       student = Student.create! valid_attributes
       delete :destroy, {:id => student.to_param}, valid_session
-      response.should redirect_to(students_url)
+      expect(response).to redirect_to(students_url)
     end
   end
 

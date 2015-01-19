@@ -39,7 +39,7 @@ describe ClassroomsController do
     it "assigns all classrooms as @classrooms" do
       classroom = Classroom.create! valid_attributes
       get :index, {}, valid_session
-      assigns(:classrooms).should eq([classroom])
+      expect(assigns(:classrooms)).to eq([classroom])
     end
   end
 
@@ -47,28 +47,28 @@ describe ClassroomsController do
     it "assigns the requested classroom as @classroom" do
       classroom = Classroom.create! valid_attributes
       get :show, {:id => classroom.to_param}, valid_session
-      assigns(:classroom).should eq(classroom)
+      expect(assigns(:classroom)).to eq(classroom)
     end
 
     it "assigns the requested classroom book bags as as @book_bags" do
       classroom = Classroom.create! valid_attributes
       bags = FactoryGirl.create_list(:book_bag, 5, classroom: classroom)
       get :show, {:id => classroom.to_param}, valid_session
-      assigns(:book_bags).should =~ bags
+      expect(assigns(:book_bags)).to match_array(bags)
     end
 
     it "assigns the requested classroom plans as @plans" do
       classroom = Classroom.create! valid_attributes
       plans = FactoryGirl.create_list(:plan_with_assignments, 5, classroom: classroom)
       get :show, {:id => classroom.to_param}, valid_session
-      assigns(:plans).should =~ plans
+      expect(assigns(:plans)).to match_array(plans)
     end
 
     it "assigns the requested classroom students as as @students" do
       classroom = Classroom.create! valid_attributes
       students = FactoryGirl.create_list(:student, 5, classroom: classroom)
       get :show, {:id => classroom.to_param}, valid_session
-      assigns(:students).should =~ students
+      expect(assigns(:students)).to match_array(students)
     end
 
   end
@@ -76,7 +76,7 @@ describe ClassroomsController do
   describe "GET new" do
     it "assigns a new classroom as @classroom" do
       get :new, {}, valid_session
-      assigns(:classroom).should be_a_new(Classroom)
+      expect(assigns(:classroom)).to be_a_new(Classroom)
     end
   end
 
@@ -84,7 +84,7 @@ describe ClassroomsController do
     it "assigns the requested classroom as @classroom" do
       classroom = Classroom.create! valid_attributes
       get :edit, {:id => classroom.to_param}, valid_session
-      assigns(:classroom).should eq(classroom)
+      expect(assigns(:classroom)).to eq(classroom)
     end
   end
 
@@ -98,29 +98,29 @@ describe ClassroomsController do
 
       it "assigns a newly created classroom as @classroom" do
         post :create, {:classroom => valid_attributes}, valid_session
-        assigns(:classroom).should be_a(Classroom)
-        assigns(:classroom).should be_persisted
+        expect(assigns(:classroom)).to be_a(Classroom)
+        expect(assigns(:classroom)).to be_persisted
       end
 
       it "redirects to the created classroom" do
         post :create, {:classroom => valid_attributes}, valid_session
-        response.should redirect_to(Classroom.last)
+        expect(response).to redirect_to(Classroom.last)
       end
     end
 
     describe "with invalid params" do
       it "assigns a newly created but unsaved classroom as @classroom" do
         # Trigger the behavior that occurs when invalid params are submitted
-        Classroom.any_instance.stub(:save).and_return(false)
+        allow_any_instance_of(Classroom).to receive(:save).and_return(false)
         post :create, {:classroom => {  }}, valid_session
-        assigns(:classroom).should be_a_new(Classroom)
+        expect(assigns(:classroom)).to be_a_new(Classroom)
       end
 
       it "re-renders the 'new' template" do
         # Trigger the behavior that occurs when invalid params are submitted
-        Classroom.any_instance.stub(:save).and_return(false)
+        allow_any_instance_of(Classroom).to receive(:save).and_return(false)
         post :create, {:classroom => {  }}, valid_session
-        response.should render_template("new")
+        expect(response).to render_template("new")
       end
     end
   end
@@ -133,20 +133,20 @@ describe ClassroomsController do
         # specifies that the Classroom created on the previous line
         # receives the :update_attributes message with whatever params are
         # submitted in the request.
-        Classroom.any_instance.should_receive(:update).with({ "name" => "foobar" })
+        expect_any_instance_of(Classroom).to receive(:update).with({ "name" => "foobar" })
         put :update, {:id => classroom.to_param, :classroom => { "name" => "foobar" }}, valid_session
       end
 
       it "assigns the requested classroom as @classroom" do
         classroom = Classroom.create! valid_attributes
         put :update, {:id => classroom.to_param, :classroom => valid_attributes}, valid_session
-        assigns(:classroom).should eq(classroom)
+        expect(assigns(:classroom)).to eq(classroom)
       end
 
       it "redirects to the classroom" do
         classroom = Classroom.create! valid_attributes
         put :update, {:id => classroom.to_param, :classroom => valid_attributes}, valid_session
-        response.should redirect_to(classroom)
+        expect(response).to redirect_to(classroom)
       end
     end
 
@@ -154,17 +154,17 @@ describe ClassroomsController do
       it "assigns the classroom as @classroom" do
         classroom = Classroom.create! valid_attributes
         # Trigger the behavior that occurs when invalid params are submitted
-        Classroom.any_instance.stub(:save).and_return(false)
+        allow_any_instance_of(Classroom).to receive(:save).and_return(false)
         put :update, {:id => classroom.to_param, :classroom => {  }}, valid_session
-        assigns(:classroom).should eq(classroom)
+        expect(assigns(:classroom)).to eq(classroom)
       end
 
       it "re-renders the 'edit' template" do
         classroom = Classroom.create! valid_attributes
         # Trigger the behavior that occurs when invalid params are submitted
-        Classroom.any_instance.stub(:save).and_return(false)
+        allow_any_instance_of(Classroom).to receive(:save).and_return(false)
         put :update, {:id => classroom.to_param, :classroom => {  }}, valid_session
-        response.should render_template("edit")
+        expect(response).to render_template("edit")
       end
     end
   end
@@ -180,7 +180,7 @@ describe ClassroomsController do
     it "redirects to the classrooms list" do
       classroom = Classroom.create! valid_attributes
       delete :destroy, {:id => classroom.to_param}, valid_session
-      response.should redirect_to(classrooms_url)
+      expect(response).to redirect_to(classrooms_url)
     end
   end
 
