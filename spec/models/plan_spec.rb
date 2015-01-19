@@ -2,7 +2,7 @@ require 'spec_helper'
 
 describe Plan do
   let(:name) { "Week Three" }
-  subject { FactoryGirl.create(:plan_with_assignments, name: name) }
+  subject { FactoryGirl.create(:plan_with_assignments) }
 
   describe "#assignments" do
     before do
