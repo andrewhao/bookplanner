@@ -4,35 +4,35 @@ describe BookBagsController do
   describe "routing" do
 
     it "routes to #index" do
-      get("/book_bags").should route_to("book_bags#index")
+      expect(get("/book_bags")).to route_to("book_bags#index")
     end
 
     it "routes to #index on classroom resource" do
-      get("/classrooms/1/book_bags").should route_to("book_bags#index", classroom_id: "1")
+      expect(get("/classrooms/1/book_bags")).to route_to("book_bags#index", classroom_id: "1")
     end
 
     it "routes to #new on classroom resource" do
-      get("/classrooms/1//book_bags/new").should route_to("book_bags#new", classroom_id: "1")
+      expect(get("/classrooms/1//book_bags/new")).to route_to("book_bags#new", classroom_id: "1")
     end
 
     it "routes to #show" do
-      get("/book_bags/1").should route_to("book_bags#show", :id => "1")
+      expect(get("/book_bags/1")).to route_to("book_bags#show", :id => "1")
     end
 
     it "routes to #edit" do
-      get("/book_bags/1/edit").should route_to("book_bags#edit", :id => "1")
+      expect(get("/book_bags/1/edit")).to route_to("book_bags#edit", :id => "1")
     end
 
     it "routes to #create" do
-      post("/book_bags").should route_to("book_bags#create")
+      expect(post("/book_bags")).to route_to("book_bags#create")
     end
 
     it "routes to #update" do
-      put("/book_bags/1").should route_to("book_bags#update", :id => "1")
+      expect(put("/book_bags/1")).to route_to("book_bags#update", :id => "1")
     end
 
     it "routes to #destroy" do
-      delete("/book_bags/1").should route_to("book_bags#destroy", :id => "1")
+      expect(delete("/book_bags/1")).to route_to("book_bags#destroy", :id => "1")
     end
 
   end
