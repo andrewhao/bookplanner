@@ -14,6 +14,15 @@ module PlanHelpers
     # Add an expectation to test with implicit waits.
     expect(current_path).to match "/classrooms/#{classroom.id}"
   end
+
+  def expect_plan_row_for(student)
+    expect(page).to have_selector("tr[data-student-id='#{student.id}']")
+  end
+
+  def expect_no_plan_row_for(student)
+    expect(page).to_not have_selector("tr[data-student-id='#{student.id}']")
+  end
+
 end
 
 module ClassroomHelpers
@@ -24,6 +33,10 @@ module ClassroomHelpers
     fill_in("Name", with: class_name)
     select("Joshua Tree Middle School", from: "School")
     click_on("Create Classroom")
+  end
+
+  def click_on_inventory_button
+    click_on "Check in books"
   end
 end
 
@@ -45,6 +58,15 @@ module InventoryStateHelpers
   def click_on_take_inventory
     click_on("Take Inventory")
   end
+
+  def expect_inventory_row_for(student)
+    expect(page).to have_selector("tr[data-student-id='#{student.id}']")
+  end
+
+  def expect_no_inventory_row_for(student)
+    expect(page).to_not have_selector("tr[data-student-id='#{student.id}']")
+  end
+
 
   def select_bag_check_in_for(student)
     within("tr[data-student-id='#{student.id}']") do

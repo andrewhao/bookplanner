@@ -5,12 +5,18 @@ class Period < ActiveRecord::Base
 
   after_initialize :initialize_name
 
+  def periods_from(other)
+    raise ArgumentError, "No period supplied" if other.nil?
+
+    periods = classroom.periods
+    my_idx = periods.index(self)
+    prior_idx = periods.index(other)
+    my_idx - prior_idx
+  end
+
   private
 
   def initialize_name
     self.name ||= Date.today.to_s
   end
-
-  # TODO/ahao
-  # This association should belong_to :classroom, then move association off of plan.
 end

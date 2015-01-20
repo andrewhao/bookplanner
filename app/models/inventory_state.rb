@@ -11,7 +11,7 @@ class InventoryState < ActiveRecord::Base
   def self.new_from_plan(plan)
     i = self.new
     i.period = plan.period
-    i.assignments += plan.assignments
+    i.assignments += plan.classroom.loaned_assignments
     i
   end
 

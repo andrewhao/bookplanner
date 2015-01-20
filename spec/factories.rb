@@ -38,4 +38,10 @@ FactoryGirl.define do
     book_bag
     student
   end
+
+  factory :assignment_with_plan, parent: :assignment do
+    after(:build) do |o|
+      o.plan = FactoryGirl.build :plan, assignments: [o]
+    end
+  end
 end
