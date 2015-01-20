@@ -25,7 +25,7 @@ describe "plan editing", type: :feature do
 
   let(:plan) { Plan.last }
 
-  it "allows the user to swap the order of assignment", :focus do
+  it "allows the user to swap the order of assignment" do
     visit_edit_plan_page(plan)
     form_map = parse_plan_form
 

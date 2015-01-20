@@ -91,6 +91,6 @@ class PlansController < ApplicationController
 
   # Never trust parameters from the scary internet, only allow the white list through.
   def plan_params
-    params.require(:plan).permit(:classroom_id, period_attributes: [:name], assignments_attributes: [:id, :book_bag_id, :student_id])
+    params.require(:plan).permit(:classroom_id, period_attributes: [:id, :name], assignments_attributes: [:id, :book_bag_id, :student_id])
   end
 end
