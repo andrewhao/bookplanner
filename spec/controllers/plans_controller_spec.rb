@@ -187,22 +187,25 @@ RSpec.describe PlansController, :type => :controller do
   describe "PUT update" do
     describe "with valid params" do
       let(:new_attributes) {
-        { period_attributes: {name: "highlander" } }
+        { period_attributes: {
+          id: plan.period.id,
+          name: "highlander"
+        } }
       }
 
-      it "updates the requested plan" do
-        put :update, {:id => plan.to_param, :plan => new_attributes}, valid_session
-        plan.reload
-        expect(plan.period.name).to eq "highlander"
+      it "updates the requested plan period" do
+        expect {
+          put :update, {:id => plan.to_param, :plan => new_attributes}, valid_session
+        }.to change{ plan.period.reload.name }.to("highlander")
       end
 
       it "assigns the requested plan as @plan" do
-        put :update, {:id => plan.to_param, :plan => valid_attributes}, valid_session
+        put :update, {:id => plan.to_param, :plan => new_attributes}, valid_session
         expect(assigns(:plan)).to eq(plan)
       end
 
       it "redirects to the plan" do
-        put :update, {:id => plan.to_param, :plan => valid_attributes}, valid_session
+        put :update, {:id => plan.to_param, :plan => new_attributes}, valid_session
         expect(response).to redirect_to(plan_path(plan))
       end
     end

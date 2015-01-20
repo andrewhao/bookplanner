@@ -24,16 +24,12 @@
                 - else
                   %span{:class => "glyphicon glyphicon-question-sign", :"aria-hidden" => true, :title => "This student still has a book out on loan."}
             - plans.each do |plan|
-              - global_id = plan.assignments.where(student_id: s.id).try(:first).try(:book_bag).try(&:global_id)
               %td{:class => (plan.active? ? "bg-success" : "")}
-                - if global_id
-                  = global_id
-                - else
-                  %span.text-muted &mdash;
+                = raw plan.presenter.display_cell_for(s)
       %tfoot
         %tr
           %td
-          - plans.each do |plan|
+          - plans.each_with_index do |plan, i|
             %td
-              = button_to "Delete", plan_path(plan), method: "delete", class: "btn btn-xs btn-danger", confirm: "Are you sure?"
-              = link_to "Edit", edit_plan_path(plan), class: "btn btn-xs btn-notice"
+              = button_to "Delete", plan_path(plan), method: "delete", class: "btn btn-xs btn-danger", data: {confirm: "You are about to delete the plan #{plan.name}. Are you sure? This action is irreversible!"}, disabled: !plan.editable?
+              = link_to "Edit", edit_plan_path(plan), class: "btn btn-xs btn-notice", disabled: !plan.editable?
