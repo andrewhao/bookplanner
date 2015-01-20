@@ -16,7 +16,18 @@ class InventoryStatesController < ApplicationController
     end
   end
 
+  def destroy
+    inventory_state = find_inventory_state
+    classroom = inventory_state.classroom
+    inventory_state.destroy
+    redirect_to classroom_path(classroom), notice: "Successfully deleted inventory"
+  end
+
   private
+
+  def find_inventory_state
+    InventoryState.find(params[:id])
+  end
 
   def find_classroom
     Classroom.find(params[:classroom_id])

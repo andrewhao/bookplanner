@@ -27,8 +27,11 @@ class Plan < ActiveRecord::Base
   def active?
     inventory_state.nil?
   end
-
   alias_method :editable?, :active?
+
+  def closed?
+    inventory_state.present?
+  end
 
   def presenter
     @presenter ||= PlanPresenter.new(self)
