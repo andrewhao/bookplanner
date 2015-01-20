@@ -25,8 +25,9 @@ describe Period do
   describe "#periods_from" do
     before(:each) do
       plans = FactoryGirl.create_list :plan_with_assignments, 3, classroom: classroom
-      plans.sort_by!(&:id)
-      @older, @old, @new = plans.map(&:period)
+      sorted_plans = plans.sort_by(&:id)
+      @older, @old, @new = sorted_plans.map(&:period)
+      expect(@older.id < @new.id).to eq true
     end
 
     it "throws exception if nil" do

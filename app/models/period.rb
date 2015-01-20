@@ -8,7 +8,7 @@ class Period < ActiveRecord::Base
   def periods_from(other)
     raise ArgumentError, "No period supplied" if other.nil?
 
-    periods = classroom.periods
+    periods = classroom.periods.order(:id)
     my_idx = periods.index(self)
     prior_idx = periods.index(other)
     my_idx - prior_idx
