@@ -1,0 +1,9 @@
+%section
+  %h2 Out on loan
+  %ul
+    - classroom.loaned_assignments.each do |la|
+      %li
+        = la.display_info
+        - num_periods = classroom.current_period.periods_from(la.loaned_period)
+        %span.num-periods= "(#{num_periods} periods)"
+
