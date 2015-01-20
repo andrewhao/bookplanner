@@ -148,6 +148,11 @@ RSpec.describe PlansController, :type => :controller do
       get :edit, {:id => plan.to_param}, valid_session
       expect(assigns(:plan)).to eq(plan)
     end
+
+    it "assigns classroom" do
+      get :edit, {:id => plan.to_param}, valid_session
+      expect(assigns(:classroom)).to eq(classroom)
+    end
   end
 
   describe "POST create" do
