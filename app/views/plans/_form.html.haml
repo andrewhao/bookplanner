@@ -10,7 +10,7 @@
       %table.table
         = f.simple_fields_for :assignments do |af|
           %tr{:data => {:student_id => af.object.student_id}}
-            %td
+            %td.student-name
               = af.object.student.try(:full_name)
               = af.input :student_id, as: :hidden
             %td

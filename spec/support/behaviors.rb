@@ -4,8 +4,27 @@ module PlanHelpers
     visit("/classrooms/#{classroom.id}/plans/new")
   end
 
+  def visit_edit_plan_page(plan)
+    visit("/plans/#{plan.id}/edit")
+  end
+
   def click_on_create_plan
     click_on "Create Plan"
+  end
+
+  # @return [Hash] Mapping like so:
+  # {12 => {name: "Serena Claussen", book_bag: "4"},
+  #  14 => {name: "James Pryor", book_bag: "6"}}
+  def parse_plan_form
+    trs = all("tr")
+    map = {}
+    trs.each do |el|
+      sid = el['data-student-id']
+      name_el = el.find('.student-name')
+      select_el = el.find('select')
+      map[sid] = {name: name_el.text, book_bag: select_el.value, row: el}
+    end
+    map
   end
 
   def create_plan(classroom)
