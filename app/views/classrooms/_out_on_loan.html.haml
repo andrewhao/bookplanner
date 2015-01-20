@@ -12,7 +12,7 @@
           %th Periods
       %tbody
         - classroom.loaned_assignments.each do |la|
-          %tr
+          %tr{:data => { :"assignment-id" => la.id, :"student-id" => la.student.id }}
             %td.out-on-loan__student
               = la.student.full_name
             %td.out-on-loan__bag

@@ -57,6 +57,14 @@ module ClassroomHelpers
   def click_on_inventory_button
     click_on "Check in books"
   end
+
+  def expect_book_bag_checked_out_for(student)
+    expect(page).to have_selector("tr[data-student-id='#{student.id}']")
+  end
+
+  def expect_no_book_bag_checked_out_for(student)
+    expect(page).to_not have_selector("tr[data-student-id='#{student.id}']")
+  end
 end
 
 module SchoolHelpers
