@@ -1,6 +1,6 @@
 require "spec_helper"
 
-describe "plan creation", type: :feature do
+describe "inventory processing", type: :feature do
   before do
     @classroom = FactoryGirl.create(:classroom, name: "Mrs. Wu")
     @student = FactoryGirl.create(:student,
@@ -65,12 +65,12 @@ describe "plan creation", type: :feature do
       visit_new_inventory_state_page(current_plan)
       deselect_bag_check_in_for(@student)
       click_on_take_inventory
-      expect(page).to have_content("#{@student.full_name} still has")
+      expect_book_bag_checked_out_for(@student)
     end
 
     it "does not allow the student to be assigned the next plan around" do
       create_inventory_state_for(current_plan, students: [@student])
-      expect(page).to have_content("#{@student2.full_name} still has")
+      expect_book_bag_checked_out_for(@student2)
       visit_new_plan_page(@classroom)
       expect_no_plan_row_for(@student2)
     end
@@ -85,7 +85,7 @@ describe "plan creation", type: :feature do
       click_on_inventory_button
       expect_inventory_row_for(@student2)
       click_on_take_inventory
-      expect(page).to_not have_content("#{@student2.full_name} still has")
+      expect_no_book_bag_checked_out_for(@student2)
     end
   end
 end

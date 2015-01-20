@@ -1,12 +1,23 @@
-%section
+%section.out-on-loan
   %h2 Out on loan
   - if classroom.loaned_assignments.blank?
     There are no book bags out on loan for this class.
   - else
-    %ul
-      - classroom.loaned_assignments.each do |la|
-        %li
-          = la.display_info
-          - num_periods = classroom.current_period.periods_from(la.loaned_period)
-          %span.num-periods= "(#{num_periods} periods)"
-  
+    %table.table.table-responsive
+      %thead
+        %tr
+          %th Student
+          %th Bag
+          %th Since
+          %th Periods
+      %tbody
+        - classroom.loaned_assignments.each do |la|
+          %tr{:data => { :"assignment-id" => la.id, :"student-id" => la.student.id }}
+            %td.out-on-loan__student
+              = la.student.full_name
+            %td.out-on-loan__bag
+              = la.book_bag.global_id
+            %td.out-on-loan__since
+              = la.loaned_period.name
+            %td.out-on-loan__periods
+              = classroom.current_period.periods_from(la.loaned_period)
