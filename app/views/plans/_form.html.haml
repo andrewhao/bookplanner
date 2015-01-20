@@ -14,7 +14,7 @@
               = af.object.student.try(:full_name)
               = af.input :student_id, as: :hidden
             %td
-              = af.input :book_bag_id, collection: @plan.book_bags, value_method: :id, label_method: :global_id, label: false, required: true
+              = af.association :book_bag, collection: BookBag.where(classroom: @classroom), label_method: :global_id, label: false, required: true
 
   .form-actions
     = f.button :submit, class: "btn-primary"
