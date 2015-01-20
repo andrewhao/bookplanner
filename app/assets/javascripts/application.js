@@ -14,6 +14,7 @@
 //= require jquery_ujs
 //= require bootstrap
 //= require jquery.tablesorter
+//= require jquery.tablesorter/parsers/parser-input-select
 //= require turbolinks
 //= require storybook
 //= require_tree .
