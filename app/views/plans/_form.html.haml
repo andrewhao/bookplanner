@@ -7,14 +7,19 @@
       = pf.input :name
 
     .form-group
-      %table.table
-        = f.simple_fields_for :assignments do |af|
-          %tr{:data => {:student_id => af.object.student_id}}
-            %td.student-name
-              = af.object.student.try(:full_name)
-              = af.input :student_id, as: :hidden
-            %td
-              = af.association :book_bag, collection: BookBag.where(classroom: @classroom), label_method: :global_id, label: false, required: true
+      %table.table.table-responsive
+        %thead
+          %tr
+            %th Name
+            %th{:data => {:extractor => "select-text"}} Book Bag
+        %tbody
+          = f.simple_fields_for :assignments do |af|
+            %tr{:data => {:student_id => af.object.student_id}}
+              %td.student-name
+                = af.object.student.try(:full_name)
+                = af.input :student_id, as: :hidden
+              %td
+                = af.association :book_bag, collection: BookBag.where(classroom: @classroom), label_method: :global_id, label: false, required: true
 
   .form-actions
     = f.button :submit, class: "btn-primary"
