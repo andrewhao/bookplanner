@@ -16,7 +16,7 @@ module PlanHelpers
   # {12 => {name: "Serena Claussen", book_bag: "4"},
   #  14 => {name: "James Pryor", book_bag: "6"}}
   def parse_plan_form
-    trs = all("tr")
+    trs = all("tr[data-student-id]")
     map = {}
     trs.each do |el|
       sid = el['data-student-id']

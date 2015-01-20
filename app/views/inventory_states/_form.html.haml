@@ -8,7 +8,7 @@
           %tr
             %th Book Bag ID
             %th Student Name
-            %th Returned?
+            %th{:data => {:extractor => "checkbox"}} Returned?
         %tbody
           = f.simple_fields_for :assignments, @inventory_state.sorted_assignments do |af|
             %tr{:data => {:student_id => af.object.student_id}}
