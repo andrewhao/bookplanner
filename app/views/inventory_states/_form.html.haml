@@ -18,6 +18,7 @@
                 = af.label :book_bag_id, af.object.student.try(:full_name)
               %td
                 = af.input :on_loan?, as: :boolean, label: false
+                = af.label :on_loan?, class: "sr-only"
 
   .form-actions
     = f.button :submit, class: "btn-primary", value: "Take Inventory"

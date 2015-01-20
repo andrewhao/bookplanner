@@ -11,12 +11,8 @@ describe "plan creation", type: :feature do
                                    first_name: "Zhang",
                                    last_name: "Wu",
                                    classroom: @classroom)
-    @book_bag = FactoryGirl.create(:book_bag,
-                                   global_id: "1",
+    @book_bags = FactoryGirl.create_list(:book_bag, 3,
                                    classroom: @classroom)
-    @book_bag2 = FactoryGirl.create(:book_bag,
-                                    global_id: "2",
-                                    classroom: @classroom)
   end
 
   before do
@@ -56,22 +52,24 @@ describe "plan creation", type: :feature do
       expect(page).to have_checked_field("inventory_state[assignments_attributes][1][on_loan]")
     end
 
-    xit "previews a book bag to a student for a classroom" do
-      within "[data-student-id='#{@student.id}']" do
-        expect(page).to have_select("plan_assignments_attributes_0_book_bag_id",
-                                    selected: @book_bag.global_id)
+    context "for student who has not checked in a bag" do
+      it "marks bag as out" do
+        deselect_bag_check_in_for(@student)
+        click_on_take_inventory
+        expect(page).to have_content("#{@student.full_name} still has")
       end
 
-      within "[data-student-id='#{@student2.id}']" do
-        expect(page).to have_select("plan_assignments_attributes_1_book_bag_id",
-                                    selected: @book_bag2.global_id)
+      it "does not allow the student to be assigned the next plan around" do
+        create_inventory_state_for(@plan, students: [@student])
+        expect(page).to have_content("#{@student2.full_name} still has")
+        visit_new_plan_page(@classroom)
+        expect(page).to_not have_content("tr[data-student-id='#{@student2.id}']")
       end
     end
 
-    xit "persists the plan to the db" do
-      click_on_create_plan
-      expect(page).to have_content("Plan was successfully created.")
-      expect(page).to have_content(Plan.last.name)
+    it "persists the inventory state to the db" do
+      click_on_take_inventory
+      expect(page).to have_content("Checked in books successfully!")
     end
   end
 end
