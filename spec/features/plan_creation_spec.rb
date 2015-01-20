@@ -22,7 +22,7 @@ describe "plan creation", type: :feature do
   it "can be created from a classroom page" do
     visit("/classrooms")
     click_on("Show")
-    expect(page).to have_content("Classroom: Mrs. Wu")
+    expect(page).to have_content("Mrs. Wu")
     expect(page).to have_content("Create Plan")
     click_on("Create Plan")
     expect(page).to have_content("New plan")

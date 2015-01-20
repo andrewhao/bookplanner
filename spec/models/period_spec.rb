@@ -25,6 +25,7 @@ describe Period do
   describe "#periods_from" do
     before(:each) do
       plans = FactoryGirl.create_list :plan_with_assignments, 3, classroom: classroom
+      plans.sort_by!(&:id)
       @older, @old, @new = plans.map(&:period)
     end
 

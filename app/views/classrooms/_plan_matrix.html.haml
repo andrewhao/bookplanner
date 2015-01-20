@@ -29,7 +29,8 @@
       %tfoot
         %tr
           %td
-          - plans.each do |plan|
+          - plans.each_with_index do |plan, i|
             %td
-              = button_to "Delete", plan_path(plan), method: "delete", class: "btn btn-xs btn-danger", data: {confirm: "Are you sure?"}
-              = link_to "Edit", edit_plan_path(plan), class: "btn btn-xs btn-notice"
+              - if i == 0
+                = button_to "Delete", plan_path(plan), method: "delete", class: "btn btn-xs btn-danger", data: {confirm: "You are about to delete the plan #{plan.name}. Are you sure? This action is irreversible!"}
+                = link_to "Edit", edit_plan_path(plan), class: "btn btn-xs btn-notice"

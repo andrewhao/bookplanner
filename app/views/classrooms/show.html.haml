@@ -1,6 +1,6 @@
 .row
   .col-xs-10
-    %h1= "Classroom: #{@classroom.name}"
+    %h1= "#{@classroom.name}"
   .col-xs-2
     = link_to 'Edit classroom info', edit_classroom_path(@classroom)
 
@@ -8,10 +8,9 @@
   .col-xs-12
     = render partial: "plan_matrix", locals: { classroom: @classroom, plans: @plans, students: @students }
 .row
-  .col-md-6
-    = render partial: "students", locals: { classroom: @classroom, plans: @plans, students: @students }
-  .col-md-6
-    = render partial: "book_bags", locals: { classroom: @classroom, plans: @plans, students: @students, book_bags: @book_bags }
-.row
-  .col-xs-12
+  .col-md-4
     = render partial: "out_on_loan", locals: { classroom: @classroom }
+  .col-md-4
+    = render partial: "students", locals: { classroom: @classroom, plans: @plans, students: @students }
+  .col-md-4
+    = render partial: "book_bags", locals: { classroom: @classroom, plans: @plans, students: @students, book_bags: @book_bags }

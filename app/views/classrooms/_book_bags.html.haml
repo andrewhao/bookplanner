@@ -1,7 +1,12 @@
 %section
   %h2= "Book bags (#{book_bags.count})"
   = link_to "Add a book bag", new_classroom_book_bag_path(classroom), class: "btn btn-success btn-xs"
-  %hr
-  - book_bags.each do |bag|
-    = link_to bag.global_id, book_bag_path(bag), class: "btn btn-warning"
+  %table.table.table-responsive
+    %thead
+      %tr
+        %th Book Bag ID
+    %tbody
+      - book_bags.each do |bag|
+        %tr
+          %td= link_to bag.global_id, book_bag_path(bag)
 
