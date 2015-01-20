@@ -58,7 +58,7 @@ class PlansController < ApplicationController
   # PATCH/PUT /plans/1.json
   def update
     respond_to do |format|
-      if @plan.update(plan_params)
+      if PlanUpdater.new(@plan, plan_params).update
         format.html { redirect_to @plan, notice: 'Plan was successfully updated.' }
         format.json { head :no_content }
       else
@@ -91,6 +91,6 @@ class PlansController < ApplicationController
 
   # Never trust parameters from the scary internet, only allow the white list through.
   def plan_params
-    params.require(:plan).permit(:classroom_id, period_attributes: [:name], assignments_attributes: [:book_bag_id, :student_id])
+    params.require(:plan).permit(:classroom_id, period_attributes: [:name], assignments_attributes: [:id, :book_bag_id, :student_id])
   end
 end

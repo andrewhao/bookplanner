@@ -197,12 +197,12 @@ RSpec.describe PlansController, :type => :controller do
       end
 
       it "assigns the requested plan as @plan" do
-        put :update, {:id => plan.to_param, :plan => valid_attributes}, valid_session
+        put :update, {:id => plan.to_param, :plan => new_attributes}, valid_session
         expect(assigns(:plan)).to eq(plan)
       end
 
       it "redirects to the plan" do
-        put :update, {:id => plan.to_param, :plan => valid_attributes}, valid_session
+        put :update, {:id => plan.to_param, :plan => new_attributes}, valid_session
         expect(response).to redirect_to(plan_path(plan))
       end
     end

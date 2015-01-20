@@ -39,6 +39,6 @@ describe "plan editing", type: :feature do
     end
 
     click_on "Update Plan"
-    expect(page).to have_content "Plan successfully updated."
+    expect(page).to have_content "Plan was successfully updated."
   end
 end

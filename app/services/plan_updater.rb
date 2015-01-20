@@ -10,20 +10,39 @@ class PlanUpdater
   end
 
   def update
-    #update_assignment!
+    return false unless updateable?
     ActiveRecord::Base.transaction do
+      if has_assignment_attrs?
+        destroy_assignments!
+        create_assignments!
+        plan.reload
+      end
       plan.update(params)
     end
   end
 
-  def update_assignment!
+  private
+
+  def updateable?
+    plan.active?
+  end
+
+  def destroy_assignments!
+    plan.assignments.destroy_all
+  end
+
+  def has_assignment_attrs?
+    params.has_key?(:assignments_attributes)
+  end
+
+  def create_assignments!
     attrs = params.delete(:assignments_attributes)
-    return if attrs.nil?
     new_query = {}
     attrs.values.each do |at|
       id_hash = at.extract!("id")
+      at["plan_id"] = plan.id
       new_query[id_hash["id"]] = at
     end
-    Assignment.update new_query.keys new_query.values
+    Assignment.create new_query.values
   end
 end

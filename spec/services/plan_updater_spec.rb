@@ -26,10 +26,17 @@ describe PlanUpdater do
       end
     end
 
+    context "for an inactive plan" do
+      it "returns false" do
+        FactoryGirl.create :inventory_state, period: period
+        expect(subject.update).to eq false
+      end
+    end
+
     context "assignments that already exist" do
+      let(:bag_ids) { assignments.map(&:book_bag_id) }
       let(:params) do
         attrs = {}
-        bag_ids = assignments.map(&:book_bag_id)
         assignments.each_with_index do |a, i|
           rotated_bag_idx = (i + 1) % assignments.length
           attrs[i] = a.attributes.extract!("id", "student_id", "book_bag_id")
@@ -43,7 +50,18 @@ describe PlanUpdater do
       it "allows swapping" do
         expect {
           subject.update
-        }.to_not raise_error
+        }.to change{ plan.reload.assignments.map(&:book_bag_id) }
+      end
+
+      it "remains valid" do
+        subject.update
+        expect(plan.reload).to be_valid
+      end
+
+      it "keeps the same unique assignments" do
+        subject.update
+        ids = plan.reload.assignments.map(&:book_bag_id)
+        expect(ids).to match_array(bag_ids)
       end
     end
   end
