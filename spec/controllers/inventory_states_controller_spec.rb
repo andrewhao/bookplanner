@@ -38,4 +38,21 @@ describe InventoryStatesController do
       post :create, post_params
     end
   end
+
+  describe "#destroy" do
+    let(:inventory_state) { FactoryGirl.create :inventory_state, period: plan.period }
+
+    it "deletes the InventoryState" do
+      inventory_state
+      expect {
+        delete :destroy, id: inventory_state.id
+      }.to change{ InventoryState.count }.by(-1)
+    end
+
+    it "redirects to the existing classroom page" do
+      classroom = inventory_state.classroom
+      delete :destroy, id: inventory_state.id
+      expect(response).to redirect_to classroom_path(classroom)
+    end
+  end
 end
