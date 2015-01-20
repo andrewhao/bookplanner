@@ -3,6 +3,8 @@ require "spec_helper"
 describe InventoryState do
   let(:period) { FactoryGirl.create :period }
   let(:plan) { FactoryGirl.create :plan_with_assignments, period: period }
+  let(:classroom) { plan.classroom }
+  let(:assignments) { plan.assignments }
   subject { FactoryGirl.create :inventory_state, period: period }
 
   before do
@@ -16,7 +18,7 @@ describe InventoryState do
   end
 
   describe "#assignments" do
-    it "returns several book bags" do
+    it "returns several assignments persisted to the db" do
       assignments = FactoryGirl.create_list :assignment, 2
       subject.assignments += assignments
       expect(subject.reload.assignments).to eq assignments
@@ -32,13 +34,23 @@ describe InventoryState do
       # expect 1, 10
       expect(subject.sorted_assignments).to eq assns.reverse
     end
+
+    it "attaches assignments that are still out on loan at the end" do
+
+    end
   end
 
   describe ".new_from_plan" do
     let(:subject) { described_class.new_from_plan(plan) }
 
-    it "copies over the assignments from a plan" do
-      expect(subject.assignments).to match_array(plan.assignments)
+    it "copies over the assignments from the classroom" do
+      expect(subject.assignments).to match_array(classroom.assignments)
+    end
+
+    it "copies over all the classroom assignments, even those out on loan" do
+      another_plan = FactoryGirl.create :plan_with_assignments, classroom: classroom
+      other_assignments = another_plan.assignments
+      expect(subject.assignments).to match_array(assignments + other_assignments)
     end
 
     it "copies over the period" do

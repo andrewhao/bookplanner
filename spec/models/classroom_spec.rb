@@ -42,6 +42,17 @@ describe Classroom do
     end
   end
 
+  describe "#current_period" do
+    it "is the latest period" do
+      expect(subject.current_period).to eq @plan2.period
+    end
+
+    it "is the latest period for this class" do
+      other_plan = FactoryGirl.create :plan_with_assignments
+      expect(subject.current_period).to eq @plan2.period
+    end
+  end
+
   describe "#display_plans" do
     it "returns reverse chronological order of plans" do
       expect(subject.display_plans).to eq [@plan2, @plan1]

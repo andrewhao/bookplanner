@@ -26,6 +26,10 @@ class Classroom < ActiveRecord::Base
     plans.last
   end
 
+  def current_period
+    plans.last.period
+  end
+
   def to_param
     "#{id}-#{name.parameterize}"
   end

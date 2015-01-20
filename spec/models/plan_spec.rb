@@ -26,6 +26,17 @@ describe Plan do
     end
   end
 
+  describe "#editable" do
+    it "is true if plan is active" do
+      expect(subject).to be_editable
+    end
+
+    it "is false if inventory state has been created" do
+      FactoryGirl.create :inventory_state, period: subject.period
+      expect(subject).to_not be_editable
+    end
+  end
+
   describe "#active?" do
     it "is active if an inventory state has not been created" do
       expect(subject).to be_active
