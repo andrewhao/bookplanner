@@ -55,7 +55,7 @@ module ClassroomHelpers
   end
 
   def click_on_inventory_button
-    click_on "Check in books"
+    click_on "Take Inventory"
   end
 
   def expect_book_bag_checked_out_for(student)

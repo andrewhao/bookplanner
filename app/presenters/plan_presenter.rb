@@ -1,4 +1,7 @@
 class PlanPresenter
+  include ActionView::Helpers::TagHelper
+  include ActionView::Helpers::OutputSafetyHelper
+
   attr_accessor :plan
 
   delegate :assignments, to: :plan
@@ -11,7 +14,7 @@ class PlanPresenter
     assignment = assignments.where(student_id: student.id).try(:first)
     id = assignment.try(:book_bag).try(:global_id)
     return id if id
-    "<span class='text-muted'>&mdash;</span>"
+    content_tag(:span, raw("&mdash;"), class: "text-muted")
   end
 
   # FIXME/ahao Demeter violation!
