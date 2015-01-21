@@ -45,4 +45,8 @@ class Classroom < ActiveRecord::Base
   def eligible_students
     active_students - loaned_assignments.map(&:student)
   end
+
+  def presenter
+    @presenter ||= ClassroomPresenter.new(self)
+  end
 end

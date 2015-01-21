@@ -24,9 +24,10 @@ describe "inventory processing", type: :feature do
 
   describe "showing link to check-in on the classroom page" do
     context "for active plan" do
-      it "shows the link" do
+      it "links to inventory state new form" do
         visit("/classrooms/#{@classroom.id}")
-        expect(page).to have_content("Check in books")
+        click_on "Take Inventory"
+        expect(current_path).to match "inventory_states/new"
       end
     end
 
@@ -34,7 +35,7 @@ describe "inventory processing", type: :feature do
       it "does not show the link" do
         FactoryGirl.create(:inventory_state, period: current_period)
         visit("/classrooms/#{@classroom.id}")
-        expect(page).to_not have_content("Check in books")
+        expect(page).to_not have_content("Take inventory")
       end
     end
   end
