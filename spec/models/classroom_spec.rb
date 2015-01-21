@@ -53,6 +53,12 @@ describe Classroom do
     end
   end
 
+  describe "#presenter" do
+    it "returns a ClassroomPresenter" do
+      expect(subject.presenter).to be_instance_of(ClassroomPresenter)
+    end
+  end
+
   describe "#display_plans" do
     it "returns reverse chronological order of plans" do
       expect(subject.display_plans).to eq [@plan2, @plan1]

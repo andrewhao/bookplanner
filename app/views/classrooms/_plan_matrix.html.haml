@@ -2,7 +2,7 @@
   %h2= "Plans"
   = link_to "Create Plan", new_classroom_plan_path(classroom), class: "btn btn-success btn-xs", disabled: !classroom.eligible_for_new_plan?
   - unless classroom.eligible_for_new_plan?
-    = link_to "Check in books", new_classroom_inventory_state_path(classroom), class: "btn btn-default btn-xs", title: "You must first check in book bags before you may create a new plan."
+    = link_to "Take Inventory", new_classroom_inventory_state_path(classroom), class: "btn btn-default btn-xs", title: "You must first take inventory of book bags before you may create a new plan."
 
   - if plans.blank?
     %p There are no plans. Might you want to create one?
@@ -12,26 +12,21 @@
         %tr
           %th Name
           - plans.each do |plan|
-            %th= plan.presenter.name + (plan.active? ? " (current)" : "")
+            %th= plan.presenter.name
       %tbody
         - students.each do |s|
           %tr
-            %th{:class => s.inactive? ? "text-muted bg-danger" : ""}
-              = s.full_name
-              - if s.inactive? || !classroom.eligible_students.include?(s)
-                - if s.inactive?
-                  %span{:class => "glyphicon glyphicon-time", :"aria-hidden" => true, :title => "This student has not yet turned in his or her permission slip and is inactive."}
-                - else
-                  %span{:class => "glyphicon glyphicon-question-sign", :"aria-hidden" => true, :title => "This student still has a book out on loan."}
+            = classroom.presenter.header_cell_for(s) do
+              - raw "#{s.full_name} #{classroom.presenter.header_cell_icon(s)}"
             - plans.each do |plan|
               %td{:class => (plan.active? ? "bg-success" : "")}
-                = raw plan.presenter.display_cell_for(s)
+                = plan.presenter.display_cell_for(s)
       %tfoot
         %tr
           %td
           - plans.each_with_index do |plan, i|
             %td
-              = button_to "Delete Plan", plan_path(plan), method: "delete", class: "btn btn-xs btn-danger", data: {confirm: "You are about to delete the plan #{plan.name}. Are you sure? This action is irreversible!"}, disabled: !plan.editable?
+              = link_to "Delete Plan", plan_path(plan), method: "delete", class: "btn btn-xs btn-danger", data: {confirm: "You are about to delete the plan #{plan.name}. Are you sure? This action is irreversible!"}, disabled: !plan.editable?
               = link_to "Edit Plan", edit_plan_path(plan), class: "btn btn-xs btn-notice", disabled: !plan.editable?
               - if plan.closed?
-                = button_to "Delete Inventory", inventory_state_path(plan.inventory_state), method: "delete", class: "btn btn-xs btn-default", data: {confirm: "Are you sure you want to delete the inventory?"}, disabled: !(plan.closed? && classroom.current_plan == plan)
+                = link_to "Delete Inventory", inventory_state_path(plan.inventory_state), method: "delete", class: "btn btn-xs btn-default", data: {confirm: "Are you sure you want to delete the inventory?"}, disabled: !(plan.closed? && classroom.current_plan == plan)

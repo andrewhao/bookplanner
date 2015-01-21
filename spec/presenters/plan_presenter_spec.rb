@@ -25,7 +25,7 @@ describe PlanPresenter do
     context "for nonexistent student" do
       it "returns emdash" do
         student = FactoryGirl.create :student
-        expect(subject.display_cell_for(student)).to eq "<span class='text-muted'>&mdash;</span>"
+        expect(subject.display_cell_for(student)).to eq "<span class=\"text-muted\">&mdash;</span>"
       end
     end
   end
