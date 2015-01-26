@@ -1,3 +1,8 @@
+class Assignment < ActiveRecord::Base
+  has_and_belongs_to_many :inventory_states
+  belongs_to :inventory_state
+end
+
 class PopulateInventoryStateIdOnAssignments < ActiveRecord::Migration
   def up
     Assignment.find_each do |assn|
