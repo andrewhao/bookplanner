@@ -24,7 +24,7 @@ RSpec.describe PlansController, :type => :controller do
   let(:bb1) { FactoryGirl.create(:book_bag) }
   let(:bb2) { FactoryGirl.create(:book_bag) }
   let(:classroom) { FactoryGirl.create(:classroom) }
-
+  let(:period) { FactoryGirl.create :period, classroom: classroom }
   let(:name) { "Week 3" }
 
   # This should return the minimal set of attributes required to create a valid
@@ -32,7 +32,6 @@ RSpec.describe PlansController, :type => :controller do
   # adjust the attributes here as well.
   let(:valid_attributes) do
     {
-      classroom_id: classroom.id,
       assignments_attributes: [
         {
           student_id: s1.id,
@@ -43,7 +42,8 @@ RSpec.describe PlansController, :type => :controller do
         }
       ],
       period_attributes: {
-        name: name
+        name: name,
+        classroom_id: classroom.id
       }
     }
   end
@@ -63,7 +63,7 @@ RSpec.describe PlansController, :type => :controller do
   let(:valid_session) { {} }
 
   let(:plan) do
-    FactoryGirl.create(:plan_with_assignments, classroom: classroom)
+    FactoryGirl.create(:plan_with_assignments, period: period)
   end
 
 
@@ -193,7 +193,7 @@ RSpec.describe PlansController, :type => :controller do
     describe "with valid params" do
       let(:new_attributes) {
         { period_attributes: {
-          id: plan.period.id,
+          id: period.id,
           name: "highlander"
         } }
       }
@@ -201,7 +201,7 @@ RSpec.describe PlansController, :type => :controller do
       it "updates the requested plan period" do
         expect {
           put :update, {:id => plan.to_param, :plan => new_attributes}, valid_session
-        }.to change{ plan.period.reload.name }.to("highlander")
+        }.to change{ period.reload.name }.to("highlander")
       end
 
       it "assigns the requested plan as @plan" do
@@ -231,6 +231,7 @@ RSpec.describe PlansController, :type => :controller do
   describe "DELETE destroy" do
     it "destroys the requested plan" do
       plan
+
       expect {
         delete :destroy, {:id => plan.to_param}, valid_session
       }.to change(Plan, :count).by(-1)

@@ -1,9 +1,9 @@
 require "spec_helper"
 
 describe Period do
-  subject { plan.period }
-  let(:classroom) { plan.classroom }
-  let(:plan) { FactoryGirl.create :plan_with_assignments }
+  subject { FactoryGirl.create :period }
+  let(:plan) { FactoryGirl.create :plan_with_assignments, period: subject }
+  let(:classroom) { subject.classroom }
 
   before do
     plan
@@ -24,9 +24,9 @@ describe Period do
 
   describe "#periods_from" do
     before(:each) do
-      plans = FactoryGirl.create_list :plan_with_assignments, 3, classroom: classroom
-      sorted_plans = plans.sort_by(&:id)
-      @older, @old, @new = sorted_plans.map(&:period)
+      periods = FactoryGirl.create_list :period, 3, classroom: classroom
+      sorted_periods = periods.sort_by(&:id)
+      @older, @old, @new = sorted_periods
       expect(@older.id < @new.id).to eq true
     end
 

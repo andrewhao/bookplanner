@@ -4,6 +4,7 @@ describe Classroom do
   subject { FactoryGirl.create :classroom }
 
   before(:each) do
+    @period1, @period2 = FactoryGirl.create_list :period, 2, classroom: subject
     @students = FactoryGirl.create_list :student, 3, classroom: subject
     @bags = FactoryGirl.create_list :book_bag, 3, classroom: subject
     @returned = Time.now
@@ -21,12 +22,20 @@ describe Classroom do
       book_bag: @bags.last
     @plan1 = FactoryGirl.create :plan_with_assignments,
       classroom: subject,
-      assignments: [@assignment1a, @assignment1b]
+      assignments: [@assignment1a, @assignment1b],
+      period: @period1
     @plan2 = FactoryGirl.create :plan_with_assignments,
       classroom: subject,
-      assignments: [@assignment2a, @assignment2b]
-    @inventory_state1 = FactoryGirl.create :inventory_state, period: @plan1.period
+      assignments: [@assignment2a, @assignment2b],
+      period: @period2
+    @inventory_state1 = FactoryGirl.create(:inventory_state, period: @period1)
     @inventory_state1.assignments += [@assignment1a, @assignment1b]
+  end
+
+  describe "#inventory_states" do
+    it "returns correct associations" do
+      expect(subject.inventory_states).to eq [@inventory_state1]
+    end
   end
 
   describe "#active_students" do

@@ -1,13 +1,12 @@
 class Plan < ActiveRecord::Base
-  belongs_to :classroom
+  belongs_to :period, autosave: true
+  has_one :classroom, through: :period
   has_many :assignments, -> { joins(:student).order('students.first_name DESC') }, dependent: :destroy
   has_one :inventory_state, through: :period
-  belongs_to :period, dependent: :destroy, autosave: true
 
   accepts_nested_attributes_for :period
   accepts_nested_attributes_for :assignments
 
-  validates :classroom, presence: true
   validates :assignments, presence: true
 
   after_initialize :initialize_period
