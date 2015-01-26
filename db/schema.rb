@@ -11,10 +11,17 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20150119205000) do
+ActiveRecord::Schema.define(version: 20150126084516) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
+
+  create_table "__assignments_inventory_states", id: false, force: true do |t|
+    t.integer "inventory_state_id"
+    t.integer "assignment_id"
+  end
+
+  add_index "__assignments_inventory_states", ["assignment_id"], name: "index___assignments_inventory_states_on_assignment_id", using: :btree
 
   create_table "assignments", force: true do |t|
     t.integer  "student_id"
@@ -23,20 +30,15 @@ ActiveRecord::Schema.define(version: 20150119205000) do
     t.datetime "created_at"
     t.datetime "updated_at"
     t.datetime "returned_at"
+    t.integer  "inventory_state_id"
   end
 
   add_index "assignments", ["book_bag_id", "plan_id", "student_id"], name: "index_assignments_on_book_bag_id_and_plan_id_and_student_id", unique: true, using: :btree
   add_index "assignments", ["book_bag_id", "plan_id"], name: "index_assignments_on_book_bag_id_and_plan_id", unique: true, using: :btree
   add_index "assignments", ["book_bag_id"], name: "index_assignments_on_book_bag_id", using: :btree
+  add_index "assignments", ["inventory_state_id"], name: "index_assignments_on_inventory_state_id", using: :btree
   add_index "assignments", ["plan_id"], name: "index_assignments_on_plan_id", using: :btree
   add_index "assignments", ["student_id"], name: "index_assignments_on_student_id", using: :btree
-
-  create_table "assignments_inventory_states", id: false, force: true do |t|
-    t.integer "inventory_state_id"
-    t.integer "assignment_id"
-  end
-
-  add_index "assignments_inventory_states", ["assignment_id"], name: "index_assignments_inventory_states_on_assignment_id", using: :btree
 
   create_table "book_bags", force: true do |t|
     t.integer  "classroom_id"
@@ -71,16 +73,17 @@ ActiveRecord::Schema.define(version: 20150119205000) do
     t.datetime "created_at"
     t.datetime "updated_at"
     t.string   "name"
+    t.integer  "classroom_id"
   end
 
+  add_index "periods", ["classroom_id"], name: "index_periods_on_classroom_id", using: :btree
+
   create_table "plans", force: true do |t|
-    t.integer  "classroom_id"
     t.datetime "created_at"
     t.datetime "updated_at"
     t.integer  "period_id"
   end
 
-  add_index "plans", ["classroom_id"], name: "index_plans_on_classroom_id", using: :btree
   add_index "plans", ["period_id"], name: "index_plans_on_period_id", using: :btree
 
   create_table "schools", force: true do |t|

@@ -39,6 +39,12 @@ describe Assignment do
     it "returns nil if the assignment has not yet been returned" do
       expect(subject.returned_period).to be_nil
     end
+
+    it "returns the period of the inventory state when it has been returned" do
+      is = FactoryGirl.create :inventory_state, assignments: [subject]
+      expected_period = is.period
+      expect(subject.returned_period).to eq expected_period
+    end
   end
 
   describe "#display_info" do

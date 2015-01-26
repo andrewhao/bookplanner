@@ -2,10 +2,12 @@ require "spec_helper"
 
 describe InventoryStatesController do
   let(:classroom) { FactoryGirl.create :classroom }
-  let(:plan) { FactoryGirl.create :plan_with_assignments, classroom: classroom }
+  let(:period) { FactoryGirl.create :period, classroom: classroom }
+  let(:plan) { FactoryGirl.create :plan_with_assignments, period: period }
 
   before do
     plan
+    period
   end
 
   describe "#new" do
@@ -40,7 +42,7 @@ describe InventoryStatesController do
   end
 
   describe "#destroy" do
-    let(:inventory_state) { FactoryGirl.create :inventory_state, period: plan.period }
+    let(:inventory_state) { FactoryGirl.create :inventory_state, period: period }
 
     it "deletes the InventoryState" do
       inventory_state

@@ -3,6 +3,7 @@ require "spec_helper"
 describe "inventory processing", type: :feature do
   before do
     @classroom = FactoryGirl.create(:classroom, name: "Mrs. Wu")
+    @period = FactoryGirl.create(:period, classroom: @classroom)
     @student = FactoryGirl.create(:student,
                                   first_name: "Jane",
                                   last_name: "Lee",

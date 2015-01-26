@@ -8,7 +8,7 @@ FactoryGirl.define do
   end
 
   factory :plan do
-    classroom
+    period
   end
 
   factory :plan_with_assignments, parent: :plan do
@@ -22,6 +22,7 @@ FactoryGirl.define do
   end
 
   factory :period do
+    classroom
   end
 
   factory :student do

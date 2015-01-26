@@ -1,7 +1,7 @@
 class Period < ActiveRecord::Base
   has_one :plan
   has_one :inventory_state, dependent: :destroy
-  delegate :classroom, to: :plan
+  belongs_to :classroom
 
   after_initialize :initialize_name
 

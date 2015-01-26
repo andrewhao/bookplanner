@@ -1,7 +1,7 @@
 # Group of assignments that have been returned in a certain period at its close.
 # Think about this as a reverse plan
 class InventoryState < ActiveRecord::Base
-  has_and_belongs_to_many :assignments, -> { joins(:book_bag).order("book_bags.global_id ASC") }
+  has_many :assignments, -> { joins(:book_bag).order("book_bags.global_id ASC") }
   belongs_to :period
   delegate :plan, :classroom, to: :period
   accepts_nested_attributes_for :assignments
