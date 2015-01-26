@@ -1,5 +1,5 @@
 class Plan < ActiveRecord::Base
-  belongs_to :period, autosave: true
+  belongs_to :period, autosave: true, dependent: :destroy
   has_one :classroom, through: :period
   has_many :assignments, -> { joins(:student).order('students.first_name DESC') }, dependent: :destroy
   has_one :inventory_state, through: :period

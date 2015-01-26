@@ -75,6 +75,7 @@ class PlansController < ApplicationController
     classroom = @plan.classroom
     @plan.destroy
     respond_to do |format|
+      Rails.logger.info "Classroom: #{classroom.inspect}"
       format.html { redirect_to classroom_url(classroom), notice: "Plan was successfully deleted" }
       format.json { head :no_content }
     end

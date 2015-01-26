@@ -1,10 +1,10 @@
 = simple_form_for(@plan) do |f|
   = f.error_notification
   .form-inputs
-    = f.input :classroom_id, as: :hidden
 
     = f.simple_fields_for :period do |pf|
       = pf.input :name
+      = pf.input :classroom_id, as: :hidden
 
     .form-group
       %table.table.table-responsive

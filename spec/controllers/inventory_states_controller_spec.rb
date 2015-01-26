@@ -1,15 +1,16 @@
 require "spec_helper"
 
 describe InventoryStatesController do
-  let(:period) { FactoryGirl.create :period, classroom: classroom }
   let(:classroom) { FactoryGirl.create :classroom }
+  let(:period) { FactoryGirl.create :period, classroom: classroom }
+  let(:plan) { FactoryGirl.create :plan_with_assignments, period: period }
 
   before do
+    plan
     period
   end
 
   describe "#new" do
-    let(:plan) { FactoryGirl.create :plan_with_assignments, period: period }
     it "renders new template" do
       get :new, classroom_id: classroom.id
       expect(response).to render_template("new")

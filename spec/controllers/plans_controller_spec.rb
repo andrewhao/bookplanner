@@ -229,9 +229,11 @@ RSpec.describe PlansController, :type => :controller do
   end
 
   describe "DELETE destroy" do
-    it "destroys the requested plan" do
+    before do
       plan
+    end
 
+    it "destroys the requested plan" do
       expect {
         delete :destroy, {:id => plan.to_param}, valid_session
       }.to change(Plan, :count).by(-1)
@@ -239,7 +241,7 @@ RSpec.describe PlansController, :type => :controller do
 
     it "redirects to the classroom page" do
       delete :destroy, {:id => plan.to_param}, valid_session
-      expect(response).to redirect_to(classroom_url(plan.classroom))
+      expect(response).to redirect_to(classroom_url(classroom))
     end
   end
 

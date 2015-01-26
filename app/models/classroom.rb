@@ -4,6 +4,7 @@ class Classroom < ActiveRecord::Base
   has_many :book_bags, dependent: :destroy
   has_many :assignments, -> { joins(:student) }, through: :plans
   has_many :returned_assignments, -> { joins(:book_bag) }, through: :inventory_states, source: :assignments
+
   has_many :periods
   has_many :inventory_states, through: :periods
   has_many :plans, through: :periods, dependent: :destroy

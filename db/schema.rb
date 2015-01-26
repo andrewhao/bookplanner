@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20150126064610) do
+ActiveRecord::Schema.define(version: 20150126084516) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -33,7 +33,6 @@ ActiveRecord::Schema.define(version: 20150126064610) do
     t.integer  "inventory_state_id"
   end
 
-  add_index "assignments", ["book_bag_id", "inventory_state_id"], name: "index_assignments_on_book_bag_id_and_inventory_state_id", unique: true, using: :btree
   add_index "assignments", ["book_bag_id", "plan_id", "student_id"], name: "index_assignments_on_book_bag_id_and_plan_id_and_student_id", unique: true, using: :btree
   add_index "assignments", ["book_bag_id", "plan_id"], name: "index_assignments_on_book_bag_id_and_plan_id", unique: true, using: :btree
   add_index "assignments", ["book_bag_id"], name: "index_assignments_on_book_bag_id", using: :btree
@@ -80,13 +79,11 @@ ActiveRecord::Schema.define(version: 20150126064610) do
   add_index "periods", ["classroom_id"], name: "index_periods_on_classroom_id", using: :btree
 
   create_table "plans", force: true do |t|
-    t.integer  "classroom_id"
     t.datetime "created_at"
     t.datetime "updated_at"
     t.integer  "period_id"
   end
 
-  add_index "plans", ["classroom_id"], name: "index_plans_on_classroom_id", using: :btree
   add_index "plans", ["period_id"], name: "index_plans_on_period_id", using: :btree
 
   create_table "schools", force: true do |t|
