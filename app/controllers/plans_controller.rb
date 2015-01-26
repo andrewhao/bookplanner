@@ -72,9 +72,11 @@ class PlansController < ApplicationController
   # DELETE /plans/1
   # DELETE /plans/1.json
   def destroy
+    classroom = @plan.classroom
     @plan.destroy
     respond_to do |format|
-      format.html { redirect_to classroom_url(@plan.classroom), notice: "Plan was successfully deleted" }
+      Rails.logger.info "Classroom: #{classroom.inspect}"
+      format.html { redirect_to classroom_url(classroom), notice: "Plan was successfully deleted" }
       format.json { head :no_content }
     end
   end
@@ -92,6 +94,6 @@ class PlansController < ApplicationController
 
   # Never trust parameters from the scary internet, only allow the white list through.
   def plan_params
-    params.require(:plan).permit(:classroom_id, period_attributes: [:id, :name], assignments_attributes: [:id, :book_bag_id, :student_id])
+    params.require(:plan).permit(period_attributes: [:id, :name, :classroom_id], assignments_attributes: [:id, :book_bag_id, :student_id])
   end
 end

@@ -2,11 +2,12 @@ class Classroom < ActiveRecord::Base
   belongs_to :school
   has_many :students, dependent: :destroy
   has_many :book_bags, dependent: :destroy
-  has_many :plans, dependent: :destroy
   has_many :assignments, -> { joins(:student) }, through: :plans
-  has_many :inventory_states, through: :plans
   has_many :returned_assignments, -> { joins(:book_bag) }, through: :inventory_states, source: :assignments
-  has_many :periods, through: :plans
+
+  has_many :periods
+  has_many :inventory_states, through: :periods
+  has_many :plans, through: :periods, dependent: :destroy
 
   # All assignments that are out on loan
   # This can likely be rewritten in SQL
