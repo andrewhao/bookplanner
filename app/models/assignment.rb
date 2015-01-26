@@ -1,11 +1,8 @@
 class Assignment < ActiveRecord::Base
   belongs_to :student
   belongs_to :book_bag
-
-  # TODO/ahao refactor data model to mirror inventory state's HABTM table
   belongs_to :plan
-
-  has_and_belongs_to_many :inventory_states
+  belongs_to :inventory_state
 
   validate :student, :book_bag, :plan, presence: true
 
@@ -16,11 +13,11 @@ class Assignment < ActiveRecord::Base
   end
 
   def returned_period
-    nil
+    inventory_state.try(&:period)
   end
 
   def on_loan?
-    inventory_states.empty?
+    inventory_state.blank?
   end
 
   def display_info
