@@ -33,6 +33,7 @@ ActiveRecord::Schema.define(version: 20150126084516) do
     t.integer  "inventory_state_id"
   end
 
+  add_index "assignments", ["book_bag_id", "inventory_state_id"], name: "index_assignments_on_book_bag_id_and_inventory_state_id", unique: true, using: :btree
   add_index "assignments", ["book_bag_id", "plan_id", "student_id"], name: "index_assignments_on_book_bag_id_and_plan_id_and_student_id", unique: true, using: :btree
   add_index "assignments", ["book_bag_id", "plan_id"], name: "index_assignments_on_book_bag_id_and_plan_id", unique: true, using: :btree
   add_index "assignments", ["book_bag_id"], name: "index_assignments_on_book_bag_id", using: :btree
