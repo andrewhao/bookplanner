@@ -119,10 +119,10 @@ describe BookBagsController do
         expect(assigns(:book_bag)).to eq(book_bag)
       end
 
-      it "redirects to the book_bag" do
+      it "redirects to the classroom" do
         book_bag = BookBag.create! valid_attributes
         put :update, {:id => book_bag.to_param, :book_bag => valid_attributes}, valid_session
-        expect(response).to redirect_to(book_bag)
+        expect(response).to redirect_to(classroom_path(book_bag.classroom))
       end
     end
 

@@ -43,7 +43,7 @@ class BookBagsController < ApplicationController
   def update
     respond_to do |format|
       if @book_bag.update(book_bag_params)
-        format.html { redirect_to @book_bag, notice: 'Book bag was successfully updated.' }
+        format.html { redirect_to @book_bag.classroom, notice: "Book bag #{@book_bag.global_id} was successfully updated." }
         format.json { head :no_content }
       else
         format.html { render action: 'edit' }

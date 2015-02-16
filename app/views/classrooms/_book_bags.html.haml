@@ -1,4 +1,4 @@
-%section
+%section.book-bags-management
   %h2= "Book bags (#{book_bags.count})"
   = link_to "Add a book bag", new_classroom_book_bag_path(classroom), class: "btn btn-success btn-xs"
   %table.table.table-responsive
@@ -8,5 +8,5 @@
     %tbody
       - book_bags.each do |bag|
         %tr
-          %td= link_to bag.global_id, book_bag_path(bag)
+          %td= link_to bag.global_id, edit_book_bag_path(bag)
 
