@@ -75,6 +75,6 @@ class BookBagsController < ApplicationController
 
     # Never trust parameters from the scary internet, only allow the white list through.
     def book_bag_params
-      params[:book_bag].permit(:global_id, :classroom_id)
+      params[:book_bag].permit(:global_id, :classroom_id, :active)
     end
 end

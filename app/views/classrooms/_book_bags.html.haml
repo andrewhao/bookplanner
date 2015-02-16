@@ -5,8 +5,10 @@
     %thead
       %tr
         %th Book Bag ID
+        %th{:title => "Is this current bag eligible for rotation in the classroom?"} Active?
     %tbody
       - book_bags.each do |bag|
-        %tr
-          %td= link_to bag.global_id, edit_book_bag_path(bag)
+        %tr{:data => {:book_bag_id => bag.id} }
+          %td.book-bag-id= link_to bag.global_id, edit_book_bag_path(bag)
+          %td.is-active= bag.active? ? "Y" : "-"
 

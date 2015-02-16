@@ -3,7 +3,5 @@ class BookBag < ActiveRecord::Base
   validates :global_id, numericality: true
   validates :global_id, uniqueness: { scope: :classroom_id }
 
-  def active?
-    true
-  end
+  scope :active, -> { where(active: true) }
 end

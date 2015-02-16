@@ -21,9 +21,12 @@ describe BookBag do
     end
   end
 
-  describe "#active?" do
-    it "is true" do
-      expect(subject).to be_active
+  describe ".active" do
+    it "returns a list of active book bags" do
+      actives = FactoryGirl.create_list :book_bag, 2,  active: true
+      inactives = FactoryGirl.create_list :book_bag, 2, active: false
+
+      expect(described_class.active).to match_array actives
     end
   end
 end

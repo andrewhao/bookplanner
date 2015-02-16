@@ -16,7 +16,7 @@ class Classroom < ActiveRecord::Base
   end
 
   def available_book_bags
-    book_bags - loaned_assignments.map(&:book_bag)
+    book_bags.active - loaned_assignments.map(&:book_bag)
   end
 
   def eligible_for_new_plan?
