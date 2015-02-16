@@ -109,8 +109,21 @@ describe BookBagsController do
         # specifies that the BookBag created on the previous line
         # receives the :update_attributes message with whatever params are
         # submitted in the request.
-        expect_any_instance_of(BookBag).to receive(:update).with({ "global_id" => "params" })
-        put :update, {:id => book_bag.to_param, :book_bag => { "global_id" => "params" }}, valid_session
+        expect {
+          put :update, {:id => book_bag.to_param, :book_bag => { "global_id" => "55555" }}, valid_session
+        }.to change { book_bag.reload.global_id }.to(55555)
+      end
+
+      it "updates the active state on the bag" do
+        book_bag = BookBag.create! valid_attributes
+        # Assuming there are no other book_bags in the database, this
+        # specifies that the BookBag created on the previous line
+        # receives the :update_attributes message with whatever params are
+        # submitted in the request.
+        expect {
+          put :update, {:id => book_bag.to_param,
+                        :book_bag => {"active" => "0" }}, valid_session
+        }.to change { book_bag.reload.active? }.from(true).to(false)
       end
 
       it "assigns the requested book_bag as @book_bag" do
@@ -119,10 +132,10 @@ describe BookBagsController do
         expect(assigns(:book_bag)).to eq(book_bag)
       end
 
-      it "redirects to the book_bag" do
+      it "redirects to the classroom" do
         book_bag = BookBag.create! valid_attributes
         put :update, {:id => book_bag.to_param, :book_bag => valid_attributes}, valid_session
-        expect(response).to redirect_to(book_bag)
+        expect(response).to redirect_to(classroom_path(book_bag.classroom))
       end
     end
 

@@ -121,6 +121,11 @@ describe Classroom do
         plan: @plan1
       expect(subject.available_book_bags).not_to include @bags[1]
     end
+
+    it "excludes book bags that are inactive" do
+      inactive_bag = FactoryGirl.create(:book_bag, classroom: subject, active: false)
+      expect(subject.available_book_bags).to_not include inactive_bag
+    end
   end
 
   describe "#eligible_students" do

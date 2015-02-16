@@ -3,4 +3,5 @@
 
   = f.input :global_id, required: true, label: "Internal ID"
   = f.input :classroom_id, collection: Classroom.all, value_method: :id, label_method: :name, required: true
+  = f.input :active?, as: :boolean
   = f.button :submit, class: "btn-primary"

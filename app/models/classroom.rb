@@ -16,7 +16,7 @@ class Classroom < ActiveRecord::Base
   end
 
   def available_book_bags
-    book_bags - loaned_assignments.map(&:book_bag)
+    book_bags.active - loaned_assignments.map(&:book_bag)
   end
 
   def eligible_for_new_plan?
@@ -24,11 +24,11 @@ class Classroom < ActiveRecord::Base
   end
 
   def current_plan
-    plans.last
+    current_period.try(:plan)
   end
 
   def current_period
-    plans.last.period
+    periods.last
   end
 
   def to_param
