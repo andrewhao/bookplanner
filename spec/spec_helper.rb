@@ -52,6 +52,7 @@ RSpec.configure do |config|
   config.include ClassroomHelpers, type: :feature
   config.include InventoryStateHelpers, type: :feature
   config.include SchoolHelpers, type: :feature
+  config.include BookBagHelpers, type: :feature
 
   config.before(:suite) do
     DatabaseCleaner.clean_with(:truncation)

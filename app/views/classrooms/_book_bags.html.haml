@@ -1,12 +1,14 @@
-%section
+%section.book-bags-management
   %h2= "Book bags (#{book_bags.count})"
   = link_to "Add a book bag", new_classroom_book_bag_path(classroom), class: "btn btn-success btn-xs"
   %table.table.table-responsive
     %thead
       %tr
         %th Book Bag ID
+        %th{:title => "Is this current bag eligible for rotation in the classroom?"} Active?
     %tbody
       - book_bags.each do |bag|
-        %tr
-          %td= link_to bag.global_id, book_bag_path(bag)
+        %tr{:data => {:book_bag_id => bag.id} }
+          %td.book-bag-id= link_to bag.global_id, edit_book_bag_path(bag)
+          %td.is-active= bag.active? ? "Y" : "-"
 

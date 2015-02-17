@@ -128,3 +128,13 @@ module InventoryStateHelpers
     click_on_take_inventory
   end
 end
+
+module BookBagHelpers
+  # From the classroom page
+  def click_on_edit_book_bag_link(book_bag)
+    within(".book-bags-management") do
+      click_on(book_bag.global_id)
+    end
+    expect(current_path).to eq edit_book_bag_path(book_bag)
+  end
+end
