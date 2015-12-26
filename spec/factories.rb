@@ -5,7 +5,7 @@ FactoryGirl.define do
   end
 
   factory :classroom do
-    name { "#{Faker::Name.prefix} #{Faker::Name.last_name}" }
+    sequence(:name) { |n| "#{Faker::Name.prefix} #{Faker::Name.last_name}#{n}" }
   end
 
   factory :plan do

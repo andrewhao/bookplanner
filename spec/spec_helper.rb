@@ -23,6 +23,11 @@ ActiveRecord::Migration.check_pending! if defined?(ActiveRecord::Migration)
 
 if ENV['BROWSER'] == "selenium"
   Capybara.default_driver = :selenium
+elsif ENV['BROWSER'] == 'chrome'
+  Capybara.register_driver :chrome do |app|
+    Capybara::Selenium::Driver.new(app, browser: :chrome)
+  end
+  Capybara.default_driver = :chrome
 else
   require 'capybara/poltergeist'
   Capybara.default_driver = :poltergeist

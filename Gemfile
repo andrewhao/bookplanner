@@ -74,6 +74,7 @@ group :test do
   gem "database_cleaner"
   gem "minitest"
   gem "selenium-webdriver"
+  gem 'chromedriver-helper'
   gem "capybara"
   gem "site_prism"
   gem "poltergeist"
