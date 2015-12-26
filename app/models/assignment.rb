@@ -1,3 +1,6 @@
+# A checkout of a book bag to a student
+# It is marked as "checked out" if it has been associated with a plan
+# It is marked as "returned" if it has been associated with both a plan and an inventory state.
 class Assignment < ActiveRecord::Base
   belongs_to :student
   belongs_to :book_bag

@@ -81,6 +81,7 @@ group :test do
 end
 
 group :development, :test do
+  gem 'faker'
   gem 'railroady'
   gem "awesome_print"
   # Use debugger

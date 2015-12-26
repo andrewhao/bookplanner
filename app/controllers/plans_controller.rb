@@ -37,6 +37,7 @@ class PlansController < ApplicationController
   # GET /plans/1/edit
   def edit
     @classroom = @plan.classroom
+    @out_on_loan_assignments = @classroom.loaned_assignments - @plan.assignments
   end
 
   # POST /plans

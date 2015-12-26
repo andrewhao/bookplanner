@@ -1,5 +1,4 @@
 class InventoryStatesController < ApplicationController
-
   def new
     @classroom = find_classroom
     @plan = @classroom.current_plan

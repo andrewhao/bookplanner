@@ -1,0 +1,13 @@
+%h2 Assignments still out on loan
+
+%table.table
+  %thead
+    %th Student
+    %th Book Bag
+    %th Action
+  %tbody
+    - assignments.each do |a|
+      %tr
+        %td= a.student.full_name
+        %td= a.book_bag.global_id
+        %td= link_to 'Process late return', assignment_path(a), class: 'btn btn-xs', method: :patch
