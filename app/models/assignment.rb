@@ -23,6 +23,10 @@ class Assignment < ActiveRecord::Base
     inventory_state.blank?
   end
 
+  def display_info_brief
+    "#{student.full_name} assigned Book Bag #{book_bag.global_id}"
+  end
+
   def display_info
     "#{student.full_name} still has bag ##{book_bag.global_id} checked out since #{loaned_period.name}"
   end

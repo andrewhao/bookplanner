@@ -17,6 +17,9 @@ feature "plan editing", type: :feature do
     @book_bag2 = FactoryGirl.create(:book_bag,
                                     global_id: "2",
                                     classroom: @classroom)
+    @book_bag3 = FactoryGirl.create(:book_bag,
+                                    global_id: "3",
+                                    classroom: @classroom)
   end
 
   background do
@@ -48,6 +51,16 @@ feature "plan editing", type: :feature do
   end
 
   scenario 'allows the user to check in an old bag from a prior period and update the existing period with a new assignment' do
-    skip 'not implemented'
+    create_inventory_state_for(plan, students: [@student])
+    create_plan(@classroom)
+    visit_edit_plan_page(Plan.last)
+    expect(page).to have_content 'Assignments still out on loan'
+    expect(page).to have_selector '.table--loaned-assignments'
+    outstanding_assignment = Assignment.find_by(student_id: @student2.id)
+    expected_bag_id = outstanding_assignment.book_bag.global_id == "1" ? "2" : "1"
+    make_late_return_for(@student2.full_name)
+    expect(current_path).to include "/classrooms/#{@classroom.to_param}"
+    expect(page).to have_content "Zhang Wu assigned Book Bag"
+    expect(parse_loan_table).to be_empty
   end
 end

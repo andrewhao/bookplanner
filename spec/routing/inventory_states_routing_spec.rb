@@ -14,10 +14,6 @@ describe InventoryStatesController do
       expect(post("/inventory_states")).to route_to("inventory_states#create")
     end
 
-    it "routes to #edit on classroom resource" do
-      expect(get("/inventory_states/1/edit")).to route_to("inventory_states#edit", id: "1")
-    end
-
     it "routes to #destroy" do
       expect(delete("/inventory_states/1")).to route_to("inventory_states#destroy", id: "1")
     end

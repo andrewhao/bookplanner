@@ -1,5 +1,7 @@
 # Given a parameter hash from the request, we properly tear down, update,
 # or recreate assignment and period information.
+#
+# Form object that takes in form params from PlanController#update
 class PlanUpdater
   attr_reader :plan, :params
   delegate :period, to: :plan

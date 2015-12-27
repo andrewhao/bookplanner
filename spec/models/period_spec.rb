@@ -25,7 +25,7 @@ describe Period do
   describe "#periods_from" do
     before(:each) do
       periods = FactoryGirl.create_list :period, 3, classroom: classroom
-      sorted_periods = periods.sort_by(&:id)
+      sorted_periods = periods.sort_by(&:created_at)
       @older, @old, @new = sorted_periods
       expect(@older.id < @new.id).to eq true
     end
@@ -50,6 +50,14 @@ describe Period do
 
     it "returns -1 for newer period" do
       expect(@old.periods_from(@new)).to eq -1
+    end
+  end
+
+  describe '#before?' do
+    it 'returns true if period is created before the other' do
+      p1 = create(:period, created_at: Time.zone.parse('2015-01-01'))
+      p2 = create(:period, created_at: Time.zone.parse('2016-01-01'))
+      expect(p1).to be_before(p2)
     end
   end
 end

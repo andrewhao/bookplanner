@@ -6,10 +6,27 @@ module PlanHelpers
 
   def visit_edit_plan_page(plan)
     visit("/plans/#{plan.id}/edit")
+    expect(page).to have_content "Editing plan"
   end
 
   def click_on_create_plan
     click_on "Create Plan"
+  end
+
+  def parse_loan_table
+    trs = all("table.table--loaned-assignments tbody tr")
+    trs.map do |tr|
+      { name: tr.find('.column--full-name').text(),
+        book_bag_global_id: tr.find('.column--book-bag-global-id').text(),
+        action: tr.find('a', text: 'Process late return') }
+    end
+  end
+
+  def make_late_return_for(name)
+    table_data = parse_loan_table
+    table_data.find { |datum|
+      datum[:name] == name
+    }[:action].click
   end
 
   # @return [Hash] Mapping like so:
