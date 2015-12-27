@@ -2,4 +2,4 @@ deployment:
   staging:
     branch: master
     heroku:
-      appname: guild-acceptance
+      appname: bookplanner-sandbox
