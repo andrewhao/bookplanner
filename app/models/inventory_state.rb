@@ -15,6 +15,11 @@ class InventoryState < ActiveRecord::Base
     i
   end
 
+  def return!(assignment)
+    assignment.returned_at = Time.zone.now
+    assignments << assignment
+  end
+
   def sorted_assignments
     assignments.sort_by{ |a| a.book_bag.global_id.to_i }
   end

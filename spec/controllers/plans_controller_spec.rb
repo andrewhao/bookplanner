@@ -153,6 +153,16 @@ RSpec.describe PlansController, :type => :controller do
       get :edit, {:id => plan.to_param}, valid_session
       expect(assigns(:classroom)).to eq(classroom)
     end
+
+    it 'assigns loaned assignments' do
+      period2 = FactoryGirl.create :period, classroom: classroom
+      plan2 = FactoryGirl.create(:plan_with_assignments, period: period2)
+      FactoryGirl.create(:inventory_state, period: period2)
+      expected_assignments = plan2.assignments
+      get :edit, {:id => plan.to_param}, valid_session
+
+      expect(assigns(:out_on_loan_assignments)).to match_array expected_assignments
+    end
   end
 
   describe "POST create" do

@@ -6,7 +6,8 @@ Storybook::Application.routes.draw do
     resources :students, only: [:new]
     resources :inventory_states, only: [:new]
   end
-  resources :inventory_states, only: [:create, :edit, :show, :destroy]
+  resources :inventory_states, only: [:create, :show, :destroy]
+  resources :assignments, only: [:update]
   resources :book_bags, except: [:new]
   resources :students, except: [:new]
   resources :plans, except: [:new, :index]

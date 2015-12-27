@@ -9,6 +9,7 @@ require 'rspec/rails'
 require "capybara/rails"
 require "capybara/rspec"
 require 'capybara-screenshot/rspec'
+require 'site_prism'
 
 # For performance testing
 require 'benchmark'
@@ -23,30 +24,23 @@ ActiveRecord::Migration.check_pending! if defined?(ActiveRecord::Migration)
 
 if ENV['BROWSER'] == "selenium"
   Capybara.default_driver = :selenium
+elsif ENV['BROWSER'] == 'chrome'
+  Capybara.register_driver :chrome do |app|
+    Capybara::Selenium::Driver.new(app, browser: :chrome)
+  end
+  Capybara.default_driver = :chrome
 else
   require 'capybara/poltergeist'
   Capybara.default_driver = :poltergeist
 end
 
 RSpec.configure do |config|
-  # ## Mock Framework
-  #
-  # If you prefer to use mocha, flexmock or RR, uncomment the appropriate line:
-  #
-  # config.mock_with :mocha
-  # config.mock_with :flexmock
-  # config.mock_with :rr
-
-  # Remove this line if you're not using ActiveRecord or ActiveRecord fixtures
-  #config.fixture_path = "#{::Rails.root}/spec/fixtures"
-  #
   config.filter_run focus: true
   config.run_all_when_everything_filtered = true
 
-  # If you're not using ActiveRecord, or you'd prefer not to run each of your
-  # examples within a transaction, remove the following line or assign false
-  # instead of true.
   config.use_transactional_fixtures = false
+
+  config.include FactoryGirl::Syntax::Methods
 
   config.include PlanHelpers, type: :feature
   config.include ClassroomHelpers, type: :feature
@@ -67,14 +61,7 @@ RSpec.configure do |config|
     DatabaseCleaner.clean
   end
 
-  # If true, the base class of anonymous controllers will be inferred
-  # automatically. This will be the default behavior in future versions of
-  # rspec-rails.
   config.infer_base_class_for_anonymous_controllers = false
   config.infer_spec_type_from_file_location!
-  # Run specs in random order to surface order dependencies. If you find an
-  # order dependency and want to debug it, you can fix the order by providing
-  # the seed, which is printed after each run.
-  #     --seed 1234
   config.order = "random"
 end

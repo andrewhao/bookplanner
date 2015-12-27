@@ -1,10 +1,11 @@
 FactoryGirl.define do
   factory :school do
+    name { "#{Faker::University.name} Prep" }
     classroom
   end
 
   factory :classroom do
-    sequence(:name) { |n| "class#{n}" }
+    sequence(:name) { |n| "#{Faker::Name.prefix} #{Faker::Name.last_name}#{n}" }
   end
 
   factory :plan do
@@ -27,7 +28,8 @@ FactoryGirl.define do
 
   factory :student do
     classroom
-    sequence(:first_name) {|n| "name#{n}" }
+    first_name { Faker::Name.first_name }
+    last_name { Faker::Name.last_name }
   end
 
   factory :book_bag do
