@@ -27,15 +27,16 @@ class PlanGenerator
     ap = AssignmentProblem.new(student_ids, bag_ids, @bag_history_lookup)
     plan = ap.solve
 
+    if plan.empty?
+      raise NoPlanFound.new("Unable to generate a plan. Please add a bag.")
+    end
+
     plan.map do |sid, bid|
       Assignment.new(student: Student.find(sid), book_bag: BookBag.find(bid))
     end
-  rescue Amb::ExhaustedError => e
-    raise NoPlanFound.new("Unable to generate a plan. Please add a bag.")
   end
 
   private
-
 
   # Raised when it's impossible to find a plan, and the user needs
   # to be prompted about it.

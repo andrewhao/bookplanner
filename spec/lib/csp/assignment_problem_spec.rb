@@ -2,27 +2,92 @@ require "spec_helper"
 
 describe AssignmentProblem do
   subject do
-    described_class.new(sids, bids, history, debug: debug, logger: logger)
+    described_class.new(sids, bids, history, debug: debug, logger: logger, template: template)
   end
 
   let(:debug) { false }
-  let(:logger) { Proc.new {|msg| puts msg } }
+  let(:logger) { nil }#Proc.new {|msg| puts msg } }
 
   let(:sids) do
-    (1..students).to_a.map{ |i| :"s#{i}" }
+    (1..students_count).to_a.map{ |i| :"s#{i}" }
   end
 
   let(:bids) do
-    (1..bags).to_a.map{ |i| :"b#{i}" }
+    (1..bags_count).to_a.map{ |i| :"b#{i}" }
   end
 
   let(:history) do
-    sids.inject({}){ |acc, s| acc[s] = []; acc }
+    sids.reduce({}){ |acc, s| acc[s] = []; acc }
+  end
+
+  let(:template) { {} }
+
+  context 'for template' do
+    let(:template) do
+      { s1: :b1,
+        s2: :b2 }
+    end
+
+    let(:students_count) { 2 }
+    let(:bags_count) { 2 }
+
+    it 'follows the template exactly when it can' do
+      answer = subject.solve
+      expect(answer).to match_array([[:s1, :b1],
+                                     [:s2, :b2]])
+    end
+
+    context 'with a greater number of books' do
+      let(:template) {
+        { s1: :b5,
+          s2: :b2 }
+      }
+      let(:bags_count) { 5 }
+
+      it 'follows the template' do
+        expect(subject.solve).to match_array [[:s1, :b5], [:s2, :b2]]
+      end
+    end
+
+    context 'when history is incompatible with the template' do
+      let(:template) {
+        { s1: :b1,
+          s2: :b2 }
+      }
+
+      let(:history) {
+        { s1: [:b1], s2: [] }
+      }
+      let(:bags_count) { 3 }
+
+      it 'relaxes a constraint on the template' do
+        expect(subject.solve).to match_array [[:s2, :b2], [:s1, :b3]]
+      end
+    end
+
+    context 'when student 3 returns a book and joints a templated plan that is fundamentally incompatible' do
+      let(:template) {
+        { s2: :b1,
+          s1: :b2 }
+      }
+
+      let(:history) {
+        { s1: [:b1], s2: [:b2], s3: [:b3] }
+      }
+      let(:students_count) { 3 }
+      let(:bags_count) { 3 }
+
+      it 'relaxes both constraints on the template' do
+        expect(subject.solve).to match_array [[:s1, :b2],
+                                              [:s2, :b3],
+                                              [:s3, :b1]]
+      end
+    end
   end
 
   context "for histories" do
-    let(:students) { 4 }
-    let(:bags) { 5 }
+    let(:students_count) { 4 }
+    let(:bags_count) { 5 }
     let(:history) do
       {:s1 => [:b1, :b2],
        :s2 => [:b2, :b1],
@@ -71,8 +136,8 @@ describe AssignmentProblem do
      [4, 6],
      [3, 100]].each do |students_count, bags_count|
       context "for #{students_count} s and #{bags_count} b" do
-        let(:students) { students_count }
-        let(:bags) { bags_count }
+        let(:students_count) { students_count }
+        let(:bags_count) { bags_count }
 
         it "performs in under 0.5s" do
           elapsed_time = Benchmark.realtime do
@@ -90,8 +155,8 @@ describe AssignmentProblem do
      [2, 2]].each do |students_count, bags_count|
 
       context "for #{students_count} s and #{bags_count} b" do
-        let(:students) { students_count }
-        let(:bags) { bags_count }
+        let(:students_count) { students_count }
+        let(:bags_count) { bags_count }
 
         it "returns a plan" do
           expect(subject.solve).to_not be_empty
