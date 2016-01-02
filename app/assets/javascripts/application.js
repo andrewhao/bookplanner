@@ -17,4 +17,5 @@
 //= require jquery.tablesorter/parsers/parser-input-select
 //= require turbolinks
 //= require storybook
+//= require lodash
 //= require_tree .

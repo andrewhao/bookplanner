@@ -28,13 +28,31 @@ feature "plan editing", type: :feature do
 
   let(:plan) { Plan.last }
 
-  scenario "allows the user to swap the order of assignment" do
+  scenario 'prevents duplicate assignments in plan editing' do
     visit_edit_plan_page(plan)
     form_map = parse_plan_form
 
     form_map.each do |sid, data|
       row_el = data[:row]
-      new_val = data[:book_bag] == "1" ? "2" : "1"
+      within(row_el) do
+        select_el = find("select")
+        select_el.select("1")
+      end
+    end
+    click_on "Update Plan"
+
+    expect(page).to have_content 'This is a duplicate book bag.'
+  end
+
+  scenario "allows the user to swap the order of assignment" do
+    visit_edit_plan_page(plan)
+    form_map = parse_plan_form
+
+    book_bag_ids = form_map.values.reduce([]) { |acc, row| acc << row[:book_bag] }
+
+    form_map.each do |sid, data|
+      row_el = data[:row]
+      new_val = (book_bag_ids - [data[:book_bag]]).first
       within(row_el) do
         select_el = find("select")
         select_el.select(new_val)

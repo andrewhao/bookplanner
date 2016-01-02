@@ -1,4 +1,4 @@
-= simple_form_for(@plan) do |f|
+= simple_form_for(@plan, html: { 'js-validate-dedupe': true }) do |f|
   = f.error_notification
   .form-inputs
 

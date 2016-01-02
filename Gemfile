@@ -1,5 +1,4 @@
 source 'https://rubygems.org'
-source 'https://rails-assets.org'
 ruby "2.2.3"
 
 # Bundle edge Rails instead: gem 'rails', github: 'rails/rails'
@@ -22,8 +21,12 @@ gem 'coffee-rails', '~> 4.0.0'
 # Use jquery as the JavaScript library
 gem 'jquery-rails'
 
-gem 'rails-assets-bootstrap'
-gem 'rails-assets-jquery.tablesorter'
+source 'https://rails-assets.org' do
+  gem 'rails-assets-bootstrap'
+  gem 'rails-assets-jquery.tablesorter'
+  gem 'rails-assets-lodash'
+end
+
 gem "foreman"
 gem 'newrelic_rpm'
 gem 'simple_form', github: "plataformatec/simple_form"
