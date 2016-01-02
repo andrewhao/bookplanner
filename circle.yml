@@ -3,3 +3,6 @@ deployment:
     branch: master
     heroku:
       appname: bookplanner-sandbox
+general:
+  artifacts:
+    - "tmp/capybara"
