@@ -27,6 +27,7 @@ source 'https://rails-assets.org' do
   gem 'rails-assets-lodash'
 end
 
+gem 'hashdiff'
 gem "foreman"
 gem 'newrelic_rpm'
 gem 'simple_form', github: "plataformatec/simple_form"

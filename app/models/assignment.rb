@@ -15,6 +15,10 @@ class Assignment < ActiveRecord::Base
     plan.period
   end
 
+  def to_plan_array
+    [student.id, book_bag.id]
+  end
+
   def returned_period
     inventory_state.try(&:period)
   end

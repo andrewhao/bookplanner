@@ -39,4 +39,8 @@ class Plan < ActiveRecord::Base
   def initialize_period
     self.period ||= Period.new
   end
+
+  def template
+    Hash[assignments.map(&:to_plan_array)]
+  end
 end

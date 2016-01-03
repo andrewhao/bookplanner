@@ -78,7 +78,7 @@ feature "plan editing", type: :feature do
     expected_bag_id = outstanding_assignment.book_bag.global_id == "1" ? "2" : "1"
     make_late_return_for(@student2.full_name)
     expect(current_path).to include "/classrooms/#{@classroom.to_param}"
-    expect(page).to have_content "Zhang Wu assigned Book Bag"
+    expect(page).to have_content "Zhang Wu newly assigned Book Bag"
     expect(parse_loan_table).to be_empty
   end
 end

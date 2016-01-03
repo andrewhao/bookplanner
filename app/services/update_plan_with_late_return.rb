@@ -11,14 +11,14 @@ class UpdatePlanWithLateReturn
     @message = "Started"
     ActiveRecord::Base.transaction do
       begin
-        inventory_state = find_latest_inventory_state
-        inventory_state.return!(assignment)
+        plan_regenerator = PlanRegenerator.new(current_plan)
+        plan_regenerator.regenerate do |old_plan|
+          inventory_state = find_latest_inventory_state
+          inventory_state.return!(assignment)
+        end
 
-        classroom = find_classroom.reload
-        assignments = new_assignments(classroom)
-        current_plan.assignments += assignments
         @message = "Successfully updated plan #{current_plan.name}: "
-        @message += assignments.map(&:display_info_brief).join(", ")
+        @message += plan_regenerator.delta
       rescue PlanGenerator::NoPlanFound => e
         Rails.logger.error e.message
         Rails.logger.error e.backtrace.join('\n')
@@ -34,12 +34,6 @@ class UpdatePlanWithLateReturn
   end
 
   private
-
-  def new_assignments(classroom)
-    students = classroom.eligible_students
-    book_bags = classroom.available_book_bags
-    PlanGenerator.new(students, book_bags).generate
-  end
 
   def find_classroom
     current_plan.classroom

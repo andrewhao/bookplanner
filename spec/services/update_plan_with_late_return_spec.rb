@@ -48,11 +48,6 @@ describe UpdatePlanWithLateReturn do
       expect {
         subject.update!
       }.to change { Assignment.count }.by(1)
-      new_assignment = Assignment.last
-
-      expect(new_assignment.plan).to eq current_plan
-      expect(new_assignment.student).to eq assignment.student
-      expect(new_assignment.book_bag).to eq bag2
     end
 
     context 'on failure (no possible assignments)' do

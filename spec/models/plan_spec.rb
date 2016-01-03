@@ -4,6 +4,14 @@ describe Plan do
   let(:name) { "Week Three" }
   subject { FactoryGirl.create(:plan_with_assignments) }
 
+  describe '#template' do
+    it 'returns a hash of sid to bid mappings' do
+      assignments = subject.assignments
+      expected = assignments.reduce({}) { |acc, a| acc[a.student_id] = a.book_bag_id; acc }
+      expect(subject.template).to eq expected
+    end
+  end
+
   describe "#assignments" do
     before do
       FactoryGirl.create(:assignment, plan: subject)
