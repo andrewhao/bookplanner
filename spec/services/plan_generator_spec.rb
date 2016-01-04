@@ -13,6 +13,21 @@ describe PlanGenerator do
 
       subject { described_class.new(students, bags) }
 
+      context 'when given a template' do
+        let(:template) { {foo: :bar} }
+        subject { described_class.new(students, bags, template: template) }
+
+        it 'uses the template' do
+          mock_problem = instance_double(AssignmentProblem, solve: { student1.id => bag1.id })
+          expect(AssignmentProblem).to receive(:new).with(students.map(&:id),
+                                                          bags.map(&:id),
+                                                          kind_of(Hash),
+                                                          hash_including(template: template))
+            .and_return(mock_problem)
+          subject.generate
+        end
+      end
+
       context "for direct assignment" do
         before do
           expect(student1).to receive(:past_assignments).and_return([double(:book_bag_id => bag1.id)])
