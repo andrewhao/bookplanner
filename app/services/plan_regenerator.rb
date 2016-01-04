@@ -11,14 +11,12 @@ class PlanRegenerator
   end
 
   def delta
-    ap @old_template
-    ap new_plan.template
     computed = HashDiff.diff(@old_template,
                              new_plan.template)
-    ap computed
     computed.map { |dir, sid, old_bid, new_bid|
       s = Student.find(sid)
       b = BookBag.find(old_bid)
+
       case(dir)
       when '~'
         b2 = BookBag.find(new_bid)
