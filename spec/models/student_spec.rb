@@ -25,4 +25,20 @@ describe Student do
       expect(described_class.active).to eq [subject]
     end
   end
+
+  describe '.name_sorted' do
+    it "returns students in alpha order" do
+      classroom = FactoryGirl.create :classroom
+      student_1 = FactoryGirl.create :student, classroom: classroom, first_name: "b", last_name: "b"
+      student_2 = FactoryGirl.create :student, classroom: classroom, first_name: "a", last_name: "b"
+      student_3 = FactoryGirl.create :student, classroom: classroom, first_name: "a", last_name: "a"
+      student_4 = FactoryGirl.create :student, classroom: classroom, first_name: "g"
+      student_5 = FactoryGirl.create :student, classroom: classroom, first_name: "a", last_name: "c"
+      expect(described_class.name_sorted).to eq [student_3,
+                                                 student_2,
+                                                 student_5,
+                                                 student_1,
+                                                 student_4]
+    end
+  end
 end

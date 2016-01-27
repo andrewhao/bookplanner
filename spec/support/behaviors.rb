@@ -35,11 +35,11 @@ module PlanHelpers
   def parse_plan_form
     trs = all("tr[data-student-id]")
     map = {}
-    trs.each do |el|
+    trs.each_with_index do |el, idx|
       sid = el['data-student-id']
       name_el = el.find('.student-name')
       select_el = el.find('select')
-      map[sid] = {name: name_el.text, book_bag: select_el.value, row: el}
+      map[sid] = {name: name_el.text, book_bag: select_el.value, row: el, index: idx}
     end
     map
   end
@@ -143,6 +143,25 @@ module InventoryStateHelpers
     end
 
     click_on_take_inventory
+  end
+
+  # @return [Hash] Mapping like so:
+  # [<name: "Serena Claussen", book_bag: "4", on_loan: true>,
+  #  <name: "James Pryor", book_bag: "6", on_loan: false>]
+  def parse_inventory_form
+    trs = all("tr[data-student-id]")
+    map = {}
+    trs.each_with_index do |el, idx|
+      sid = el['data-student-id']
+      name_el = el.find('.student-name')
+      book_bag_el = el.find('.book-bag')
+      on_loan = el.find('.on-loan input')
+      map[sid] = { name: name_el.text,
+                   book_bag: book_bag_el.text,
+                   on_loan: on_loan.checked?,
+                   index: idx}
+    end
+    map
   end
 end
 

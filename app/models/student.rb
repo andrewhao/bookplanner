@@ -2,6 +2,9 @@ class Student < ActiveRecord::Base
   belongs_to :classroom
   has_many :assignments
 
+  scope :name_sorted, -> { order(:first_name, :last_name) }
+  scope :active, -> { where(inactive: false) }
+
   def full_name
     "#{first_name} #{last_name}"
   end
@@ -10,7 +13,4 @@ class Student < ActiveRecord::Base
   def past_assignments
     assignments
   end
-
-  scope :active, -> { where(inactive: false) }
-
 end

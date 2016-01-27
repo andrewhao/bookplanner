@@ -1,34 +1,38 @@
 require 'spec_helper'
 
 describe Classroom do
-  subject { FactoryGirl.create :classroom }
+  subject { create :classroom }
 
   before(:each) do
-    @period1, @period2 = FactoryGirl.create_list :period, 2, classroom: subject
-    @students = FactoryGirl.create_list :student, 3, classroom: subject
-    @bags = FactoryGirl.create_list :book_bag, 3, classroom: subject
+    @period1, @period2 = create_list :period, 2, classroom: subject
+    @students = [
+      create(:student, classroom: subject, first_name: 'Jonathan', last_name: 'Ochoa'),
+      create(:student, classroom: subject, first_name: 'Ada'),
+      create(:student, classroom: subject, first_name: 'Jonathan', last_name: 'Franzo')
+    ]
+    @bags = create_list :book_bag, 3, classroom: subject
     @returned = Time.now
-    @assignment1a = FactoryGirl.build :assignment,
+    @assignment1a = build :assignment,
       student: @students.first,
       book_bag: @bags.first
-    @assignment1b = FactoryGirl.build :assignment,
+    @assignment1b = build :assignment,
       student: @students.last,
       book_bag: @bags.last
-    @assignment2a = FactoryGirl.build :assignment,
+    @assignment2a = build :assignment,
       student: @students.first,
       book_bag: @bags.first
-    @assignment2b = FactoryGirl.build :assignment,
+    @assignment2b = build :assignment,
       student: @students.last,
       book_bag: @bags.last
-    @plan1 = FactoryGirl.create :plan_with_assignments,
+    @plan1 = create :plan_with_assignments,
       classroom: subject,
       assignments: [@assignment1a, @assignment1b],
       period: @period1
-    @plan2 = FactoryGirl.create :plan_with_assignments,
+    @plan2 = create :plan_with_assignments,
       classroom: subject,
       assignments: [@assignment2a, @assignment2b],
       period: @period2
-    @inventory_state1 = FactoryGirl.create(:inventory_state, period: @period1)
+    @inventory_state1 = create(:inventory_state, period: @period1)
     @inventory_state1.assignments += [@assignment1a, @assignment1b]
   end
 
@@ -40,7 +44,7 @@ describe Classroom do
 
   describe "#active_students" do
     it "returns only students that are active" do
-      @inactive_student = FactoryGirl.create :student, inactive: true
+      @inactive_student = create :student, inactive: true
       expect(subject.active_students).to match_array @students
     end
   end
@@ -57,7 +61,7 @@ describe Classroom do
     end
 
     it "is the latest period for this class" do
-      other_plan = FactoryGirl.create :plan_with_assignments
+      other_plan = create :plan_with_assignments
       expect(subject.current_period).to eq @plan2.period
     end
   end
@@ -86,7 +90,7 @@ describe Classroom do
     end
 
     it "is eligible if there are no plans" do
-      classroom = FactoryGirl.create(:classroom)
+      classroom = create(:classroom)
       expect(classroom).to be_eligible_for_new_plan
     end
   end
@@ -115,7 +119,7 @@ describe Classroom do
     end
 
     it "takes into account book bags that have been checked out on a previous cycle" do
-      assignment1c = FactoryGirl.create :assignment,
+      assignment1c = create :assignment,
         student: @students[1],
         book_bag: @bags[1],
         plan: @plan1
@@ -123,7 +127,7 @@ describe Classroom do
     end
 
     it "excludes book bags that are inactive" do
-      inactive_bag = FactoryGirl.create(:book_bag, classroom: subject, active: false)
+      inactive_bag = create(:book_bag, classroom: subject, active: false)
       expect(subject.available_book_bags).to_not include inactive_bag
     end
   end

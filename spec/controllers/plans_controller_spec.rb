@@ -122,18 +122,6 @@ RSpec.describe PlansController, :type => :controller do
 
     end
 
-    it "sorts the assignments by first name" do
-      s1 = FactoryGirl.build(:student, first_name: "a")
-      s2 = FactoryGirl.build(:student, first_name: "m")
-      s3 = FactoryGirl.build(:student, first_name: "z")
-      a1 = FactoryGirl.build(:assignment, student: s1)
-      a2 = FactoryGirl.build(:assignment, student: s2)
-      a3 = FactoryGirl.build(:assignment, student: s3)
-      expect_any_instance_of(PlanGenerator).to receive(:generate).and_return([a2, a3, a1])
-      get :new, {:classroom_id => classroom.id}, valid_session
-      expect(assigns(:plan).assignments).to eq [a1, a2, a3]
-    end
-
     context "for no plans found" do
       it "redirects back to classroom page with notice" do
         expect(controller).to receive(:new).and_raise(PlanGenerator::NoPlanFound)

@@ -36,7 +36,7 @@ class Classroom < ActiveRecord::Base
   end
 
   def active_students
-    students.active
+    students.name_sorted.active
   end
 
   def display_plans
