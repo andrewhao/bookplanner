@@ -60,6 +60,15 @@ If this problem cannot be solvable, then the administrator must add a
 new bag (or several) to the classroom such that a new plan can be
 generated.
 
+
+## Copying production to sandbox
+
+Sometimes, it is good to have a production-like copy of data for
+testing/troubleshooting. The script to copy production Postgres data to
+the sandbox Postgres DB is located at:
+
+    $ script/production-to-staging.sh
+
 ## Boxen development
 
 If you develop on a Boxen-based dev environment (as I do), then you need
