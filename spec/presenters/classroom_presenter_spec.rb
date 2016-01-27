@@ -14,10 +14,16 @@ describe ClassroomPresenter do
 
   describe "#students" do
     it "returns students in alpha order" do
-      student_end = FactoryGirl.create :student, classroom: classroom, first_name: "zzzz"
-      student_begin = FactoryGirl.create :student, classroom: classroom, first_name: "aaaa"
-      student_mid = FactoryGirl.create :student, classroom: classroom, first_name: "gggg"
-      expect(subject.students).to eq [student_begin, student_mid, student_end]
+      student_1 = FactoryGirl.create :student, classroom: classroom, first_name: "b", last_name: "b"
+      student_2 = FactoryGirl.create :student, classroom: classroom, first_name: "a", last_name: "b"
+      student_3 = FactoryGirl.create :student, classroom: classroom, first_name: "a", last_name: "a"
+      student_4 = FactoryGirl.create :student, classroom: classroom, first_name: "g"
+      student_5 = FactoryGirl.create :student, classroom: classroom, first_name: "a", last_name: "c"
+      expect(subject.students).to eq [student_3,
+                                      student_2,
+                                      student_5,
+                                      student_1,
+                                      student_4]
     end
   end
 

@@ -30,7 +30,6 @@ class PlansController < ApplicationController
     @plan = Plan.new classroom: @classroom
     pg = PlanGenerator.new(@classroom.eligible_students, @classroom.available_book_bags)
     assignments = pg.generate
-    assignments.sort_by!{ |a| a.student.first_name }
     @plan.assignments += assignments
   end
 

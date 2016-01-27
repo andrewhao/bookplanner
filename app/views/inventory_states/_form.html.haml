@@ -12,11 +12,12 @@
         %tbody
           = f.simple_fields_for :assignments, @inventory_state.sorted_assignments do |af|
             %tr{:data => {:student_id => af.object.student_id}}
-              %td= af.object.book_bag.try(:global_id)
-              %td
+              %td.book-bag
+                = af.object.book_bag.try(:global_id)
+              %td.student-name
                 = af.input :student_id, as: :hidden
                 = af.label :book_bag_id, af.object.student.try(:full_name)
-              %td
+              %td.on-loan
                 = af.input :on_loan?, as: :boolean, label: false
                 = af.label :on_loan?, class: "sr-only"
 

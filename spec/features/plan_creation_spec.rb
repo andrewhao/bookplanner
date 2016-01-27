@@ -3,14 +3,14 @@ require "spec_helper"
 describe "plan creation", type: :feature do
   before do
     @classroom = FactoryGirl.create(:classroom, name: "Mrs. Wu")
+    @student2 = FactoryGirl.create(:student,
+                                   first_name: "Jane",
+                                   last_name: "Wu",
+                                   classroom: @classroom)
     @student = FactoryGirl.create(:student,
                                   first_name: "Jane",
                                   last_name: "Lee",
                                   classroom: @classroom)
-    @student2 = FactoryGirl.create(:student,
-                                   first_name: "Zhang",
-                                   last_name: "Wu",
-                                   classroom: @classroom)
     @book_bag = FactoryGirl.create(:book_bag,
                                    global_id: "1",
                                    classroom: @classroom)
@@ -33,16 +33,12 @@ describe "plan creation", type: :feature do
       visit_new_plan_page(@classroom)
     end
 
-    xit "previews a book bag to a student for a classroom" do
-      within "[data-student-id='#{@student.id}']" do
-        expect(page).to have_select("plan_assignments_attributes_0_book_bag_id",
-                                    selected: @book_bag.global_id)
-      end
-
-      within "[data-student-id='#{@student2.id}']" do
-        expect(page).to have_select("plan_assignments_attributes_1_book_bag_id",
-                                    selected: @book_bag2.global_id)
-      end
+    it "shows Jane Lee's assignment, then Jane Wu's" do
+      form = parse_plan_form
+      first = form.values.find { |row| row[:index] == 0 }
+      second = form.values.find { |row| row[:index] == 1 }
+      expect(first[:name]).to eq 'Jane Lee'
+      expect(second[:name]).to eq 'Jane Wu'
     end
 
     it "persists the plan to the db" do

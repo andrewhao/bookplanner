@@ -9,7 +9,7 @@ class ClassroomPresenter
   end
 
   def students
-    classroom.students.order(:first_name)
+    classroom.students.name_sorted
   end
 
   def header_cell_icon(student)
