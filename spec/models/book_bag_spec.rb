@@ -30,8 +30,8 @@ describe BookBag do
     end
   end
 
-  describe '.by_global_id' do
-    it 'sorts bags by global ID' do
+  describe ".by_global_id" do
+    it "sorts bags by global ID" do
       b1 = create(:book_bag, global_id: "10")
       b2 = create(:book_bag, global_id: "1")
 
