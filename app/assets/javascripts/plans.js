@@ -1,5 +1,4 @@
-
-$(function() {
+$(document).on("page:update", function() {
   $('body').on('change', '[js-validate-dedupe]', function(e) {
     $formEl = $(e.currentTarget);
     ValidationDeduper.updateFormState($formEl);
