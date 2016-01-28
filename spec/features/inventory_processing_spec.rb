@@ -46,15 +46,14 @@ describe "inventory processing", type: :feature do
       visit_new_inventory_state_page(current_plan)
     end
 
-    it "renders the page, with correct ordering" do
+    it "renders the page, with correct ordering (by bag global ID)" do
       expect(page).to have_content("Take inventory for class #{@classroom.name}")
 
       form = parse_inventory_form
 
       first_row = form.values.find { |row| row[:index] == 0 }
       second_row = form.values.find { |row| row[:index] == 1 }
-      expect(first_row[:name]).to eq 'Jane Lee'
-      expect(second_row[:name]).to eq 'Ziya Wu'
+      expect(first_row[:book_bag].to_i).to be < second_row[:book_bag].to_i
     end
 
     it "default checks all checkboxes" do
