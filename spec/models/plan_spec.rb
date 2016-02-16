@@ -7,7 +7,10 @@ describe Plan do
   describe '#template' do
     it "returns a hash of sid to bid mappings" do
       assignments = subject.assignments
-      expected = assignments.inject({}) { |acc, a| acc[a.student_id] = a.book_bag_id; acc }
+      expected = assignments.inject({}) do |acc, a|
+        acc[a.student_id] = a.book_bag_id
+        acc
+      end
       expect(subject.template).to eq expected
     end
   end

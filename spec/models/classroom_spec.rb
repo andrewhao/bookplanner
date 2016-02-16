@@ -61,7 +61,7 @@ describe Classroom do
     end
 
     it "is the latest period for this class" do
-      other_plan = create :plan_with_assignments
+      create :plan_with_assignments
       expect(subject.current_period).to eq @plan2.period
     end
   end
@@ -119,10 +119,10 @@ describe Classroom do
     end
 
     it "takes into account book bags that have been checked out on a previous cycle" do
-      assignment1c = create :assignment,
-                            student: @students[1],
-                            book_bag: @bags[1],
-                            plan: @plan1
+      _assignment1c = create :assignment,
+                             student: @students[1],
+                             book_bag: @bags[1],
+                             plan: @plan1
       expect(subject.available_book_bags).not_to include @bags[1]
     end
 

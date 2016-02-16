@@ -1,5 +1,6 @@
 class UpdatePlanWithLateReturn
   attr_accessor :assignment, :current_plan, :message
+  attr_reader :success
 
   def initialize(assignment:, current_plan:)
     @assignment = assignment
@@ -29,9 +30,7 @@ class UpdatePlanWithLateReturn
     end
   end
 
-  def success?
-    @success
-  end
+  alias_method :success?, :success
 
   private
 

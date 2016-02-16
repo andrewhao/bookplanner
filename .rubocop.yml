@@ -142,6 +142,8 @@ Metrics/ClassLength:
   Enabled: false
   CountComments: false
   Max: 100
+Metrics/LineLength:
+  Max: 120
 Metrics/ModuleLength:
   CountComments: false
   Max: 100

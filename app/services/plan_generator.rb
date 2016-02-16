@@ -41,8 +41,6 @@ class PlanGenerator
     end
   end
 
-  private
-
   # Raised when it's impossible to find a plan, and the user needs
   # to be prompted about it.
   class NoPlanFound < StandardError; end

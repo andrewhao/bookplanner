@@ -11,7 +11,8 @@ class PlansController < ApplicationController
                       #{e.backtrace.join("\n")}
                       MSG
                      )
-    redirect_to classroom_path(@classroom), alert: "Unable to generate a new plan for this classroom. Please try adding another bag."
+    redirect_to classroom_path(@classroom),
+                alert: "Unable to generate a new plan for this classroom. Please try adding another bag."
   end
 
   # GET /plans
@@ -94,6 +95,9 @@ class PlansController < ApplicationController
 
   # Never trust parameters from the scary internet, only allow the white list through.
   def plan_params
-    params.require(:plan).permit(period_attributes: [:id, :name, :classroom_id], assignments_attributes: [:id, :book_bag_id, :student_id])
+    params.require(:plan).permit(
+      period_attributes: [:id, :name, :classroom_id],
+      assignments_attributes: [:id, :book_bag_id, :student_id]
+    )
   end
 end

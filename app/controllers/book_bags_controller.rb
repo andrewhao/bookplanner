@@ -29,7 +29,10 @@ class BookBagsController < ApplicationController
 
     respond_to do |format|
       if @book_bag.save
-        format.html { redirect_to new_classroom_book_bag_path(@book_bag.classroom), notice: "Book bag was successfully created." }
+        format.html do
+          redirect_to new_classroom_book_bag_path(@book_bag.classroom),
+                      notice: "Book bag was successfully created."
+        end
         format.json { render action: "show", status: :created, location: @book_bag }
       else
         format.html { render action: "new" }
@@ -43,7 +46,10 @@ class BookBagsController < ApplicationController
   def update
     respond_to do |format|
       if @book_bag.update(book_bag_params)
-        format.html { redirect_to @book_bag.classroom, notice: "Book bag #{@book_bag.global_id} was successfully updated." }
+        format.html do
+          redirect_to @book_bag.classroom,
+                      notice: "Book bag #{@book_bag.global_id} was successfully updated."
+        end
         format.json { head :no_content }
       else
         format.html { render action: "edit" }

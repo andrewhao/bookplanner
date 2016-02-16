@@ -17,7 +17,10 @@ describe AssignmentProblem do
   end
 
   let(:history) do
-    sids.inject({}) { |acc, s| acc[s] = []; acc }
+    sids.inject({}) do |acc, s|
+      acc[s] = []
+      acc
+    end
   end
 
   let(:template) { {} }

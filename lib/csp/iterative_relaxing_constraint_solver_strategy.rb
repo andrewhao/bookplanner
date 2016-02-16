@@ -13,7 +13,15 @@ class IterativeRelaxingConstraintSolverStrategy
         temp_template = temp_template.reject { |_sid, bid| bid == next_exclusion_bag_id }
         logger.call "I choose to additionally exclude #{next_exclusion_bag_id}, rendering the template #{temp_template}"
 
-        plan = StandardSolverStrategy.new.generate_plan(temp_template, bag_ids, student_ids, history_lookup, debug, solver, logger)
+        plan = StandardSolverStrategy.new.generate_plan(
+          temp_template,
+          bag_ids,
+          student_ids,
+          history_lookup,
+          debug,
+          solver,
+          logger
+        )
       rescue Amb::ExhaustedError => e
         logger.call e.message
       end

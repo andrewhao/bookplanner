@@ -49,7 +49,7 @@ describe Period do
     end
 
     it "returns -1 for newer period" do
-      expect(@old.periods_from(@new)).to eq -1
+      expect(@old.periods_from(@new)).to eq(-1)
     end
   end
 

@@ -73,14 +73,13 @@ feature "plan editing", type: :feature do
     expect(form_map.values.map { |d| d[:book_bag] }.reverse).to eq form_map_updated.values.map { |d| d[:book_bag] }
   end
 
-  scenario "allows the user to check in an old bag from a prior period and update the existing period with a new assignment" do
+  scenario "allows the user to check in an old bag from a prior period and update \
+           the existing period with a new assignment" do
     create_inventory_state_for(plan, students: [@student])
     create_plan(@classroom)
     visit_edit_plan_page(Plan.last)
     expect(page).to have_content "Assignments still out on loan"
     expect(page).to have_selector ".table--loaned-assignments"
-    outstanding_assignment = Assignment.find_by(student_id: @student2.id)
-    expected_bag_id = outstanding_assignment.book_bag.global_id == "1" ? "2" : "1"
     make_late_return_for(@student2.full_name)
     expect(current_path).to include "/classrooms/#{@classroom.to_param}"
     expect(page).to have_content "Zhang Wu newly assigned Book Bag"

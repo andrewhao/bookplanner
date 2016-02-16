@@ -76,7 +76,9 @@ describe PlanGenerator do
 
       context "for impossible constraints with bookwormy students" do
         before do
-          expect(student1).to receive(:past_assignments).and_return([double(book_bag_id: bag1.id), double(book_bag_id: bag2.id)])
+          expect(student1).to receive(:past_assignments).and_return(
+            [double(book_bag_id: bag1.id), double(book_bag_id: bag2.id)]
+          )
           expect(student2).to receive(:past_assignments).and_return([double(book_bag_id: bag1.id)])
         end
 

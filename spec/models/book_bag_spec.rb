@@ -24,7 +24,7 @@ describe BookBag do
   describe ".active" do
     it "returns a list of active book bags" do
       actives = FactoryGirl.create_list :book_bag, 2, active: true
-      inactives = FactoryGirl.create_list :book_bag, 2, active: false
+      _inactives = FactoryGirl.create_list :book_bag, 2, active: false
 
       expect(described_class.active).to match_array actives
     end

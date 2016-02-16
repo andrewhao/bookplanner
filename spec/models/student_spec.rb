@@ -21,7 +21,7 @@ describe Student do
 
   describe ".active" do
     it "returns all students who are active" do
-      inactive = FactoryGirl.create :student, inactive: true
+      FactoryGirl.create :student, inactive: true
       expect(described_class.active).to eq [subject]
     end
   end

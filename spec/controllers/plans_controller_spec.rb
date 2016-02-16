@@ -101,7 +101,7 @@ RSpec.describe PlansController, type: :controller do
 
     it "does not generate a plan with inactive students" do
       active_eligible = FactoryGirl.create :student, classroom: classroom
-      inactive = FactoryGirl.create :student, classroom: classroom, inactive: true
+      _inactive = FactoryGirl.create :student, classroom: classroom, inactive: true
       active_ineligible = FactoryGirl.create :student, classroom: classroom
 
       # The ineligible student has a checked out book
