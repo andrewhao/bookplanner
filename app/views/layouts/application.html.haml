@@ -7,6 +7,25 @@
     = csrf_meta_tags
     %meta{:content => "width=device-width, initial-scale=1", :name => "viewport"}/
   %body
+    - if sandboxed?
+      .container
+        .row
+          .alert.alert-info.text-center{ role: :alert }
+            ⚠️
+            ⚠️
+            ⚠️
+            ⚠️
+            ⚠️
+            ⚠️
+            %div
+              %strong Warning! This is the SANDBOX environment. The data in this environment is for testing, only!
+            ⚠️
+            ⚠️
+            ⚠️
+            ⚠️
+            ⚠️
+            ⚠️
+            ⚠️
     .container
       .row
         .col-xs-12
