@@ -60,7 +60,7 @@ class PlansController < ApplicationController
   def update
     respond_to do |format|
       if PlanUpdater.new(@plan, plan_params).update
-        format.html { redirect_to @plan, notice: 'Plan was successfully updated.' }
+        format.html { redirect_to @plan.classroom, notice: 'Plan was successfully updated.' }
         format.json { head :no_content }
       else
         format.html { render action: 'edit' }

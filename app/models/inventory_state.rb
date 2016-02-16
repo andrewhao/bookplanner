@@ -15,6 +15,10 @@ class InventoryState < ActiveRecord::Base
     i
   end
 
+  def deletable?
+    classroom.current_plan == plan
+  end
+
   def return!(assignment)
     assignment.returned_at = Time.zone.now
     assignments << assignment

@@ -71,8 +71,17 @@ module ClassroomHelpers
     click_on("Create Classroom")
   end
 
+  def within_latest_action_cell(&block)
+    latest_actions_td = all('td[data-actions]').first
+    within(latest_actions_td) do
+      yield block
+    end
+  end
+
   def click_on_inventory_button
-    click_on "Take Inventory"
+    within_latest_action_cell do
+      click_on 'Take Inventory'
+    end
   end
 
   def expect_book_bag_checked_out_for(student)
@@ -81,6 +90,16 @@ module ClassroomHelpers
 
   def expect_no_book_bag_checked_out_for(student)
     expect(page).to_not have_selector("tr[data-student-id='#{student.id}']")
+  end
+
+  def parse_plan_table
+    plan_matrix_trs = all('.plan-matrix tbody tr')
+    plan_matrix_trs.map do |tr|
+      OpenStruct.new(
+        name: tr.find('th').text,
+        bags: tr.all('td').map(&:text)
+      )
+    end
   end
 end
 

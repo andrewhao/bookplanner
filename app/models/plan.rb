@@ -27,9 +27,15 @@ class Plan < ActiveRecord::Base
     inventory_state.nil?
   end
   alias_method :editable?, :active?
+  alias_method :deletable?, :active?
+  alias_method :inventoryable?, :active?
 
   def closed?
     inventory_state.present?
+  end
+
+  def inventory_state_deletable?
+    !!inventory_state.try(:deletable?)
   end
 
   def presenter

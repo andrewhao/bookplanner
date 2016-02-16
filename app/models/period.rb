@@ -18,6 +18,14 @@ class Period < ActiveRecord::Base
     self.created_at < other.created_at
   end
 
+  def active?
+    plan.present? && inventory_state.nil?
+  end
+
+  def closed?
+    plan.present? && inventory_state.present?
+  end
+
   private
 
   def initialize_name

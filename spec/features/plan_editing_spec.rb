@@ -61,7 +61,12 @@ feature "plan editing", type: :feature do
 
     click_on "Update Plan"
     expect(page).to have_content "Plan was successfully updated."
-    click_on 'Edit'
+
+    within_latest_action_cell do
+      click_on 'More'
+      click_on 'Edit Plan'
+    end
+
     expect(page).to have_content 'Editing plan'
 
     form_map_updated = parse_plan_form

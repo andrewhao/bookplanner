@@ -61,6 +61,8 @@ gem 'rack-cors', :require => 'rack/cors'
 gem 'rails_12factor', :group => :production
 
 group :development do
+  gem 'better_errors'
+  gem 'binding_of_caller'
   # Use Capistrano for deployment
   gem "spring"
   gem 'capistrano'

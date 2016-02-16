@@ -207,9 +207,9 @@ RSpec.describe PlansController, :type => :controller do
         expect(assigns(:plan)).to eq(plan)
       end
 
-      it "redirects to the plan" do
+      it "redirects to the classroom page" do
         put :update, {:id => plan.to_param, :plan => new_attributes}, valid_session
-        expect(response).to redirect_to(plan_path(plan))
+        expect(response).to redirect_to(classroom_path(plan.classroom))
       end
     end
 
