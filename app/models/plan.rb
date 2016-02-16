@@ -1,7 +1,7 @@
 class Plan < ActiveRecord::Base
   belongs_to :period, autosave: true, dependent: :destroy
   has_one :classroom, through: :period
-  has_many :assignments, -> { joins(:student).order('students.first_name DESC') }, dependent: :destroy
+  has_many :assignments, -> { joins(:student).order("students.first_name DESC") }, dependent: :destroy
   has_one :inventory_state, through: :period
 
   accepts_nested_attributes_for :period
@@ -27,9 +27,15 @@ class Plan < ActiveRecord::Base
     inventory_state.nil?
   end
   alias_method :editable?, :active?
+  alias_method :deletable?, :active?
+  alias_method :inventoryable?, :active?
 
   def closed?
     inventory_state.present?
+  end
+
+  def inventory_state_deletable?
+    !!inventory_state.try(:deletable?)
   end
 
   def presenter

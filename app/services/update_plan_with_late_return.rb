@@ -1,5 +1,6 @@
 class UpdatePlanWithLateReturn
   attr_accessor :assignment, :current_plan, :message
+  attr_reader :success
 
   def initialize(assignment:, current_plan:)
     @assignment = assignment
@@ -12,7 +13,7 @@ class UpdatePlanWithLateReturn
     ActiveRecord::Base.transaction do
       begin
         plan_regenerator = PlanRegenerator.new(current_plan)
-        plan_regenerator.regenerate do |old_plan|
+        plan_regenerator.regenerate do |_old_plan|
           inventory_state = find_latest_inventory_state
           inventory_state.return!(assignment)
         end
@@ -23,15 +24,13 @@ class UpdatePlanWithLateReturn
         Rails.logger.error e.message
         Rails.logger.error e.backtrace.join('\n')
         @success = false
-        @message = 'Unable to find a new book bag for this student. Please add a new book bag.'
+        @message = "Unable to find a new book bag for this student. Please add a new book bag."
         raise ActiveRecord::Rollback, @message
       end
     end
   end
 
-  def success?
-    @success
-  end
+  alias_method :success?, :success
 
   private
 

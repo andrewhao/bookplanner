@@ -29,10 +29,13 @@ class StudentsController < ApplicationController
 
     respond_to do |format|
       if @student.save
-        format.html { redirect_to new_classroom_student_path(@student.classroom), notice: "Student #{@student.full_name} was successfully created." }
-        format.json { render action: 'show', status: :created, location: @student }
+        format.html do
+          redirect_to new_classroom_student_path(@student.classroom),
+                      notice: "Student #{@student.full_name} was successfully created."
+        end
+        format.json { render action: "show", status: :created, location: @student }
       else
-        format.html { render action: 'new' }
+        format.html { render action: "new" }
         format.json { render json: @student.errors, status: :unprocessable_entity }
       end
     end
@@ -46,7 +49,7 @@ class StudentsController < ApplicationController
         format.html { redirect_to @student, notice: "Student was successfully updated." }
         format.json { head :no_content }
       else
-        format.html { render action: 'edit' }
+        format.html { render action: "edit" }
         format.json { render json: @student.errors, status: :unprocessable_entity }
       end
     end
@@ -63,17 +66,18 @@ class StudentsController < ApplicationController
   end
 
   private
-    # Use callbacks to share common setup or constraints between actions.
-    def set_student
-      @student = Student.find(params[:id])
-    end
 
-    def set_classroom
-      @classroom = Classroom.find(params[:classroom_id])
-    end
+  # Use callbacks to share common setup or constraints between actions.
+  def set_student
+    @student = Student.find(params[:id])
+  end
 
-    # Never trust parameters from the scary internet, only allow the white list through.
-    def student_params
-      params[:student].permit(:first_name, :last_name, :classroom_id, :inactive)
-    end
+  def set_classroom
+    @classroom = Classroom.find(params[:classroom_id])
+  end
+
+  # Never trust parameters from the scary internet, only allow the white list through.
+  def student_params
+    params[:student].permit(:first_name, :last_name, :classroom_id, :inactive)
+  end
 end

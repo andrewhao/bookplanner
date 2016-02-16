@@ -19,9 +19,9 @@ describe InventoryStateGenerator do
 
   describe "#generate" do
     it "creates a new plan" do
-      expect {
+      expect do
         subject.generate
-      }.to change(InventoryState, :count).by(1)
+      end.to change(InventoryState, :count).by(1)
     end
 
     it "assigns IS with correct params" do
@@ -33,11 +33,11 @@ describe InventoryStateGenerator do
       let(:a2) { assignments[1] }
 
       let(:params) do
-        {"inventory_state"=>
-         {"classroom_id"=>classroom.id,
-          "assignments_attributes"=>
-         {"0"=>{"student_id"=>a1.student_id.to_s, "on_loan"=>"1", "id" => a1.id},
-          "1"=>{"student_id"=>a2.student_id.to_s, "on_loan"=>"0", "id" => a2.id}}}}.with_indifferent_access
+        { "inventory_state" =>
+          { "classroom_id" => classroom.id,
+            "assignments_attributes" =>
+          { "0" => { "student_id" => a1.student_id.to_s, "on_loan" => "1", "id" => a1.id },
+            "1" => { "student_id" => a2.student_id.to_s, "on_loan" => "0", "id" => a2.id } } } }.with_indifferent_access
       end
 
       it "adds a1 to inventory state but not a2" do

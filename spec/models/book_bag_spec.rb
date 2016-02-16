@@ -1,4 +1,4 @@
-require 'spec_helper'
+require "spec_helper"
 
 describe BookBag do
   subject { FactoryGirl.create :book_bag, global_id: 1, classroom_id: 1 }
@@ -9,9 +9,9 @@ describe BookBag do
     end
 
     it "does not allow dupe global ids" do
-      expect {
+      expect do
         FactoryGirl.create :book_bag, global_id: 1, classroom_id: 1
-      }.to raise_error
+      end.to raise_error
     end
 
     it "allows different global ids with diff classrooms" do
@@ -23,8 +23,8 @@ describe BookBag do
 
   describe ".active" do
     it "returns a list of active book bags" do
-      actives = FactoryGirl.create_list :book_bag, 2,  active: true
-      inactives = FactoryGirl.create_list :book_bag, 2, active: false
+      actives = FactoryGirl.create_list :book_bag, 2, active: true
+      _inactives = FactoryGirl.create_list :book_bag, 2, active: false
 
       expect(described_class.active).to match_array actives
     end

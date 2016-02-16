@@ -7,8 +7,8 @@ class InventoryStateGenerator
 
   def generate
     is = InventoryState.create period: plan.period
-    returned_assn = assignments.select{ |a| a[:on_loan] == "1" }
-    returned_assn_ar = returned_assn.map{ |a| Assignment.find a[:id] }
+    returned_assn = assignments.select { |a| a[:on_loan] == "1" }
+    returned_assn_ar = returned_assn.map { |a| Assignment.find a[:id] }
     is.assignments = returned_assn_ar
     returned_assn_ar.each do |a|
       a.update_attributes(returned_at: Time.now)

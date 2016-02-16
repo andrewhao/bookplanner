@@ -2,17 +2,17 @@ require "codeclimate-test-reporter"
 CodeClimate::TestReporter.start
 
 # This file is copied to spec/ when you run 'rails generate rspec:install'
-ENV["RAILS_ENV"] ||= 'test'
+ENV["RAILS_ENV"] ||= "test"
 require File.expand_path("../../config/environment", __FILE__)
-require 'rspec/rails'
+require "rspec/rails"
 
 require "capybara/rails"
 require "capybara/rspec"
-require 'capybara-screenshot/rspec'
-require 'site_prism'
+require "capybara-screenshot/rspec"
+require "site_prism"
 
 # For performance testing
-require 'benchmark'
+require "benchmark"
 
 # Requires supporting ruby files with custom matchers and macros, etc,
 # in spec/support/ and its subdirectories.
@@ -22,15 +22,15 @@ Dir[Rails.root.join("spec/support/**/*.rb")].each { |f| require f }
 # If you are not using ActiveRecord, you can remove this line.
 ActiveRecord::Migration.check_pending! if defined?(ActiveRecord::Migration)
 
-if ENV['BROWSER'] == "selenium"
+if ENV["BROWSER"] == "selenium"
   Capybara.default_driver = :selenium
-elsif ENV['BROWSER'] == 'chrome'
+elsif ENV["BROWSER"] == "chrome"
   Capybara.register_driver :chrome do |app|
     Capybara::Selenium::Driver.new(app, browser: :chrome)
   end
   Capybara.default_driver = :chrome
 else
-  require 'capybara/poltergeist'
+  require "capybara/poltergeist"
   Capybara.default_driver = :poltergeist
 end
 

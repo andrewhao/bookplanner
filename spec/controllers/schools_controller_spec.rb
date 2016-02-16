@@ -1,7 +1,6 @@
-require 'spec_helper'
+require "spec_helper"
 
 describe SchoolsController do
-
   # This should return the minimal set of attributes required to create a valid
   # School. As you add validations to School, be sure to
   # adjust the attributes here as well.
@@ -23,7 +22,7 @@ describe SchoolsController do
   describe "GET show" do
     it "assigns the requested school as @school" do
       school = School.create! valid_attributes
-      get :show, {:id => school.to_param}, valid_session
+      get :show, { id: school.to_param }, valid_session
       expect(assigns(:school)).to eq(school)
     end
   end
@@ -38,7 +37,7 @@ describe SchoolsController do
   describe "GET edit" do
     it "assigns the requested school as @school" do
       school = School.create! valid_attributes
-      get :edit, {:id => school.to_param}, valid_session
+      get :edit, { id: school.to_param }, valid_session
       expect(assigns(:school)).to eq(school)
     end
   end
@@ -46,19 +45,19 @@ describe SchoolsController do
   describe "POST create" do
     describe "with valid params" do
       it "creates a new School" do
-        expect {
-          post :create, {:school => valid_attributes}, valid_session
-        }.to change(School, :count).by(1)
+        expect do
+          post :create, { school: valid_attributes }, valid_session
+        end.to change(School, :count).by(1)
       end
 
       it "assigns a newly created school as @school" do
-        post :create, {:school => valid_attributes}, valid_session
+        post :create, { school: valid_attributes }, valid_session
         expect(assigns(:school)).to be_a(School)
         expect(assigns(:school)).to be_persisted
       end
 
       it "redirects to the school index page" do
-        post :create, {:school => valid_attributes}, valid_session
+        post :create, { school: valid_attributes }, valid_session
         expect(response).to redirect_to(schools_path)
       end
     end
@@ -67,14 +66,14 @@ describe SchoolsController do
       it "assigns a newly created but unsaved school as @school" do
         # Trigger the behavior that occurs when invalid params are submitted
         allow_any_instance_of(School).to receive(:save).and_return(false)
-        post :create, {:school => { "name" => "invalid value" }}, valid_session
+        post :create, { school: { "name" => "invalid value" } }, valid_session
         expect(assigns(:school)).to be_a_new(School)
       end
 
       it "re-renders the 'new' template" do
         # Trigger the behavior that occurs when invalid params are submitted
         allow_any_instance_of(School).to receive(:save).and_return(false)
-        post :create, {:school => { "name" => "invalid value" }}, valid_session
+        post :create, { school: { "name" => "invalid value" } }, valid_session
         expect(response).to render_template("new")
       end
     end
@@ -88,19 +87,19 @@ describe SchoolsController do
         # specifies that the School created on the previous line
         # receives the :update_attributes message with whatever params are
         # submitted in the request.
-        expect_any_instance_of(School).to receive(:update).with({ "name" => "MyString" })
-        put :update, {:id => school.to_param, :school => { "name" => "MyString" }}, valid_session
+        expect_any_instance_of(School).to receive(:update).with("name" => "MyString")
+        put :update, { id: school.to_param, school: { "name" => "MyString" } }, valid_session
       end
 
       it "assigns the requested school as @school" do
         school = School.create! valid_attributes
-        put :update, {:id => school.to_param, :school => valid_attributes}, valid_session
+        put :update, { id: school.to_param, school: valid_attributes }, valid_session
         expect(assigns(:school)).to eq(school)
       end
 
       it "redirects to the school" do
         school = School.create! valid_attributes
-        put :update, {:id => school.to_param, :school => valid_attributes}, valid_session
+        put :update, { id: school.to_param, school: valid_attributes }, valid_session
         expect(response).to redirect_to(school)
       end
     end
@@ -110,7 +109,7 @@ describe SchoolsController do
         school = School.create! valid_attributes
         # Trigger the behavior that occurs when invalid params are submitted
         allow_any_instance_of(School).to receive(:save).and_return(false)
-        put :update, {:id => school.to_param, :school => { "name" => "invalid value" }}, valid_session
+        put :update, { id: school.to_param, school: { "name" => "invalid value" } }, valid_session
         expect(assigns(:school)).to eq(school)
       end
 
@@ -118,7 +117,7 @@ describe SchoolsController do
         school = School.create! valid_attributes
         # Trigger the behavior that occurs when invalid params are submitted
         allow_any_instance_of(School).to receive(:save).and_return(false)
-        put :update, {:id => school.to_param, :school => { "name" => "invalid value" }}, valid_session
+        put :update, { id: school.to_param, school: { "name" => "invalid value" } }, valid_session
         expect(response).to render_template("edit")
       end
     end
@@ -127,16 +126,15 @@ describe SchoolsController do
   describe "DELETE destroy" do
     it "destroys the requested school" do
       school = School.create! valid_attributes
-      expect {
-        delete :destroy, {:id => school.to_param}, valid_session
-      }.to change(School, :count).by(-1)
+      expect do
+        delete :destroy, { id: school.to_param }, valid_session
+      end.to change(School, :count).by(-1)
     end
 
     it "redirects to the schools list" do
       school = School.create! valid_attributes
-      delete :destroy, {:id => school.to_param}, valid_session
+      delete :destroy, { id: school.to_param }, valid_session
       expect(response).to redirect_to(schools_url)
     end
   end
-
 end

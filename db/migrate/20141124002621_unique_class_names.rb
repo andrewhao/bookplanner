@@ -1,5 +1,5 @@
 class UniqueClassNames < ActiveRecord::Migration
   def change
-    add_index :classrooms, :name, :unique => true
+    add_index :classrooms, :name, unique: true
   end
 end

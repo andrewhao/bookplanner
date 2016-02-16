@@ -1,13 +1,10 @@
 %section
   %h2= "Plans"
-  = link_to "Create Plan", new_classroom_plan_path(classroom), class: "btn btn-success btn-xs", disabled: !classroom.eligible_for_new_plan?
-  - unless classroom.eligible_for_new_plan?
-    = link_to "Take Inventory", new_classroom_inventory_state_path(classroom), class: "btn btn-default btn-xs", title: "You must first take inventory of book bags before you may create a new plan."
-
+  = link_to "Create Plan", new_classroom_plan_path(classroom), class: "btn btn-success btn-s", disabled: !classroom.eligible_for_new_plan?
   - if plans.blank?
     %p There are no plans. Might you want to create one?
   - else
-    %table.table.table-responsive
+    %table.table.table-responsive.plan-matrix
       %thead
         %tr
           %th Name
@@ -19,14 +16,46 @@
             = classroom.presenter.header_cell_for(s) do
               - raw "#{s.full_name} #{classroom.presenter.header_cell_icon(s)}"
             - plans.each do |plan|
-              %td{:class => (plan.active? ? "bg-success" : "")}
+              %td{:class => (plan.period.active? ? "bg-success" : "bg-warning")}
                 = plan.presenter.display_cell_for(s)
       %tfoot
         %tr
           %td
           - plans.each_with_index do |plan, i|
-            %td
-              = link_to "Delete Plan", plan_path(plan), method: "delete", class: "btn btn-xs btn-danger", data: {confirm: "You are about to delete the plan #{plan.name}. Are you sure? This action is irreversible!"}, disabled: !plan.editable?
-              = link_to "Edit Plan", edit_plan_path(plan), class: "btn btn-xs btn-notice", disabled: !plan.editable?
-              - if plan.closed?
-                = link_to "Delete Inventory", inventory_state_path(plan.inventory_state), method: "delete", class: "btn btn-xs btn-default", data: {confirm: "Are you sure you want to delete the inventory?"}, disabled: !(plan.closed? && classroom.current_plan == plan)
+            %td{"data-actions": true}
+              .btn-group
+                = link_to "Take Inventory",
+                  new_classroom_inventory_state_path(classroom),
+                  class: "btn btn-warning btn-s",
+                  title: "You must first take inventory of book bags before you may create a new plan.",
+                  disabled: !plan.inventoryable?
+                %button{class: "btn btn-default btn-s dropdown-toggle",
+                        data: { toggle: "dropdown" },
+                        "aria-haspopup": true,
+                        "aria-expanded": false,
+                        type: :button}
+                  More
+                  %span.caret
+                %ul.dropdown-menu.dropdown-menu-right
+                  %li{class: (!plan.editable? ? :disabled : nil)}
+                    = link_to edit_plan_path(plan) do
+                      %i.glyphicon.glyphicon-edit
+                      Edit Plan
+                  %li.divider{role: :separator}
+                  %li{class: (!plan.deletable? ? :disabled : nil)}
+                    = link_to plan_path(plan),
+                      method: "delete",
+                      disabled: !plan.deletable?,
+                      data: { confirm: "You are about to delete the plan #{plan.name}. Are you sure? This action is irreversible!"} do
+                      %i.glyphicon.glyphicon-trash
+                      Delete Plan
+                      = plan.deletable? ? "" : " (Disabled)"
+                    %li{class: "#{!plan.inventory_state_deletable? ? :disabled : nil}"}
+                      = link_to plan.inventory_state_deletable? ? inventory_state_path(plan.inventory_state) : '#',
+                        disabled: !plan.inventory_state_deletable?,
+                        method: "delete",
+                        data: {confirm: "Are you sure you want to delete the inventory?"} do
+                        %i.glyphicon.glyphicon-trash
+                        Delete Inventory
+                        = plan.inventory_state_deletable? ? "" : " (Disabled)"
+

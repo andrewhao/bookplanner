@@ -1,13 +1,16 @@
-require 'spec_helper'
+require "spec_helper"
 
 describe Plan do
   let(:name) { "Week Three" }
   subject { FactoryGirl.create(:plan_with_assignments) }
 
   describe '#template' do
-    it 'returns a hash of sid to bid mappings' do
+    it "returns a hash of sid to bid mappings" do
       assignments = subject.assignments
-      expected = assignments.reduce({}) { |acc, a| acc[a.student_id] = a.book_bag_id; acc }
+      expected = assignments.inject({}) do |acc, a|
+        acc[a.student_id] = a.book_bag_id
+        acc
+      end
       expect(subject.template).to eq expected
     end
   end
@@ -18,7 +21,7 @@ describe Plan do
     end
 
     it "returns a list of assignments" do
-      expect(subject.assignments).to be_all{|a| a.is_a?(Assignment)}
+      expect(subject.assignments).to be_all { |a| a.is_a?(Assignment) }
     end
   end
 

@@ -1,4 +1,4 @@
-require 'spec_helper'
+require "spec_helper"
 
 describe Student do
   subject { FactoryGirl.create(:student) }
@@ -21,12 +21,12 @@ describe Student do
 
   describe ".active" do
     it "returns all students who are active" do
-      inactive = FactoryGirl.create :student, inactive: true
+      FactoryGirl.create :student, inactive: true
       expect(described_class.active).to eq [subject]
     end
   end
 
-  describe '.name_sorted' do
+  describe ".name_sorted" do
     it "returns students in alpha order" do
       classroom = FactoryGirl.create :classroom
       student_1 = FactoryGirl.create :student, classroom: classroom, first_name: "b", last_name: "b"

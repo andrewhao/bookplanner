@@ -13,18 +13,18 @@ class PlanRegenerator
   def delta
     computed = HashDiff.diff(@old_template,
                              new_plan.template)
-    computed.map { |dir, sid, old_bid, new_bid|
+    computed.map do |dir, sid, old_bid, new_bid|
       s = Student.find(sid)
       b = BookBag.find(old_bid)
 
-      case(dir)
-      when '~'
+      case (dir)
+      when "~"
         b2 = BookBag.find(new_bid)
         "#{s.full_name} should be reassigned Bag #{b.global_id} -> #{b2.global_id}"
-      when '+'
+      when "+"
         "#{s.full_name} newly assigned Book Bag #{b.global_id}"
       end
-    }.join(', ')
+    end.join(", ")
   end
 
   def regenerate

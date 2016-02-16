@@ -11,6 +11,18 @@ describe InventoryState do
     plan
   end
 
+  describe '#deletable?' do
+    it "is true when there exists a closed, most recent plan" do
+      expect(subject).to be_deletable
+    end
+
+    it "is false when there is an active plan" do
+      new_period = create :period, classroom: classroom
+      create :plan_with_assignments, period: new_period
+      expect(subject).not_to be_deletable
+    end
+  end
+
   describe "#plan" do
     it "returns a Plan" do
       expect(subject.plan).to eq plan
@@ -36,7 +48,6 @@ describe InventoryState do
     end
 
     it "attaches assignments that are still out on loan at the end" do
-
     end
   end
 

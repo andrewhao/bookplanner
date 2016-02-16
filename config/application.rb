@@ -1,6 +1,6 @@
-require File.expand_path('../boot', __FILE__)
+require File.expand_path("../boot", __FILE__)
 
-require 'rails/all'
+require "rails/all"
 
 # Require the gems listed in Gemfile, including any gems
 # you've limited to :test, :development, or :production.
@@ -24,20 +24,19 @@ module Storybook
 
     config.middleware.use Rack::Cors do
       allow do
-        #origins 'localhost:3000', '127.0.0.1:3000',
-        #/http:\/\/localhost\/(:\d+)?/
+        # origins 'localhost:3000', '127.0.0.1:3000',
+        # /http:\/\/localhost\/(:\d+)?/
         # regular expressions can be used here
-        origins '*'
+        origins "*"
 
-        resource '*',
-          :headers => :any,
-          :methods => [:get, :post, :put, :delete, :options, :patch]
-
+        resource "*",
+                 headers: :any,
+                 methods: [:get, :post, :put, :delete, :options, :patch]
       end
 
       allow do
-        origins '*'
-        resource '/public/*', :headers => :any, :methods => :get
+        origins "*"
+        resource "/public/*", headers: :any, methods: :get
       end
     end
   end

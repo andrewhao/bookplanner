@@ -13,7 +13,7 @@ describe "inventory processing", type: :feature do
                                    last_name: "Lee",
                                    classroom: @classroom)
     @book_bags = FactoryGirl.create_list(:book_bag, 3,
-                                   classroom: @classroom)
+                                         classroom: @classroom)
   end
 
   let(:current_plan) { Plan.last }
@@ -27,17 +27,43 @@ describe "inventory processing", type: :feature do
     context "for active plan" do
       it "links to inventory state new form" do
         visit("/classrooms/#{@classroom.id}")
-        click_on "Take Inventory"
+        click_on_inventory_button
         expect(current_path).to match "inventory_states/new"
       end
     end
 
     context "for no active plans" do
-      it "does not show the link" do
+      it "does not show an active link" do
         FactoryGirl.create(:inventory_state, period: current_period)
         visit("/classrooms/#{@classroom.id}")
-        expect(page).to_not have_content("Take inventory")
+        expect(page).to have_no_selector("a:not([disabled])", text: "Take Inventory")
       end
+    end
+  end
+
+  describe "deleting an inventory state" do
+    it "allows you to delete an inventory state" do
+      visit("/classrooms/#{@classroom.id}")
+
+      click_on_inventory_button
+      click_on_take_inventory
+      expect(page).to have_content "Checked in books successfully!"
+
+      within_latest_action_cell do
+        expect(page).to have_selector("a[disabled]", text: "Take Inventory")
+      end
+
+      within_latest_action_cell do
+        click_on "More"
+        click_on "Delete Inventory"
+        page.accept_prompt
+      end
+
+      expect(page).to have_content "Successfully deleted inventory"
+
+      click_on_inventory_button
+      click_on_take_inventory
+      expect(page).to have_content "Checked in books successfully!"
     end
   end
 
@@ -51,8 +77,8 @@ describe "inventory processing", type: :feature do
 
       form = parse_inventory_form
 
-      first_row = form.values.find { |row| row[:index] == 0 }
-      second_row = form.values.find { |row| row[:index] == 1 }
+      first_row = form.values.detect { |row| row[:index] == 0 }
+      second_row = form.values.detect { |row| row[:index] == 1 }
       expect(first_row[:book_bag].to_i).to be < second_row[:book_bag].to_i
     end
 

@@ -14,7 +14,7 @@ FactoryGirl.define do
 
   factory :plan_with_assignments, parent: :plan do
     after(:build) do |o|
-      o.assignments += FactoryGirl.build_list(:assignment, 2, :plan => o)
+      o.assignments += FactoryGirl.build_list(:assignment, 2, plan: o)
     end
   end
 
@@ -33,7 +33,7 @@ FactoryGirl.define do
   end
 
   factory :book_bag do
-    sequence(:global_id) {|n| n }
+    sequence(:global_id) { |n| n }
     classroom
   end
 

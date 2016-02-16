@@ -14,7 +14,7 @@ class ClassroomPresenter
 
   def header_cell_icon(student)
     is_eligible = classroom.eligible_students.include?(student)
-    return nil if (!student.inactive? && is_eligible)
+    return nil if !student.inactive? && is_eligible
     if student.inactive?
       extra_class = "glyphicon-question-sign"
       help_text = "This student has not yet turned in his or her permission slip and is inactive."
@@ -22,10 +22,10 @@ class ClassroomPresenter
       extra_class = "glyphicon-log-out"
       help_text = "This student still has a book out on loan."
     end
-    return content_tag(:span, "", {:class => "pull-right glyphicon #{extra_class}", :"aria-hidden" => true, title: help_text})
+    content_tag(:span, "", class: "pull-right glyphicon #{extra_class}", "aria-hidden": true, title: help_text)
   end
 
-  def header_cell_for(student, &block)
+  def header_cell_for(student, &_block)
     content_tag(:th, (block_given? ? yield : ""), class: (student.inactive? ? "text-muted bg-danger" : nil))
   end
 end

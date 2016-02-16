@@ -13,32 +13,32 @@ describe PlanGenerator do
 
       subject { described_class.new(students, bags) }
 
-      context 'when given a template' do
-        let(:template) { {foo: :bar} }
+      context "when given a template" do
+        let(:template) { { foo: :bar } }
         subject { described_class.new(students, bags, template: template) }
 
-        it 'uses the template' do
+        it "uses the template" do
           mock_problem = instance_double(AssignmentProblem, solve: { student1.id => bag1.id })
           expect(AssignmentProblem).to receive(:new).with(students.map(&:id),
                                                           bags.map(&:id),
                                                           kind_of(Hash),
-                                                          hash_including(template: template))
-            .and_return(mock_problem)
+                                                          hash_including(template: template)).
+            and_return(mock_problem)
           subject.generate
         end
       end
 
       context "for direct assignment" do
         before do
-          expect(student1).to receive(:past_assignments).and_return([double(:book_bag_id => bag1.id)])
-          expect(student2).to receive(:past_assignments).and_return([double(:book_bag_id => bag2.id)])
+          expect(student1).to receive(:past_assignments).and_return([double(book_bag_id: bag1.id)])
+          expect(student2).to receive(:past_assignments).and_return([double(book_bag_id: bag2.id)])
         end
 
         it "returns assignments that satisfy constraints properly" do
           assns = subject.generate
 
-          assn1 = assns.detect{ |a| a.student == student1 && a.book_bag == bag2 }
-          assn2 = assns.detect{ |a| a.student == student2 && a.book_bag == bag1 }
+          assn1 = assns.detect { |a| a.student == student1 && a.book_bag == bag2 }
+          assn2 = assns.detect { |a| a.student == student2 && a.book_bag == bag1 }
 
           expect(assn1).to be_a Assignment
           expect(assn2).to be_a Assignment
@@ -47,14 +47,14 @@ describe PlanGenerator do
 
       context "for different bag histories" do
         before do
-          expect(student1).to receive(:past_assignments).and_return([double(:book_bag_id => bag2.id)])
-          expect(student2).to receive(:past_assignments).and_return([double(:book_bag_id => bag1.id)])
+          expect(student1).to receive(:past_assignments).and_return([double(book_bag_id: bag2.id)])
+          expect(student2).to receive(:past_assignments).and_return([double(book_bag_id: bag1.id)])
         end
 
         it "returns correct assignment" do
           assns = subject.generate
-          assn1 = assns.detect{ |a| a.student == student1 && a.book_bag == bag1 }
-          assn2 = assns.detect{ |a| a.student == student2 && a.book_bag == bag2 }
+          assn1 = assns.detect { |a| a.student == student1 && a.book_bag == bag1 }
+          assn2 = assns.detect { |a| a.student == student2 && a.book_bag == bag2 }
 
           expect(assn1).to be_a Assignment
           expect(assn2).to be_a Assignment
@@ -65,25 +65,27 @@ describe PlanGenerator do
         let(:bags) { [bag1] }
 
         before do
-          expect(student1).to receive(:past_assignments).and_return([double(:book_bag_id => bag2.id)])
-          expect(student2).to receive(:past_assignments).and_return([double(:book_bag_id => bag1.id)])
+          expect(student1).to receive(:past_assignments).and_return([double(book_bag_id: bag2.id)])
+          expect(student2).to receive(:past_assignments).and_return([double(book_bag_id: bag1.id)])
         end
 
         it "raises exception" do
-          expect{subject.generate}.to raise_error(PlanGenerator::NoPlanFound)
+          expect { subject.generate }.to raise_error(PlanGenerator::NoPlanFound)
         end
       end
 
       context "for impossible constraints with bookwormy students" do
         before do
-          expect(student1).to receive(:past_assignments).and_return([double(:book_bag_id => bag1.id), double(:book_bag_id => bag2.id)])
-          expect(student2).to receive(:past_assignments).and_return([double(:book_bag_id => bag1.id)])
+          expect(student1).to receive(:past_assignments).and_return(
+            [double(book_bag_id: bag1.id), double(book_bag_id: bag2.id)]
+          )
+          expect(student2).to receive(:past_assignments).and_return([double(book_bag_id: bag1.id)])
         end
 
         it "raises exception" do
-          expect {
+          expect do
             subject.generate
-          }.to raise_error(PlanGenerator::NoPlanFound)
+          end.to raise_error(PlanGenerator::NoPlanFound)
         end
       end
 
@@ -92,7 +94,7 @@ describe PlanGenerator do
         let(:bags) { [bag1, bag2, bag3] }
 
         it "generates assignments" do
-          expect(subject.generate).to be_all{ |b| b.is_a?(Assignment) }
+          expect(subject.generate).to be_all { |b| b.is_a?(Assignment) }
         end
       end
     end

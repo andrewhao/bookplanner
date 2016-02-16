@@ -1,35 +1,33 @@
 require "spec_helper"
 
-RSpec.describe PlansController, :type => :routing do
+RSpec.describe PlansController, type: :routing do
   describe "routing" do
-
     it "routes to #index" do
-      expect(:get => "/classrooms/1/plans").to route_to("plans#index", classroom_id: "1")
+      expect(get: "/classrooms/1/plans").to route_to("plans#index", classroom_id: "1")
     end
 
     it "routes to #new" do
-      expect(:get => "/classrooms/1/plans/new").to route_to("plans#new", :classroom_id => "1")
+      expect(get: "/classrooms/1/plans/new").to route_to("plans#new", classroom_id: "1")
     end
 
     it "routes to #show" do
-      expect(:get => "/plans/1").to route_to("plans#show", :id => "1")
+      expect(get: "/plans/1").to route_to("plans#show", id: "1")
     end
 
     it "routes to #edit" do
-      expect(:get => "/plans/1/edit").to route_to("plans#edit", :id => "1")
+      expect(get: "/plans/1/edit").to route_to("plans#edit", id: "1")
     end
 
     it "routes to #create" do
-      expect(:post => "/plans").to route_to("plans#create")
+      expect(post: "/plans").to route_to("plans#create")
     end
 
     it "routes to #update" do
-      expect(:put => "/plans/1").to route_to("plans#update", :id => "1")
+      expect(put: "/plans/1").to route_to("plans#update", id: "1")
     end
 
     it "routes to #destroy" do
-      expect(:delete => "/plans/1").to route_to("plans#destroy", :id => "1")
+      expect(delete: "/plans/1").to route_to("plans#destroy", id: "1")
     end
-
   end
 end

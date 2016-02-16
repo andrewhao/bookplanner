@@ -9,10 +9,14 @@ class InventoryState < ActiveRecord::Base
   # Virtual placeholder to define initial attributes.
   # This object is used to prepopulate the inventory check-in UI.
   def self.new_from_plan(plan)
-    i = self.new
+    i = new
     i.period = plan.period
     i.assignments += plan.classroom.loaned_assignments
     i
+  end
+
+  def deletable?
+    classroom.current_plan == plan
   end
 
   def return!(assignment)
@@ -21,7 +25,7 @@ class InventoryState < ActiveRecord::Base
   end
 
   def sorted_assignments
-    assignments.sort_by{ |a| a.book_bag.global_id.to_i }
+    assignments.sort_by { |a| a.book_bag.global_id.to_i }
   end
 
   # For simple_form's benefit.
