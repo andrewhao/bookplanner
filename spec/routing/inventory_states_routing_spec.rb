@@ -19,4 +19,3 @@ describe InventoryStatesController do
     end
   end
 end
-

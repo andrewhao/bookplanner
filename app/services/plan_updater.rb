@@ -34,7 +34,7 @@ class PlanUpdater
   end
 
   def has_assignment_attrs?
-    params.has_key?(:assignments_attributes)
+    params.key?(:assignments_attributes)
   end
 
   def create_assignments!

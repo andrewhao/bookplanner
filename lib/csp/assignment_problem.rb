@@ -18,7 +18,7 @@ class AssignmentProblem
     @history_lookup = history_lookup
     @debug = debug
     @template = template
-    @logger = logger || Proc.new { |msg| Rails.logger.info(msg) if debug }
+    @logger = logger || proc { |msg| Rails.logger.info(msg) if debug }
 
     log <<-LOG
     Initializing:
@@ -36,28 +36,28 @@ class AssignmentProblem
     solver.assert spaces.any?
 
     begin
-      plan = StandardSolverStrategy.new
-        .generate_plan(template,
-                       bag_ids,
-                       student_ids,
-                       history_lookup,
-                       debug,
-                       solver,
-                       logger).to_a
+      plan = StandardSolverStrategy.new.
+             generate_plan(template,
+                           bag_ids,
+                           student_ids,
+                           history_lookup,
+                           debug,
+                           solver,
+                           logger).to_a
     rescue Amb::ExhaustedError
       plan = []
     end
 
     return plan if plan.any?
 
-    IterativeRelaxingConstraintSolverStrategy.new
-        .generate_plan(template,
-                       bag_ids,
-                       student_ids,
-                       history_lookup,
-                       debug,
-                       solver,
-                       logger).to_a
+    IterativeRelaxingConstraintSolverStrategy.new.
+      generate_plan(template,
+                    bag_ids,
+                    student_ids,
+                    history_lookup,
+                    debug,
+                    solver,
+                    logger).to_a
   end
 
   def log(msg)

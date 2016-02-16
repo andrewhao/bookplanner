@@ -1,4 +1,4 @@
-require 'spec_helper'
+require "spec_helper"
 
 describe Classroom do
   subject { create :classroom }
@@ -6,32 +6,32 @@ describe Classroom do
   before(:each) do
     @period1, @period2 = create_list :period, 2, classroom: subject
     @students = [
-      create(:student, classroom: subject, first_name: 'Jonathan', last_name: 'Ochoa'),
-      create(:student, classroom: subject, first_name: 'Ada'),
-      create(:student, classroom: subject, first_name: 'Jonathan', last_name: 'Franzo')
+      create(:student, classroom: subject, first_name: "Jonathan", last_name: "Ochoa"),
+      create(:student, classroom: subject, first_name: "Ada"),
+      create(:student, classroom: subject, first_name: "Jonathan", last_name: "Franzo")
     ]
     @bags = create_list :book_bag, 3, classroom: subject
     @returned = Time.now
     @assignment1a = build :assignment,
-      student: @students.first,
-      book_bag: @bags.first
+                          student: @students.first,
+                          book_bag: @bags.first
     @assignment1b = build :assignment,
-      student: @students.last,
-      book_bag: @bags.last
+                          student: @students.last,
+                          book_bag: @bags.last
     @assignment2a = build :assignment,
-      student: @students.first,
-      book_bag: @bags.first
+                          student: @students.first,
+                          book_bag: @bags.first
     @assignment2b = build :assignment,
-      student: @students.last,
-      book_bag: @bags.last
+                          student: @students.last,
+                          book_bag: @bags.last
     @plan1 = create :plan_with_assignments,
-      classroom: subject,
-      assignments: [@assignment1a, @assignment1b],
-      period: @period1
+                    classroom: subject,
+                    assignments: [@assignment1a, @assignment1b],
+                    period: @period1
     @plan2 = create :plan_with_assignments,
-      classroom: subject,
-      assignments: [@assignment2a, @assignment2b],
-      period: @period2
+                    classroom: subject,
+                    assignments: [@assignment2a, @assignment2b],
+                    period: @period2
     @inventory_state1 = create(:inventory_state, period: @period1)
     @inventory_state1.assignments += [@assignment1a, @assignment1b]
   end
@@ -120,9 +120,9 @@ describe Classroom do
 
     it "takes into account book bags that have been checked out on a previous cycle" do
       assignment1c = create :assignment,
-        student: @students[1],
-        book_bag: @bags[1],
-        plan: @plan1
+                            student: @students[1],
+                            book_bag: @bags[1],
+                            plan: @plan1
       expect(subject.available_book_bags).not_to include @bags[1]
     end
 
@@ -146,7 +146,7 @@ describe Classroom do
 
   describe "#periods" do
     it "returns an array of Periods" do
-      expect(subject.periods).to be_all{|p| p.is_a?(Period)}
+      expect(subject.periods).to be_all { |p| p.is_a?(Period) }
     end
   end
 end

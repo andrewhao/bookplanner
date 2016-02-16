@@ -1,4 +1,4 @@
-require 'spec_helper'
+require "spec_helper"
 
 describe UpdatePlanWithLateReturn do
   let(:book_bags) { create_list(:book_bag, 3) }
@@ -32,34 +32,34 @@ describe UpdatePlanWithLateReturn do
   end
 
   describe '#update!' do
-    it 'adds assignment to the last open inventory state' do
+    it "adds assignment to the last open inventory state" do
       subject.update!
 
       expect(assignment.reload.returned_at).to_not be_nil
       expect(last_inventory_state.reload.assignments).to include assignment
     end
 
-    it 'indicates that it was successful' do
+    it "indicates that it was successful" do
       subject.update!
       expect(subject).to be_success
     end
 
-    it 'creates a new assignment for the latest plan' do
-      expect {
+    it "creates a new assignment for the latest plan" do
+      expect do
         subject.update!
-      }.to change { Assignment.count }.by(1)
+      end.to change { Assignment.count }.by(1)
     end
 
-    context 'on failure (no possible assignments)' do
-      it 'rolls back the transaction' do
+    context "on failure (no possible assignments)" do
+      it "rolls back the transaction" do
         expect_any_instance_of(PlanGenerator).to receive(:generate).and_raise PlanGenerator::NoPlanFound.new
-        expect {
+        expect do
           subject.update!
-        }.to_not change { Assignment.count }
+        end.to_not change { Assignment.count }
         expect(last_inventory_state.reload.assignments).to_not include assignment
       end
 
-      it 'returns an error code' do
+      it "returns an error code" do
         expect_any_instance_of(PlanGenerator).to receive(:generate).and_raise PlanGenerator::NoPlanFound.new
         subject.update!
         expect(subject).to_not be_success

@@ -20,7 +20,7 @@ class PlanGenerator
 
   # Generates a set of Assignments for a given set of students and bags.
   def generate
-    # To simplify algorithm and reduce memory usage, reduce all objects to 
+    # To simplify algorithm and reduce memory usage, reduce all objects to
     # primitive data types.
     student_ids = students.map(&:id)
     bag_ids = bags.map(&:id)
@@ -46,5 +46,4 @@ class PlanGenerator
   # Raised when it's impossible to find a plan, and the user needs
   # to be prompted about it.
   class NoPlanFound < StandardError; end
-
 end

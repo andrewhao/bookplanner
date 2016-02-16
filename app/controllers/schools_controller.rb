@@ -29,9 +29,9 @@ class SchoolsController < ApplicationController
     respond_to do |format|
       if @school.save
         format.html { redirect_to schools_path, notice: "School '#{@school.name}' was successfully created." }
-        format.json { render action: 'show', status: :created, location: @school }
+        format.json { render action: "show", status: :created, location: @school }
       else
-        format.html { render action: 'new' }
+        format.html { render action: "new" }
         format.json { render json: @school.errors, status: :unprocessable_entity }
       end
     end
@@ -42,10 +42,10 @@ class SchoolsController < ApplicationController
   def update
     respond_to do |format|
       if @school.update(school_params)
-        format.html { redirect_to @school, notice: 'School was successfully updated.' }
+        format.html { redirect_to @school, notice: "School was successfully updated." }
         format.json { head :no_content }
       else
-        format.html { render action: 'edit' }
+        format.html { render action: "edit" }
         format.json { render json: @school.errors, status: :unprocessable_entity }
       end
     end
@@ -62,13 +62,14 @@ class SchoolsController < ApplicationController
   end
 
   private
-    # Use callbacks to share common setup or constraints between actions.
-    def set_school
-      @school = School.find(params[:id])
-    end
 
-    # Never trust parameters from the scary internet, only allow the white list through.
-    def school_params
-      params.require(:school).permit(:name)
-    end
+  # Use callbacks to share common setup or constraints between actions.
+  def set_school
+    @school = School.find(params[:id])
+  end
+
+  # Never trust parameters from the scary internet, only allow the white list through.
+  def school_params
+    params.require(:school).permit(:name)
+  end
 end

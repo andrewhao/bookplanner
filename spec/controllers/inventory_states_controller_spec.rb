@@ -31,7 +31,7 @@ describe InventoryStatesController do
     let(:post_params) do
       { inventory_state: {
         classroom_id: classroom.id.to_s
-        }}.deep_stringify_keys!
+      } }.deep_stringify_keys!
     end
 
     it "passes params to ISG" do
@@ -46,9 +46,9 @@ describe InventoryStatesController do
 
     it "deletes the InventoryState" do
       inventory_state
-      expect {
+      expect do
         delete :destroy, id: inventory_state.id
-      }.to change{ InventoryState.count }.by(-1)
+      end.to change { InventoryState.count }.by(-1)
     end
 
     it "redirects to the existing classroom page" do

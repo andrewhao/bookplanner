@@ -29,10 +29,10 @@ class BookBagsController < ApplicationController
 
     respond_to do |format|
       if @book_bag.save
-        format.html { redirect_to new_classroom_book_bag_path(@book_bag.classroom), notice: 'Book bag was successfully created.' }
-        format.json { render action: 'show', status: :created, location: @book_bag }
+        format.html { redirect_to new_classroom_book_bag_path(@book_bag.classroom), notice: "Book bag was successfully created." }
+        format.json { render action: "show", status: :created, location: @book_bag }
       else
-        format.html { render action: 'new' }
+        format.html { render action: "new" }
         format.json { render json: @book_bag.errors, status: :unprocessable_entity }
       end
     end
@@ -46,7 +46,7 @@ class BookBagsController < ApplicationController
         format.html { redirect_to @book_bag.classroom, notice: "Book bag #{@book_bag.global_id} was successfully updated." }
         format.json { head :no_content }
       else
-        format.html { render action: 'edit' }
+        format.html { render action: "edit" }
         format.json { render json: @book_bag.errors, status: :unprocessable_entity }
       end
     end
@@ -63,18 +63,19 @@ class BookBagsController < ApplicationController
   end
 
   private
-    # Use callbacks to share common setup or constraints between actions.
-    def set_book_bag
-      @book_bag = BookBag.find(params[:id])
-    end
 
-    # Use callbacks to share common setup or constraints between actions.
-    def set_classroom
-      @classroom = Classroom.find(params[:classroom_id])
-    end
+  # Use callbacks to share common setup or constraints between actions.
+  def set_book_bag
+    @book_bag = BookBag.find(params[:id])
+  end
 
-    # Never trust parameters from the scary internet, only allow the white list through.
-    def book_bag_params
-      params[:book_bag].permit(:global_id, :classroom_id, :active)
-    end
+  # Use callbacks to share common setup or constraints between actions.
+  def set_classroom
+    @classroom = Classroom.find(params[:classroom_id])
+  end
+
+  # Never trust parameters from the scary internet, only allow the white list through.
+  def book_bag_params
+    params[:book_bag].permit(:global_id, :classroom_id, :active)
+  end
 end

@@ -20,9 +20,9 @@ describe PlanUpdater do
   describe "#update" do
     context "field updates on Period" do
       it "updates a period name given param input" do
-        expect {
+        expect do
           subject.update
-        }.to change { period.reload.name }.to(new_name)
+        end.to change { period.reload.name }.to(new_name)
       end
     end
 
@@ -48,9 +48,9 @@ describe PlanUpdater do
       end
 
       it "allows swapping" do
-        expect {
+        expect do
           subject.update
-        }.to change{ plan.reload.assignments.map(&:book_bag_id) }
+        end.to change { plan.reload.assignments.map(&:book_bag_id) }
       end
 
       it "remains valid" do

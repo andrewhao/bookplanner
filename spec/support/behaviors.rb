@@ -16,17 +16,17 @@ module PlanHelpers
   def parse_loan_table
     trs = all("table.table--loaned-assignments tbody tr")
     trs.map do |tr|
-      { name: tr.find('.column--full-name').text(),
-        book_bag_global_id: tr.find('.column--book-bag-global-id').text(),
-        action: tr.find('a', text: 'Process late return') }
+      { name: tr.find(".column--full-name").text,
+        book_bag_global_id: tr.find(".column--book-bag-global-id").text,
+        action: tr.find("a", text: "Process late return") }
     end
   end
 
   def make_late_return_for(name)
     table_data = parse_loan_table
-    table_data.find { |datum|
+    table_data.detect do |datum|
       datum[:name] == name
-    }[:action].click
+    end[:action].click
   end
 
   # @return [Hash] Mapping like so:
@@ -36,10 +36,10 @@ module PlanHelpers
     trs = all("tr[data-student-id]")
     map = {}
     trs.each_with_index do |el, idx|
-      sid = el['data-student-id']
-      name_el = el.find('.student-name')
-      select_el = el.find('select')
-      map[sid] = {name: name_el.text, book_bag: select_el.value, row: el, index: idx}
+      sid = el["data-student-id"]
+      name_el = el.find(".student-name")
+      select_el = el.find("select")
+      map[sid] = { name: name_el.text, book_bag: select_el.value, row: el, index: idx }
     end
     map
   end
@@ -58,7 +58,6 @@ module PlanHelpers
   def expect_no_plan_row_for(student)
     expect(page).to_not have_selector("tr[data-student-id='#{student.id}']")
   end
-
 end
 
 module ClassroomHelpers
@@ -72,7 +71,7 @@ module ClassroomHelpers
   end
 
   def within_latest_action_cell(&block)
-    latest_actions_td = all('td[data-actions]').first
+    latest_actions_td = all("td[data-actions]").first
     within(latest_actions_td) do
       yield block
     end
@@ -80,7 +79,7 @@ module ClassroomHelpers
 
   def click_on_inventory_button
     within_latest_action_cell do
-      click_on 'Take Inventory'
+      click_on "Take Inventory"
     end
   end
 
@@ -93,11 +92,11 @@ module ClassroomHelpers
   end
 
   def parse_plan_table
-    plan_matrix_trs = all('.plan-matrix tbody tr')
+    plan_matrix_trs = all(".plan-matrix tbody tr")
     plan_matrix_trs.map do |tr|
       OpenStruct.new(
-        name: tr.find('th').text,
-        bags: tr.all('td').map(&:text)
+        name: tr.find("th").text,
+        bags: tr.all("td").map(&:text)
       )
     end
   end
@@ -129,7 +128,6 @@ module InventoryStateHelpers
   def expect_no_inventory_row_for(student)
     expect(page).to_not have_selector("tr[data-student-id='#{student.id}']")
   end
-
 
   def select_bag_check_in_for(student)
     within("tr[data-student-id='#{student.id}']") do
@@ -171,14 +169,14 @@ module InventoryStateHelpers
     trs = all("tr[data-student-id]")
     map = {}
     trs.each_with_index do |el, idx|
-      sid = el['data-student-id']
-      name_el = el.find('.student-name')
-      book_bag_el = el.find('.book-bag')
-      on_loan = el.find('.on-loan input')
+      sid = el["data-student-id"]
+      name_el = el.find(".student-name")
+      book_bag_el = el.find(".book-bag")
+      on_loan = el.find(".on-loan input")
       map[sid] = { name: name_el.text,
                    book_bag: book_bag_el.text,
                    on_loan: on_loan.checked?,
-                   index: idx}
+                   index: idx }
     end
     map
   end

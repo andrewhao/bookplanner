@@ -10,7 +10,7 @@ describe Period do
   end
 
   describe "initialization" do
-    let(:name)  { "Week Six" }
+    let(:name) { "Week Six" }
 
     it "prepopulates name to the current time" do
       expect(described_class.new.name).to eq Date.today.to_s
@@ -31,9 +31,9 @@ describe Period do
     end
 
     it "throws exception if nil" do
-      expect {
+      expect do
         subject.periods_from(nil)
-      }.to raise_error
+      end.to raise_error
     end
 
     it "returns 0 for identity" do
@@ -54,9 +54,9 @@ describe Period do
   end
 
   describe '#before?' do
-    it 'returns true if period is created before the other' do
-      p1 = create(:period, created_at: Time.zone.parse('2015-01-01'))
-      p2 = create(:period, created_at: Time.zone.parse('2016-01-01'))
+    it "returns true if period is created before the other" do
+      p1 = create(:period, created_at: Time.zone.parse("2015-01-01"))
+      p2 = create(:period, created_at: Time.zone.parse("2016-01-01"))
       expect(p1).to be_before(p2)
     end
   end

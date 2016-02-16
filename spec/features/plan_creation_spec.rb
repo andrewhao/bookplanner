@@ -35,10 +35,10 @@ describe "plan creation", type: :feature do
 
     it "shows Jane Lee's assignment, then Jane Wu's" do
       form = parse_plan_form
-      first = form.values.find { |row| row[:index] == 0 }
-      second = form.values.find { |row| row[:index] == 1 }
-      expect(first[:name]).to eq 'Jane Lee'
-      expect(second[:name]).to eq 'Jane Wu'
+      first = form.values.detect { |row| row[:index] == 0 }
+      second = form.values.detect { |row| row[:index] == 1 }
+      expect(first[:name]).to eq "Jane Lee"
+      expect(second[:name]).to eq "Jane Wu"
     end
 
     it "persists the plan to the db" do
@@ -50,11 +50,11 @@ describe "plan creation", type: :feature do
     context "with an inactive student" do
       before do
         @inactive_student = FactoryGirl.create(:student,
-          classroom: @classroom,
-          first_name: "Joe",
-          last_name: "Lazy",
-          inactive: true
-        )
+                                               classroom: @classroom,
+                                               first_name: "Joe",
+                                               last_name: "Lazy",
+                                               inactive: true
+                                              )
       end
 
       it "does not assign to the inactive student" do
@@ -88,9 +88,9 @@ describe "plan creation", type: :feature do
           create_inventory_state_for(Plan.last)
         end
 
-        expect {
+        expect do
           create_plan(@classroom)
-        }.to_not change{ Plan.count }
+        end.to_not change { Plan.count }
         expect(page).to have_content("Unable to generate a new plan for this classroom.")
       end
     end

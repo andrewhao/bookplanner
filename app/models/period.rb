@@ -15,7 +15,7 @@ class Period < ActiveRecord::Base
   end
 
   def before?(other)
-    self.created_at < other.created_at
+    created_at < other.created_at
   end
 
   def active?

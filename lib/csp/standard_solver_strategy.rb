@@ -1,5 +1,5 @@
 class StandardSolverStrategy
-  def generate_plan(temp_template, bag_ids, student_ids, history_lookup, debug, solver, logger)
+  def generate_plan(temp_template, bag_ids, student_ids, history_lookup, _debug, solver, logger)
     visited_nodes = 0
     plan = {}
     student_ids.each do |sid|
@@ -21,7 +21,7 @@ class StandardSolverStrategy
 
   private
 
-  def assigned_bags_are_unique(plan, logger, history_lookup)
+  def assigned_bags_are_unique(plan, logger, _history_lookup)
     val = plan.values.uniq.count == plan.values.count
     logger.call "Is this an unassigned bag?: #{val}"
     val

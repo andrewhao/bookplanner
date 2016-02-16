@@ -6,23 +6,23 @@ describe AssignmentProblem do
   end
 
   let(:debug) { false }
-  let(:logger) { nil }#Proc.new {|msg| puts msg } }
+  let(:logger) { nil } # Proc.new {|msg| puts msg } }
 
   let(:sids) do
-    (1..students_count).to_a.map{ |i| :"s#{i}" }
+    (1..students_count).to_a.map { |i| :"s#{i}" }
   end
 
   let(:bids) do
-    (1..bags_count).to_a.map{ |i| :"b#{i}" }
+    (1..bags_count).to_a.map { |i| :"b#{i}" }
   end
 
   let(:history) do
-    sids.reduce({}){ |acc, s| acc[s] = []; acc }
+    sids.inject({}) { |acc, s| acc[s] = []; acc }
   end
 
   let(:template) { {} }
 
-  context 'for template' do
+  context "for template" do
     let(:template) do
       { s1: :b1,
         s2: :b2 }
@@ -31,53 +31,53 @@ describe AssignmentProblem do
     let(:students_count) { 2 }
     let(:bags_count) { 2 }
 
-    it 'follows the template exactly when it can' do
+    it "follows the template exactly when it can" do
       answer = subject.solve
       expect(answer).to match_array([[:s1, :b1],
                                      [:s2, :b2]])
     end
 
-    context 'with a greater number of books' do
-      let(:template) {
+    context "with a greater number of books" do
+      let(:template) do
         { s1: :b5,
           s2: :b2 }
-      }
+      end
       let(:bags_count) { 5 }
 
-      it 'follows the template' do
+      it "follows the template" do
         expect(subject.solve).to match_array [[:s1, :b5], [:s2, :b2]]
       end
     end
 
-    context 'when history is incompatible with the template' do
-      let(:template) {
+    context "when history is incompatible with the template" do
+      let(:template) do
         { s1: :b1,
           s2: :b2 }
-      }
+      end
 
-      let(:history) {
+      let(:history) do
         { s1: [:b1], s2: [] }
-      }
+      end
       let(:bags_count) { 3 }
 
-      it 'relaxes a constraint on the template' do
+      it "relaxes a constraint on the template" do
         expect(subject.solve).to match_array [[:s2, :b2], [:s1, :b3]]
       end
     end
 
-    context 'when student 3 returns a book and joints a templated plan that is fundamentally incompatible' do
-      let(:template) {
+    context "when student 3 returns a book and joints a templated plan that is fundamentally incompatible" do
+      let(:template) do
         { s2: :b1,
           s1: :b2 }
-      }
+      end
 
-      let(:history) {
+      let(:history) do
         { s1: [:b1], s2: [:b2], s3: [:b3] }
-      }
+      end
       let(:students_count) { 3 }
       let(:bags_count) { 3 }
 
-      it 'relaxes both constraints on the template' do
+      it "relaxes both constraints on the template" do
         expect(subject.solve).to match_array [[:s1, :b2],
                                               [:s2, :b3],
                                               [:s3, :b1]]
@@ -89,10 +89,10 @@ describe AssignmentProblem do
     let(:students_count) { 4 }
     let(:bags_count) { 5 }
     let(:history) do
-      {:s1 => [:b1, :b2],
-       :s2 => [:b2, :b1],
-       :s3 => [:b3, :b4],
-       :s4 => [:b4, :b3]}
+      { s1: [:b1, :b2],
+        s2: [:b2, :b1],
+        s3: [:b3, :b4],
+        s4: [:b4, :b3] }
     end
 
     it "generates a plan" do
@@ -110,15 +110,15 @@ describe AssignmentProblem do
       end
 
       let(:history) do
-        {61=>[128, 130],
-         63=>[130, 128],
-         64=>[131, 132],
-         65=>[132, 131],
-         66=>[133, 134],
-         73=>[134, 133],
-         83=>[135, 136],
-         84=>[136, 135],
-         78=>[183]}
+        { 61 => [128, 130],
+          63 => [130, 128],
+          64 => [131, 132],
+          65 => [132, 131],
+          66 => [133, 134],
+          73 => [134, 133],
+          83 => [135, 136],
+          84 => [136, 135],
+          78 => [183] }
       end
 
       it "generates a plan" do
@@ -153,7 +153,6 @@ describe AssignmentProblem do
   context "correctness checks" do
     [[3, 4],
      [2, 2]].each do |students_count, bags_count|
-
       context "for #{students_count} s and #{bags_count} b" do
         let(:students_count) { students_count }
         let(:bags_count) { bags_count }
@@ -179,9 +178,9 @@ describe AssignmentProblem do
       let(:bids) { [] }
 
       it "raises exception" do
-        expect {
+        expect do
           subject.solve
-        }.to raise_error(Amb::ExhaustedError)
+        end.to raise_error(Amb::ExhaustedError)
       end
     end
 
@@ -190,9 +189,9 @@ describe AssignmentProblem do
       let(:bids) { [] }
 
       it "raises exception" do
-        expect {
+        expect do
           subject.solve
-        }.to raise_error(Amb::ExhaustedError)
+        end.to raise_error(Amb::ExhaustedError)
       end
     end
   end

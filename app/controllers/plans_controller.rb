@@ -46,10 +46,10 @@ class PlansController < ApplicationController
 
     respond_to do |format|
       if @plan.save
-        format.html { redirect_to classroom_url(@plan.classroom), notice: 'Plan was successfully created.' }
-        format.json { render action: 'show', status: :created, location: @plan }
+        format.html { redirect_to classroom_url(@plan.classroom), notice: "Plan was successfully created." }
+        format.json { render action: "show", status: :created, location: @plan }
       else
-        format.html { render action: 'new' }
+        format.html { render action: "new" }
         format.json { render json: @plan.errors, status: :unprocessable_entity }
       end
     end
@@ -60,10 +60,10 @@ class PlansController < ApplicationController
   def update
     respond_to do |format|
       if PlanUpdater.new(@plan, plan_params).update
-        format.html { redirect_to @plan.classroom, notice: 'Plan was successfully updated.' }
+        format.html { redirect_to @plan.classroom, notice: "Plan was successfully updated." }
         format.json { head :no_content }
       else
-        format.html { render action: 'edit' }
+        format.html { render action: "edit" }
         format.json { render json: @plan.errors, status: :unprocessable_entity }
       end
     end

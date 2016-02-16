@@ -1,4 +1,4 @@
-require 'spec_helper'
+require "spec_helper"
 
 describe Assignment do
   subject { FactoryGirl.create(:assignment_with_plan) }

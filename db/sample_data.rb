@@ -1,5 +1,5 @@
-require 'factory_girl'
-require './spec/factories'
+require "factory_girl"
+require "./spec/factories"
 
 classroom = FactoryGirl.create :classroom
 book_bags = FactoryGirl.create_list :book_bag, 3, classroom: classroom

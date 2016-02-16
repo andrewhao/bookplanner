@@ -2,7 +2,6 @@ require "spec_helper"
 
 describe StudentsController do
   describe "routing" do
-
     it "routes to #index" do
       expect(get("/students")).to route_to("students#index")
     end
@@ -12,11 +11,11 @@ describe StudentsController do
     end
 
     it "routes to #show" do
-      expect(get("/students/1")).to route_to("students#show", :id => "1")
+      expect(get("/students/1")).to route_to("students#show", id: "1")
     end
 
     it "routes to #edit" do
-      expect(get("/students/1/edit")).to route_to("students#edit", :id => "1")
+      expect(get("/students/1/edit")).to route_to("students#edit", id: "1")
     end
 
     it "routes to #create" do
@@ -24,12 +23,11 @@ describe StudentsController do
     end
 
     it "routes to #update" do
-      expect(put("/students/1")).to route_to("students#update", :id => "1")
+      expect(put("/students/1")).to route_to("students#update", id: "1")
     end
 
     it "routes to #destroy" do
-      expect(delete("/students/1")).to route_to("students#destroy", :id => "1")
+      expect(delete("/students/1")).to route_to("students#destroy", id: "1")
     end
-
   end
 end
