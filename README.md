@@ -1,8 +1,9 @@
-Storybook
-=========
+Bookplanner
+===========
 
-[![Code
-Climate](https://codeclimate.com/github/andrewhao/storybook/badges/gpa.svg)](https://codeclimate.com/github/andrewhao/storybook)
+[![Code Climate](https://codeclimate.com/github/andrewhao/bookplanner/badges/gpa.svg)](https://codeclimate.com/github/andrewhao/bookplanner)
+[![Test Coverage](https://codeclimate.com/github/andrewhao/bookplanner/badges/coverage.svg)](https://codeclimate.com/github/andrewhao/bookplanner/coverage)
+[![Issue Count](https://codeclimate.com/github/andrewhao/bookplanner/badges/issue_count.svg)](https://codeclimate.com/github/andrewhao/bookplanner)
 [![Circle CI](https://circleci.com/gh/andrewhao/bookplanner.svg?style=svg)](https://circleci.com/gh/andrewhao/bookplanner)
 
 Developed in partnership with Faith Network, an Oakland nonprofit
